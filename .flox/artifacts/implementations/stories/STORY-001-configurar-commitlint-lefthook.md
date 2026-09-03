@@ -143,3 +143,25 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-03
+justification: A revisão técnica confirmou os seis checks do Test Plan, sem findings correlacionados e dentro do escopo aprovado.
+risk_acceptance: []
+
+## Risk assessment
+
+decision: pentest waived
+responsible: Isaac
+criteria_applied: A mudança está restrita ao tooling local de commits e não altera frontend, autenticação, autorização, dados, Storage, Edge Functions, webhooks, integrações de IA, PWA ou cache.
+justification: O diff não alcança superfícies cobertas pelo roteiro de Pentest e não contém secrets, credenciais ou chamadas externas de produto.
+residual_risk: O bypass local com `--no-verify` permanece possível, conforme explicitamente documentado no Story; checks posteriores de CI e revisão de código continuam necessários.
