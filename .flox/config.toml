@@ -13,3 +13,13 @@ file_language = "pt-BR"
 modules = ["core", "software-dev"]
 skills = []
 providers = ["claude", "codex"]
+
+[workflow]
+git_flow = true
+
+[setup]
+schema = 1
+state = "valid"
+last_validated_at = "2026-09-03"
+references = ["project-context.md", "artifacts/planning/pentest/PENTEST-ROADMAP.md", "artifacts/planning/quality/QUALITY-ROADMAP.md", "artifacts/planning/release/RELEASE-ROADMAP.md", "artifacts/planning/git/GIT-ROADMAP.md"]
+reference_fingerprint = [{ path = "", type = "directory", dev = 16777243, ino = 22294526 }, { path = "project-context.md", type = "file", dev = 16777243, ino = 22295001, hash = "7ddb6177cffbbe0f5f5f80d1dba021f38196ae37a58bb1b31191bdb55a503fbc" }, { path = "artifacts", type = "directory", dev = 16777243, ino = 22294527 }, { path = "artifacts/planning", type = "directory", dev = 16777243, ino = 22295002 }, { path = "artifacts/planning/pentest", type = "directory", dev = 16777243, ino = 22295003 }, { path = "artifacts/planning/pentest/PENTEST-ROADMAP.md", type = "file", dev = 16777243, ino = 22295004, hash = "acdfc9fd4e524692418e79d70f88459f9fb3479abc2b574d6b458668120cf1db" }, { path = "artifacts", type = "directory", dev = 16777243, ino = 22294527 }, { path = "artifacts/planning", type = "directory", dev = 16777243, ino = 22295002 }, { path = "artifacts/planning/quality", type = "directory", dev = 16777243, ino = 22295006 }, { path = "artifacts/planning/quality/QUALITY-ROADMAP.md", type = "file", dev = 16777243, ino = 22295007, hash = "98628638ba76485de77de79facfd380b0b35b18654e057fec8ca303a98e2dd3d" }, { path = "artifacts", type = "directory", dev = 16777243, ino = 22294527 }, { path = "artifacts/planning", type = "directory", dev = 16777243, ino = 22295002 }, { path = "artifacts/planning/release", type = "directory", dev = 16777243, ino = 22295009 }, { path = "artifacts/planning/release/RELEASE-ROADMAP.md", type = "file", dev = 16777243, ino = 22295062, hash = "c470bc725db96649d441227db70b78c7b2182239e2c1aa9fc966aed68900441f" }, { path = "artifacts", type = "directory", dev = 16777243, ino = 22294527 }, { path = "artifacts/planning", type = "directory", dev = 16777243, ino = 22295002 }, { path = "artifacts/planning/git", type = "directory", dev = 16777243, ino = 22295011 }, { path = "artifacts/planning/git/GIT-ROADMAP.md", type = "file", dev = 16777243, ino = 22295012, hash = "b7034891b17f533c1ee6596f4b0284db6e1e715cac8615e2d063680481a518e0" }]
