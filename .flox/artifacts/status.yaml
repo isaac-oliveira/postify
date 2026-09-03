@@ -23,9 +23,9 @@ work_items:
     next_action: "criar Story detalhada com flox-create-story"
   - id: STORY-001
     kind: story
-    status: approved
+    status: review
     file: implementations/stories/STORY-001-configurar-commitlint-lefthook.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-code-review"
     epic: EPIC-001
 blocked: []
 updated_at: "2026-09-03"
