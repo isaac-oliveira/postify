@@ -1,0 +1,15 @@
+# Flox project configuration
+schema = 1
+
+[project]
+name = "Postify"
+
+[user]
+name = "Isaac"
+conversation_language = "pt-BR"
+file_language = "pt-BR"
+
+[install]
+modules = ["core", "software-dev"]
+skills = []
+providers = ["claude", "codex"]
