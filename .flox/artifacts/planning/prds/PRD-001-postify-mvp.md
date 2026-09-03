@@ -235,6 +235,12 @@ mais rapidez e menor esforço, sem perder controle sobre o resultado.
   [Posts](https://www.figma.com/design/cPnfzGWOtJZtWBuFvpXAQD/Postify?node-id=4032-6265&p=f),
   [Brand](https://www.figma.com/design/cPnfzGWOtJZtWBuFvpXAQD/Postify?node-id=4050-1347&p=f).
 
+## Epics relacionados
+
+- [EPIC-001 — Fundação estrutural do Postify](../../implementations/epics/EPIC-001-postify-foundation.md)
+- [EPIC-002 — Experiência de desenvolvimento e qualidade do Postify](../../implementations/epics/EPIC-002-postify-quality-foundation.md)
+- [EPIC-003 — Segurança, PWA e entrega do Postify](../../implementations/epics/EPIC-003-postify-delivery-platform.md)
+
 ## Aprovação
 
 Status atual: `approved`.

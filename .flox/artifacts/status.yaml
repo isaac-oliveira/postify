@@ -5,6 +5,21 @@ work_items:
     kind: prd
     status: approved
     file: planning/prds/PRD-001-postify-mvp.md
-    next_action: "executar flox-create-epics"
+    next_action: "criar Story detalhada com flox-create-story"
+  - id: EPIC-001
+    kind: epic
+    status: approved
+    file: implementations/epics/EPIC-001-postify-foundation.md
+    next_action: "criar Story detalhada com flox-create-story"
+  - id: EPIC-002
+    kind: epic
+    status: approved
+    file: implementations/epics/EPIC-002-postify-quality-foundation.md
+    next_action: "criar Story detalhada com flox-create-story"
+  - id: EPIC-003
+    kind: epic
+    status: approved
+    file: implementations/epics/EPIC-003-postify-delivery-platform.md
+    next_action: "criar Story detalhada com flox-create-story"
 blocked: []
 updated_at: "2026-09-03"
