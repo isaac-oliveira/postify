@@ -1,5 +1,10 @@
 schema: 2
 project_status: active
-work_items: []
+work_items:
+  - id: PRD-001
+    kind: prd
+    status: approved
+    file: planning/prds/PRD-001-postify-mvp.md
+    next_action: "executar flox-create-epics"
 blocked: []
 updated_at: "2026-09-03"
