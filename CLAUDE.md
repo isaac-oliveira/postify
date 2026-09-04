@@ -11,7 +11,7 @@
 ## Git
 
 - Mantenha os commits atômicos: uma mudança lógica por commit.
-- Use títulos curtos de Conventional Commit, sem descrições, metadados de coautoria ou declarações de autoria.
+- Use títulos curtos de Conventional Commit em inglês, sem descrições, metadados de coautoria ou declarações de autoria.
 - Siga o roteiro Git do projeto para branches, pull requests, checks e operações de merge ou finalização.
 
 ## Estilo
