@@ -165,3 +165,40 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: aprovado
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: >
+  STEM revisou o diff completo (develop...HEAD) contra os 6 checks do Plano de
+  Testes e os 6 Critérios de Aceitação. Todos os checks passaram: namespaces
+  estruturais corretos, router único com rota '/' sem conteúdo de produto,
+  instância i18n isolada com fallback pt-BR e resources vazio, dependências
+  pinadas com versões explícitas e compatíveis, regressões do scaffold ausentes
+  e escopo do diff restrito aos arquivos autorizados sem secrets. Nenhum achado
+  correlated bloqueador registrado.
+risk_acceptance: []
+
+## Avaliação de risco
+
+pentest_waived:
+  responsible: Isaac
+  justification: >
+    A mudança é estritamente estrutural — namespaces vazios, um router browser
+    com uma única rota placeholder '/' e inicialização de i18n com resources
+    vazios. Não há autenticação, autorização, acesso a dados, chamadas
+    externas, processamento de input de usuário, credenciais ou configuração
+    sensível. A superfície de segurança é nula; não há vetor de ataque
+    introduzido por este changeset.
+  residual_risk: >
+    O Browser in-app estava indisponível durante a validação do flox-dev-story;
+    a inspeção visual/DOM do app em execução não foi observada. Esse risco é de
+    cobertura de teste, não de segurança, e não implica vulnerabilidade.
