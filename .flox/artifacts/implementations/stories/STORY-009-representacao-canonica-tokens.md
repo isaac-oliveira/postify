@@ -1,12 +1,12 @@
 ---
 id: STORY-009
 title: "Criar mapa simples readonly de tokens"
-status: review
+status: approved
 ---
 
 # STORY-009 — Criar mapa simples readonly de tokens
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -105,3 +105,23 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-04
 Justification: Isaac aprovou explicitamente esta versão, com `Tokens` derivado de `typeof tokens` e sem exportação separada para `ColorTokens`.
+
+## Code Review ledger
+
+review_anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: Todos os três checks do Test Plan passaram sem bloqueadores. Os 72 tokens dos seis grupos estão presentes no diff; tipagem derivada e freeze profundo confirmados; fronteira inerte sem importação do JSON documental.
+risk_acceptance: []
+
+## Avaliação de risco
+
+A mudança introduz dois novos arquivos de utilitário e configuração (`deep-freeze.ts`, `tokens.ts`) e um teste unitário, sem superfície de segurança: não há importação de JSON em runtime, sem rede, sem eval, sem segredos, sem dependência de ambiente. O vitest é adicionado apenas como devDependency.
+
+Pentest waived — responsible: Isaac; justification: a fronteira é estritamente inerte (somente literais e função pura de congelamento), sem vetor de injeção, autenticação, I/O externo ou dados sensíveis; risco residual: possível divergência futura entre o mapa manual e a fonte documental JSON, mitigável por revisão visual na próxima extração.

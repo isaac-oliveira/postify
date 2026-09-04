@@ -86,13 +86,11 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-009
     kind: story
-    status: review
+    status: approved
     file: implementations/stories/STORY-009-representacao-canonica-tokens.md
-    next_action: "executar flox-code-review"
+    next_action: "executar flox-quality"
     epic: EPIC-001
-    evidence:
-      - "T1–T3 concluídas: mapa readonly manual com 72 valores nos seis grupos em src/app/configs/tokens.ts; deepFreeze recursivo compartilhado em src/utils/deep-freeze.ts; teste unitário isolado em src/utils/deep-freeze.test.ts."
-      - "npm test, npm run typecheck, npm run build, diagnósticos Serena e git diff --check passaram; fonte documental intacta e sem testes específicos de tokens."
+    risk_assessment: "pentest waived"
   - id: STORY-010
     kind: story
     status: approved
