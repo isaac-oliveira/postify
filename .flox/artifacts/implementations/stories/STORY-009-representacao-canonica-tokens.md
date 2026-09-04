@@ -77,17 +77,17 @@ implementação, antes de mover a Story para `review`.
 - [ ] **Check 2 — Tipagem derivada e imutabilidade, mapeado ao AC-003**
   - Passos: executar typecheck e inspecionar a exportação baseada em `typeof tokens` e o freeze profundo.
   - Resultado esperado: a tipagem acompanha o objeto de valor, e mutações são rejeitadas pelo tipo ou impedidas em runtime.
-  - Evidência (flox-dev-story): `npm run typecheck` passou; Serena não reportou diagnósticos; `Tokens = typeof tokens` e freeze profundo foram confirmados em 2026-09-04.
+  - Evidência (flox-dev-story): `npm run typecheck` passou; Serena não reportou diagnósticos; `Tokens = typeof tokens` e o freeze profundo via `src/utils/deep-freeze.ts` foram confirmados em 2026-09-04.
 - [ ] **Check 3 — Limites e fonte, mapeado ao AC-004 e AC-005**
   - Passos: executar build, revisar imports e `git diff --name-only`, e verificar a fonte documental.
   - Resultado esperado: o JSON não é importado nem alterado, e o diff não contém testes específicos de tokens, integração visual ou comportamento de produto.
-  - Evidência (flox-dev-story): `npm run build` e `git diff --check` passaram; não há referência a `tokens.json` em `tokens.ts`; a fonte JSON permaneceu intacta.
+  - Evidência (flox-dev-story): `npm run build` e `git diff --check` passaram; não há referência a `tokens.json` em `tokens.ts`; a fonte JSON permaneceu intacta e não foram criados testes específicos de tokens.
 
 ## Resultado da implementação
 
 - T1–T3 concluídas em `src/app/configs/tokens.ts`.
 - `tokens` contém os 72 valores manuais dos seis grupos e exporta somente `Tokens` derivado de `typeof tokens`.
-- O objeto usa valores literais readonly e freeze profundo.
+- O objeto usa valores literais readonly e o freeze profundo reutilizável foi movido para `src/utils/deep-freeze.ts`.
 - Não foram criados testes específicos de tokens, validator, geração ou dependência nova.
 
 ## Referências

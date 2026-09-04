@@ -1,17 +1,4 @@
-function deepFreeze<T extends object>(value: T): T {
-  if (Object.isFrozen(value)) {
-    return value
-  }
-
-  Object.values(value).forEach(child => {
-    if (typeof child === 'object' && child !== null) {
-      deepFreeze(child)
-    }
-  })
-
-  Object.freeze(value)
-  return value
-}
+import { deepFreeze } from '../../utils/deep-freeze.ts'
 
 export const tokens = deepFreeze({
   colors: {

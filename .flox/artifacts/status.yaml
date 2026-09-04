@@ -91,8 +91,8 @@ work_items:
     next_action: "executar flox-code-review"
     epic: EPIC-001
     evidence:
-      - "T1–T3 concluídas: mapa readonly manual com 72 valores nos seis grupos em src/app/configs/tokens.ts."
-      - "npm run typecheck, npm run build e git diff --check passaram; fonte documental intacta e sem testes específicos de tokens."
+      - "T1–T3 concluídas: mapa readonly manual com 72 valores nos seis grupos em src/app/configs/tokens.ts; deepFreeze compartilhado em src/utils/deep-freeze.ts."
+      - "npm run typecheck, npm run build, verificação runtime e git diff --check passaram; fonte documental intacta e sem testes específicos de tokens."
   - id: STORY-010
     kind: story
     status: approved
