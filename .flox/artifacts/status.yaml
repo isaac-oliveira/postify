@@ -46,8 +46,9 @@ work_items:
     kind: story
     status: approved
     file: implementations/stories/STORY-003-habilitar-typescript-strict.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-004
     kind: story
     status: approved
