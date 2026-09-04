@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY:-}"
+      },
+      "timeout": 120000
+    },
+    "serena": {
+      "command": "serena",
+      "args": ["start-mcp-server", "--project-from-cwd", "--context=claude-code"],
+      "timeout": 60000
+    },
+    "graphify": {
+      "command": "graphify-mcp",
+      "args": ["graphify-out/graph.json"],
+      "timeout": 60000
+    }
+  }
+}
