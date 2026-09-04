@@ -1,0 +1,144 @@
+---
+id: STORY-002
+title: "Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite"
+status: approved
+---
+
+# STORY-002 — Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite
+
+**Status:** approved
+**Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
+
+## História de usuário
+
+Como pessoa desenvolvedora, quero um runtime frontend mínimo, instalável e
+executável de forma reproduzível, para que as próximas Stories evoluam o
+Postify sobre uma base local consistente sem introduzir comportamento de
+produto.
+
+## Critérios de aceitação
+
+- [ ] **AC-001 — Contrato do runtime:** `package.json` preserva
+  `packageManager: npm@10.9.8`, declara um requisito de Node compatível com o
+  baseline adotado (`>=22.12.0`) e `package-lock.json` permanece em lockfile
+  v3; uma instalação limpa com o npm declarado funciona sem dependência global
+  e não reescreve o lockfile.
+- [ ] **AC-002 — Dependências do frontend:** o manifesto e o lockfile declaram
+  versões explícitas e compatíveis de `react`, `react-dom`, `vite` e
+  `@vitejs/plugin-react`, com o grafo resolvido registrado; o bootstrap não
+  introduz dependências de produto ou de serviços externos.
+- [ ] **AC-003 — Scripts executáveis:** os scripts `dev`, `build` e `preview`
+  iniciam o servidor de desenvolvimento, geram o build de produção e servem
+  o build local, respectivamente, todos com retorno de sucesso no scaffold
+  mínimo.
+- [ ] **AC-004 — Entrada React mínima:** a raiz HTML contém o ponto de montagem
+  e a entrada React renderiza um placeholder verificável em `/`, sem rotas de
+  produto, autenticação, chamadas de rede, estado remoto ou interação de
+  domínio.
+- [ ] **AC-005 — Compatibilidade com STORY-001:** o script `prepare`, o
+  Commitlint e a configuração do hook `commit-msg` da STORY-001 continuam
+  instaláveis e operacionais; a extensão do manifesto não remove nem
+  substitui a barreira local existente.
+- [ ] **AC-006 — Limite da Story:** o diff fica restrito ao manifesto, lockfile,
+  entrada/configuração mínima do Vite/React e arquivos auxiliares estritamente
+  necessários ao runtime; não inclui TypeScript strict, React Router, i18n,
+  providers, qualidade posterior, Supabase, PWA ou comportamento de produto.
+
+## Dependências e riscos
+
+- Depende da STORY-001 aprovada, que já estabeleceu npm, lockfile, Commitlint,
+  Lefthook e o script `prepare`.
+- Consome `ARCH-001 v1`, o contexto do projeto e os limites de EPIC-001.
+- O principal risco é escolher versões incompatíveis entre Node, React, Vite e
+  o plugin React, ou reescrever acidentalmente o lockfile existente.
+- Um scaffold automático pode introduzir arquivos e funcionalidades fora do
+  limite; a validação do diff deve bloquear essa expansão.
+
+## Checklist de tarefas
+
+- [ ] **T1 — Completar o contrato de Node/npm e o manifesto do runtime**
+  - Owner: Dinesh Chugtai
+  - Execution: sequential
+  - Depends on: none
+  - Done when: `package.json` mantém o `packageManager`, o `prepare`, as
+    dependências e a política da STORY-001, acrescenta o requisito de Node e
+    as dependências frontend com versões explícitas, e o lockfile é atualizado
+    pelo npm compatível sem alterações não relacionadas.
+- [ ] **T2 — Criar o bootstrap mínimo React/Vite e os scripts do runtime**
+  - Owner: Dinesh Chugtai
+  - Execution: sequential
+  - Depends on: T1
+  - Done when: `index.html`, a entrada React, a configuração necessária do
+    Vite e os scripts `dev`, `build` e `preview` executam a raiz placeholder
+    sem rotas, rede, estado de domínio ou UI de produto.
+- [ ] **T3 — Validar instalação, execução, build e regressão da barreira local**
+  - Owner: Felicity Smoak
+  - Execution: sequential
+  - Depends on: T2
+  - Done when: o Test Plan confirma instalação limpa, servidor dev, preview,
+    build, montagem React, preservação do hook da STORY-001, limite do diff e
+    ausência de secrets ou comportamento de produto.
+
+Todas as tarefas são sequenciais porque compartilham o manifesto, o lockfile,
+o entrypoint, os scripts e a mesma validação de regressão.
+
+## Plano de testes
+
+Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
+implementação, antes de mover a Story para `review`. É o único escopo que o
+code review (STEM) verifica; cada check mapeia a um critério de aceitação.
+
+- [ ] **Check 1 — Instalação reproduzível, mapeado ao AC-001**
+  - Passos: validar Node e npm declarados em um checkout limpo, executar
+    `npm ci` e comparar o lockfile antes e depois da instalação.
+  - Resultado esperado: a instalação termina com sucesso, sem pacote global,
+    e `package-lock.json` não sofre alterações.
+  - Evidência (flox-dev-story): —
+- [ ] **Check 2 — Grafo frontend compatível, mapeado ao AC-002**
+  - Passos: inspecionar manifesto e lockfile e verificar as dependências
+    frontend instaladas com o npm declarado.
+  - Resultado esperado: React, React DOM, Vite e plugin React têm versões
+    explícitas, compatíveis e resolvidas no lockfile, sem dependências de
+    produto ou serviços externos.
+  - Evidência (flox-dev-story): —
+- [ ] **Check 3 — Scripts do runtime, mapeado ao AC-003**
+  - Passos: iniciar `dev`, acessar a raiz, executar `build` e servir o
+    resultado com `preview`.
+  - Resultado esperado: os três scripts retornam sucesso; a raiz responde e o
+    build de produção é gerado e servido.
+  - Evidência (flox-dev-story): —
+- [ ] **Check 4 — Montagem e limite funcional, mapeado ao AC-004**
+  - Passos: abrir a raiz do runtime e inspecionar o DOM e o console durante o
+    carregamento.
+  - Resultado esperado: o placeholder é montado pelo React sem erro, rota de
+    produto, chamada de rede, estado remoto ou interação de domínio.
+  - Evidência (flox-dev-story): —
+- [ ] **Check 5 — Regressão da barreira local, mapeado ao AC-005**
+  - Passos: repetir a instalação e a verificação do hook da STORY-001 em um
+    ambiente temporário, incluindo mensagens válida e inválida quando o
+    roteiro dessa Story exigir.
+  - Resultado esperado: `prepare` instala o Lefthook, o hook `commit-msg`
+    continua acionando o Commitlint e a política anterior mantém o mesmo
+    comportamento.
+  - Evidência (flox-dev-story): —
+- [ ] **Check 6 — Escopo e secrets, mapeado ao AC-006**
+  - Passos: revisar `git diff --name-only`, dependências e conteúdo do diff;
+    executar a varredura de secrets disponível no projeto.
+  - Resultado esperado: somente arquivos autorizados aparecem, nenhum secret é
+    encontrado e não há TypeScript strict, qualidade posterior, backend, PWA ou
+    comportamento de produto.
+  - Evidência (flox-dev-story): —
+
+## Referências
+
+- Architecture applicable: yes — [ARCH-001 v1](../../planning/architecture/ARCH-001-postify-foundation-v1.md) fornece a separação entre frontend e backend, a preferência por dependências locais, o limite feature-based e a regra de não antecipar comportamento de produto ou secrets.
+- UX applicable: no — esta Story não cria fluxo, tela, estado visual, responsividade ou comportamento de usuário.
+- DS applicable: no — esta Story não cria componentes, tokens, variantes, temas ou contratos visuais.
+- Other links: [PRD-001](../../planning/prds/PRD-001-postify-mvp.md), [EPIC-001](../epics/EPIC-001-postify-foundation.md), [STORY-001](STORY-001-configurar-commitlint-lefthook.md) e [project-context.md](../../../project-context.md).
+
+## Aprovação
+
+Decision owner: Isaac
+Decision: approved
+Decided at: 2026-09-03
+Justification: Story aprovada explicitamente pelo usuário.
