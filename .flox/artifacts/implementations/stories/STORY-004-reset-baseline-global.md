@@ -1,12 +1,12 @@
 ---
 id: STORY-004
 title: "Configurar reset do HTML e baseline global acessível sem estilos de produto"
-status: review
+status: approved
 ---
 
 # STORY-004 — Configurar reset do HTML e baseline global acessível sem estilos de produto
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -164,3 +164,42 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 4b9ab6cd3bee3380adb1af79f8164cec7b103a65
+correction_handoffs: 0
+findings: []
+
+Rodada 1 (base `develop`...HEAD): STEM revisou o diff completo estritamente
+contra o Test Plan e os critérios de aceitação. Decisão STEM: `pass`. Os 6
+checks passam; nenhum achado (block, concern ou nit). Sem observações
+pendentes.
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: STEM retornou `pass` com os 6 checks do Test Plan aprovados e
+nenhum achado. A Story adiciona um baseline global neutro e acessível
+(`src/global.css`) importado uma vez pelo entrypoint, com reset previsível,
+`:focus-visible`, movimento reduzido gated por media query, sem cor/fonte/token/
+layout de produto e sem `outline: none`/`all: unset`. Regressão de
+typecheck/build/dev e dos hooks confirmada.
+risk_acceptance: nenhum — não há achados a aceitar.
+
+## Risk assessment
+
+result: pentest waived
+responsible: Isaac
+justification: A mudança é um baseline de CSS declarativo (`src/global.css`)
+mais um `import` de efeito colateral no entrypoint. Não há código executável de
+runtime, endpoint, tratamento de entrada de usuário, execução de conteúdo não
+confiável, dependência nova, credencial ou segredo. As regras são globais e
+neutras (box sizing, margem do documento, mídia, controles, foco, movimento
+reduzido) e não alteram comportamento de produto. Não há superfície de ataque
+nova.
+residual_risk: Baixo. Risco máximo seria estético/de acessibilidade (ex.: um
+seletor global amplo), mitigado pela ausência de reset agressivo, preservação
+de affordances nativas e `:focus-visible` perceptível; sem impacto de segurança.
