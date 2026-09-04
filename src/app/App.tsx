@@ -1,4 +1,4 @@
-import { ConfigProvider } from 'antd'
+import { Button, ConfigProvider } from 'antd'
 import { QueryClientProvider } from '@tanstack/react-query'
 
 import { queryClient } from './configs/query-client'
@@ -9,6 +9,9 @@ export default function App() {
     <ConfigProvider theme={antdThemeConfig}>
       <QueryClientProvider client={queryClient}>
         <div data-testid="app-root">Postify</div>
+        <Button type="primary" data-testid="app-button">
+          Test Button
+        </Button>
       </QueryClientProvider>
     </ConfigProvider>
   )
