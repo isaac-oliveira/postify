@@ -28,6 +28,13 @@ work_items:
     next_action: "executar flox-quality"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+  - id: SPEC-001
+    kind: story
+    status: approved
+    file: implementations/stories/STORY-013-engine-strict-npmrc.md
+    next_action: "executar flox-quality"
+    epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-002
     kind: story
     status: approved
