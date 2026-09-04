@@ -1,12 +1,12 @@
 ---
 id: STORY-006
 title: "Configurar React Hook Form, Zod, TanStack Query e Zustand sem estado de domínio"
-status: approved
+status: review
 ---
 
 # STORY-006 — Configurar React Hook Form, Zod, TanStack Query e Zustand sem estado de domínio
 
-**Status:** approved
+**Status:** review
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -53,21 +53,21 @@ integrações sem duplicar estado remoto ou antecipar regras de domínio.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Adicionar dependências e preservar o contrato existente**
+- [x] **T1 — Adicionar dependências e preservar o contrato existente**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-005
   - Done when: as cinco dependências estão pinadas no manifesto e lockfile,
     sem remover scripts, providers ou ferramentas das Stories anteriores e
     sem introduzir pacotes de produto.
-- [ ] **T2 — Configurar QueryClient e integração neutra de formulário/validação**
+- [x] **T2 — Configurar QueryClient e integração neutra de formulário/validação**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
   - Done when: há um `QueryClient` singleton e um provider na composição,
     RHF/Zod/resolver compilam em probe temporária, Zustand permanece sem store
     persistente e não existem queries, mutations ou domínio.
-- [ ] **T3 — Validar providers, contratos e regressões**
+- [x] **T3 — Validar providers, contratos e regressões**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T2
@@ -84,46 +84,52 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Dependências e lockfile, mapeado ao AC-001**
+- [x] **Check 1 — Dependências e lockfile, mapeado ao AC-001**
   - Passos: executar instalação limpa com o npm declarado e inspecionar
     manifesto, lockfile e peer dependencies.
   - Resultado esperado: RHF, Zod, resolver, TanStack Query e Zustand têm
     versões explícitas e compatíveis; o lockfile permanece sincronizado e as
     ferramentas anteriores continuam presentes.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — RHF, Zod e resolver, mapeado ao AC-002**
+  - Evidência (flox-dev-story): `npm ci --ignore-scripts --offline` e `npm ci --dry-run --ignore-scripts --offline` passaram; `npm ls --depth=0` confirmou `react-hook-form@7.84.0`, `zod@4.5.4`, `@hookform/resolvers@5.7.1`, `@tanstack/react-query@5.101.4` e `zustand@5.0.8`, com peers compatíveis com React 19.2.8.
+- [x] **Check 2 — RHF, Zod e resolver, mapeado ao AC-002**
   - Passos: executar uma probe temporária com campo genérico, resolver Zod e
     TypeScript strict; remover a probe antes da revisão do diff.
   - Resultado esperado: a validação funciona e retorna erro estruturado para
     entrada inválida, sem schema, campo, mensagem ou tipo de domínio
     persistido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — QueryClient e provider únicos, mapeado ao AC-003**
+  - Evidência (flox-dev-story): a probe temporária com `z.object({ value: z.string().min(1) })`, `useForm` e `zodResolver` passou em `npm run typecheck`; a execução real do resolver retornou erro estruturado para `{ value: '' }`; a probe foi removida antes da inspeção final.
+- [x] **Check 3 — QueryClient e provider únicos, mapeado ao AC-003**
   - Passos: inspecionar a composição e contar instanciações de `QueryClient`,
     `QueryClientProvider`, `useQuery`, `useMutation` e funções de rede.
   - Resultado esperado: há uma única instância/provider, nenhum acesso remoto
     ou query de domínio e o contexto fica disponível para Stories futuras.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Zustand client-only, mapeado ao AC-004**
+  - Evidência (flox-dev-story): `src/app/configs/query-client.ts` contém uma única instanciação `new QueryClient()` fora da árvore React; `src/app/App.tsx` contém um único `QueryClientProvider`; `rg` não encontrou `useQuery`, `useMutation`, `fetch`, `axios`, Supabase ou cache de domínio.
+- [x] **Check 4 — Zustand client-only, mapeado ao AC-004**
   - Passos: inspecionar `src/store`, imports de Zustand e efeitos de
     persistência no código criado ou alterado.
   - Resultado esperado: não há store vazio/de domínio, provider próprio,
     `localStorage`, persistência ou cópia de estado remoto.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Regressão da composição, mapeado ao AC-005**
+  - Evidência (flox-dev-story): Zustand aparece somente no manifesto/lockfile; `src` não contém import de Zustand, store, `localStorage` ou `persist`.
+- [x] **Check 5 — Regressão da composição, mapeado ao AC-005**
   - Passos: executar `typecheck`, `dev`, `build`, `preview`, `prepare` e a
     verificação do hook `commit-msg` em ambiente temporário; acessar `/` após
     refresh.
   - Resultado esperado: router, i18n, reset, placeholder, runtime,
     Commitlint e Lefthook continuam funcionando.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Escopo e segurança, mapeado ao AC-006**
+  - Evidência (flox-dev-story): `npm run typecheck`, `npm run build`, `npm run prepare`, `lefthook validate`, `lefthook check-install` e Commitlint válido passaram; `invalid commit message` foi rejeitada; `dev` em `5173` e `preview` em `4173` responderam `200` na raiz e nos caminhos `/login`, `/dashboard` e `/posts`. A inspeção interativa do Browser in-app não estava disponível nesta sessão.
+- [x] **Check 6 — Escopo e segurança, mapeado ao AC-006**
   - Passos: revisar `git diff --name-only`, dependências e conteúdo alterado;
     executar a varredura de secrets disponível no projeto.
   - Resultado esperado: somente arquivos autorizados aparecem, probes não
     permanecem, nenhum secret é encontrado e não há domínio, backend, PWA ou
     funcionalidade de produto.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): o diff final contém apenas o Story/status, `package.json`, `package-lock.json`, `src/app/App.tsx` e `src/app/configs/query-client.ts`; `git diff --check` passou; a probe não existe; a varredura de padrões de secrets não encontrou matches; não há domínio, backend, PWA ou funcionalidade de produto.
+
+## Implementation Evidence
+
+- T1 adicionou as cinco dependências com versões exatas, mantendo scripts e dependências existentes.
+- T2 criou o QueryClient singleton e o provider único; a integração RHF/Zod/resolver foi validada somente em probe temporária e Zustand não recebeu store.
+- T3 validou instalação, typecheck, build, runtime HTTP, hooks, Commitlint, escopo e segurança. A limitação observada foi a indisponibilidade do Browser in-app para inspeção visual/DOM.
 
 ## Referências
 
@@ -138,3 +144,51 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: a8b46a8ecd779d7f201c5a399f41eb00aabcf2de
+correction_handoffs: 0
+findings:
+  - id: F-001
+    severity: concern
+    location: package-lock.json:node_modules/@hookform/resolvers.peerDependencies
+    state: accepted
+    origin_round: 1
+  - id: F-002
+    severity: concern
+    location: src/app/App.tsx
+    state: accepted
+    origin_round: 1
+  - id: F-003
+    severity: concern
+    location: src/app/configs/query-client.ts:3
+    state: accepted
+    origin_round: 1
+
+## Human decision record
+
+decision: Approved with notes
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: Todos os seis checks do Test Plan passaram com evidência. Três concerns identificados (chave JSON duplicada no lockfile com valores idênticos, gap de verificação de composição router/i18n por indisponibilidade do Browser in-app, e QueryClient com defaults implícitos) — nenhum viola critério de aceitação e nenhum é bloqueador.
+risk_acceptance:
+  - finding_id: F-001
+    severity: concern
+    impact: Chave JSON duplicada no lockfile com valor idêntico; sem impacto funcional.
+    accepted_risk: Cosmético; valores idênticos, nenhuma quebra de runtime.
+    acceptance_scope: STORY-006
+  - finding_id: F-002
+    severity: concern
+    impact: Gap de verificação de composição router/i18n no App.tsx; confirmar em main.tsx.
+    accepted_risk: As rotas responderam HTTP 200 conforme evidenciado; gap é de documentação.
+    acceptance_scope: STORY-006
+  - finding_id: F-003
+    severity: concern
+    impact: QueryClient com defaults implícitos (3 retries, staleTime 0).
+    accepted_risk: Nenhum critério de aceitação violado; decisão de configuração adiada para Story futura.
+    acceptance_scope: STORY-006
+risk_assessment: pentest waived
+risk_assessment_responsible: Isaac
+risk_assessment_justification: O diff adiciona dependências npm de validação e gerenciamento de estado (RHF, Zod, TanStack Query, Zustand) e cria um QueryClient singleton com provider. Não há processamento de dados de usuário, autenticação, acesso a rede, comunicação com backend, leitura de segredos ou superfície de ataque relevante nesta Story.
+residual_risk: Baixo — bibliotecas de mercado amplamente auditadas, sem superfície de segurança nesta Story.
