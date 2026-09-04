@@ -1,12 +1,12 @@
 ---
 id: STORY-003
 title: "Habilitar TypeScript strict no scaffold sem regras de domínio"
-status: review
+status: approved
 ---
 
 # STORY-003 — Habilitar TypeScript strict no scaffold sem regras de domínio
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -172,3 +172,49 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 27ef8ccd91e3dbde9d15f6900c09204ebefdf308
+correction_handoffs: 0
+findings: []
+
+Rodada 1 (base `develop`...HEAD): STEM revisou o diff completo (código +
+resumo do lockfile) estritamente contra o Test Plan e os critérios de
+aceitação. Decisão STEM: `pass`. Os 6 checks passam; nenhum achado (block,
+concern ou nit). Observações não-bloqueantes registradas pelo STEM: (a) o
+script `typecheck` passa `--noEmit` na CLI enquanto os configs já têm
+`noEmit: true` — redundante e inofensivo; (b) `typescript@7.0.2` é um pin
+incomum, mas com evidência de `npm install` e `typecheck` exit 0 — não é falha
+revisável. Nenhuma vira finding.
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: STEM retornou `pass` com os 6 checks do Test Plan aprovados e
+nenhum achado. A Story habilita TypeScript strict no scaffold (tsconfig app/node
+com `strict`+`noEmit`, script `typecheck`, migração do bootstrap para TSX) sem
+adicionar domínio, e a regressão de build/dev/preview e dos hooks da STORY-001
+foi verificada. `typescript@7.0.2` foi confirmado por `npm view` e pela
+instalação/typecheck bem-sucedidos (mesmo padrão da STORY-002 com react/vite),
+então a observação do STEM sobre a versão fica aceita como não-bloqueante.
+risk_acceptance: nenhum — não há achados a aceitar.
+
+## Risk assessment
+
+result: pentest waived
+responsible: Isaac
+justification: A mudança é de tooling de desenvolvimento: dependências de tipos
+(`typescript`, `@types/react`, `@types/react-dom`), configurações `tsconfig*`
+(verificação estática, sem emissão), um script `typecheck` e a migração do
+entrypoint mínimo para TSX. Não introduz endpoint, tratamento de entrada de
+usuário, execução de conteúdo não confiável, dependência de runtime nova,
+credencial ou segredo; o placeholder React permanece sem rotas, rede, estado ou
+domínio. Não há superfície de ataque nova.
+residual_risk: Baixo. `typescript@7.0.2` é o port nativo (Go) recém-lançado; o
+risco residual é de maturidade da ferramenta de verificação, não de segurança —
+mitigado por `strict` efetivo (typecheck positivo e negativo comprovados) e sem
+impacto no artefato de produção (Vite transpila via esbuild/rolldown, não pelo
+tsc).
