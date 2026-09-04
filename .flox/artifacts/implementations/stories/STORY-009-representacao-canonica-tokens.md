@@ -22,7 +22,8 @@ Inclui somente a extração manual dos 72 valores documentados em
 documentação de referência: não deve ser importado, lido, gerado ou acessado
 em runtime. O formato público é um objeto simples com os grupos `colors`,
 `space`, `fontSize`, `radius`, `fontWeight` e `lineHeight`; cores são strings
-`hex` e os demais valores são números.
+`hex` e os demais valores são números. Inclui também um teste unitário isolado
+do utilitário compartilhado `deepFreeze`.
 
 Não inclui testes específicos de tokens, preflight, geração, CSS variables,
 Tailwind, Ant Design, temas, componentes, telas, layouts, estilos de produto
@@ -32,9 +33,9 @@ ou alteração de `docs/assets/tokens.json`.
 
 - [ ] **AC-001 — Mapa simples completo:** existe uma única exportação pública `tokens` em `src/app/configs/tokens.ts`, com os seis grupos documentados e 72 folhas consumíveis; cores seguem o formato `tokens.colors.primary[500] === "#6366F1"` e os demais grupos expõem números.
 - [ ] **AC-002 — Valores extraídos:** cada folha de `tokens` corresponde ao valor documentado em `docs/assets/tokens.json` — `hex` para cores e `$value` para os demais grupos — sem valores inventados, conversão de unidade ou leitura do JSON pelo código.
-- [ ] **AC-003 — Tipagem derivada e imutabilidade:** `tokens` é definido com valores literais readonly, `Tokens` é exportado diretamente como `typeof tokens`, e o congelamento profundo impede mutações superficiais ou aninhadas em runtime, sem `any`.
+- [ ] **AC-003 — Tipagem derivada e imutabilidade:** `tokens` é definido com valores literais readonly, `Tokens` é exportado diretamente como `typeof tokens`, e o congelamento profundo impede mutações superficiais ou aninhadas em runtime; um teste unitário cobre o comportamento recursivo de `deepFreeze`, sem `any`.
 - [ ] **AC-004 — Fronteira inerte:** `tokens.ts` não importa nem acessa `docs/assets/tokens.json`, não usa rede, ambiente, escrita, importação dinâmica, `eval`, `Function` ou execução de valores.
-- [ ] **AC-005 — Escopo preservado:** o documento JSON permanece inalterado e o diff fica restrito ao mapa de tokens e seus tipos; não há integração visual ou comportamento de produto.
+- [ ] **AC-005 — Escopo preservado:** o documento JSON permanece inalterado e o diff fica restrito ao mapa de tokens, ao utilitário compartilhado, ao teste unitário e à configuração mínima do runner; não há integração visual ou comportamento de produto.
 
 ## Dependências e riscos
 
@@ -58,12 +59,12 @@ ou alteração de `docs/assets/tokens.json`.
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
-  - Done when: `tokens` usa valores literais readonly, `Tokens` é derivado do valor e exportado, e o freeze profundo impede alterações em runtime, sem importar ou ler o JSON documental.
+  - Done when: `tokens` usa valores literais readonly, `Tokens` é derivado do valor e exportado, o freeze profundo recursivo impede alterações em runtime e há um teste unitário do utilitário, sem importar ou ler o JSON documental.
 - [ ] **T3 — Validar escopo e regressão geral**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T2
-  - Done when: typecheck, build e inspeção do diff confirmam a fronteira única, a fonte documental intacta e a ausência de integração visual ou dependência nova.
+  - Done when: typecheck, testes, build e inspeção do diff confirmam a fronteira única, a fonte documental intacta e a ausência de integração visual ou dependência de runtime nova.
 
 ## Plano de testes
 
@@ -75,20 +76,21 @@ implementação, antes de mover a Story para `review`.
   - Resultado esperado: o mapa é simples, completo e contém os valores documentados.
   - Evidência (flox-dev-story): comparação estrutural local confirmou os seis grupos, 72 folhas e correspondência integral com os valores documentados em 2026-09-04.
 - [ ] **Check 2 — Tipagem derivada e imutabilidade, mapeado ao AC-003**
-  - Passos: executar typecheck e inspecionar a exportação baseada em `typeof tokens` e o freeze profundo.
-  - Resultado esperado: a tipagem acompanha o objeto de valor, e mutações são rejeitadas pelo tipo ou impedidas em runtime.
-  - Evidência (flox-dev-story): `npm run typecheck` passou; Serena não reportou diagnósticos; `Tokens = typeof tokens` e o freeze profundo via `src/utils/deep-freeze.ts` foram confirmados em 2026-09-04.
+  - Passos: executar typecheck e teste unitário, e inspecionar a exportação baseada em `typeof tokens` e o freeze profundo.
+  - Resultado esperado: a tipagem acompanha o objeto de valor, o teste confirma o congelamento recursivo e mutações são rejeitadas pelo tipo ou impedidas em runtime.
+  - Evidência (flox-dev-story): `npm run typecheck` e `npm test` passaram; Serena não reportou diagnósticos; `Tokens = typeof tokens`, o freeze profundo recursivo via `src/utils/deep-freeze.ts` e seu teste unitário foram confirmados em 2026-09-04.
 - [ ] **Check 3 — Limites e fonte, mapeado ao AC-004 e AC-005**
   - Passos: executar build, revisar imports e `git diff --name-only`, e verificar a fonte documental.
   - Resultado esperado: o JSON não é importado nem alterado, e o diff não contém testes específicos de tokens, integração visual ou comportamento de produto.
-  - Evidência (flox-dev-story): `npm run build` e `git diff --check` passaram; não há referência a `tokens.json` em `tokens.ts`; a fonte JSON permaneceu intacta e não foram criados testes específicos de tokens.
+  - Evidência (flox-dev-story): `npm run build` e `git diff --check` passaram; não há referência a `tokens.json` em `tokens.ts`; a fonte JSON permaneceu intacta e foi criado somente o teste unitário do utilitário.
 
 ## Resultado da implementação
 
 - T1–T3 concluídas em `src/app/configs/tokens.ts`.
 - `tokens` contém os 72 valores manuais dos seis grupos e exporta somente `Tokens` derivado de `typeof tokens`.
-- O objeto usa valores literais readonly e o freeze profundo reutilizável foi movido para `src/utils/deep-freeze.ts`.
-- Não foram criados testes específicos de tokens, validator, geração ou dependência nova.
+- O objeto usa valores literais readonly e o freeze profundo recursivo reutilizável foi movido para `src/utils/deep-freeze.ts`.
+- `src/utils/deep-freeze.test.ts` cobre o congelamento recursivo e o retorno da mesma referência.
+- Não foram criados testes específicos de tokens, validator, geração ou dependência de runtime nova.
 
 ## Referências
 

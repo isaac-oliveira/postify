@@ -1,4 +1,4 @@
-import { deepFreeze } from '../../utils/deep-freeze.ts'
+import { deepFreeze } from '../../utils/deep-freeze'
 
 export const tokens = deepFreeze({
   colors: {
