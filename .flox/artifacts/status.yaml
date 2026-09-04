@@ -74,8 +74,9 @@ work_items:
     kind: story
     status: approved
     file: implementations/stories/STORY-007-supabase-boundaries.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-008
     kind: story
     status: approved
@@ -114,3 +115,4 @@ work_items:
     risk_assessment: "pentest waived"
 blocked: []
 updated_at: "2026-09-04"
+
