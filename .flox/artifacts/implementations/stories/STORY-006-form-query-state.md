@@ -144,3 +144,51 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: a8b46a8ecd779d7f201c5a399f41eb00aabcf2de
+correction_handoffs: 0
+findings:
+  - id: F-001
+    severity: concern
+    location: package-lock.json:node_modules/@hookform/resolvers.peerDependencies
+    state: accepted
+    origin_round: 1
+  - id: F-002
+    severity: concern
+    location: src/app/App.tsx
+    state: accepted
+    origin_round: 1
+  - id: F-003
+    severity: concern
+    location: src/app/configs/query-client.ts:3
+    state: accepted
+    origin_round: 1
+
+## Human decision record
+
+decision: Approved with notes
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: Todos os seis checks do Test Plan passaram com evidência. Três concerns identificados (chave JSON duplicada no lockfile com valores idênticos, gap de verificação de composição router/i18n por indisponibilidade do Browser in-app, e QueryClient com defaults implícitos) — nenhum viola critério de aceitação e nenhum é bloqueador.
+risk_acceptance:
+  - finding_id: F-001
+    severity: concern
+    impact: Chave JSON duplicada no lockfile com valor idêntico; sem impacto funcional.
+    accepted_risk: Cosmético; valores idênticos, nenhuma quebra de runtime.
+    acceptance_scope: STORY-006
+  - finding_id: F-002
+    severity: concern
+    impact: Gap de verificação de composição router/i18n no App.tsx; confirmar em main.tsx.
+    accepted_risk: As rotas responderam HTTP 200 conforme evidenciado; gap é de documentação.
+    acceptance_scope: STORY-006
+  - finding_id: F-003
+    severity: concern
+    impact: QueryClient com defaults implícitos (3 retries, staleTime 0).
+    accepted_risk: Nenhum critério de aceitação violado; decisão de configuração adiada para Story futura.
+    acceptance_scope: STORY-006
+risk_assessment: pentest waived
+risk_assessment_responsible: Isaac
+risk_assessment_justification: O diff adiciona dependências npm de validação e gerenciamento de estado (RHF, Zod, TanStack Query, Zustand) e cria um QueryClient singleton com provider. Não há processamento de dados de usuário, autenticação, acesso a rede, comunicação com backend, leitura de segredos ou superfície de ataque relevante nesta Story.
+residual_risk: Baixo — bibliotecas de mercado amplamente auditadas, sem superfície de segurança nesta Story.
