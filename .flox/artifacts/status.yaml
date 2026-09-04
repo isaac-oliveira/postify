@@ -60,8 +60,9 @@ work_items:
     kind: story
     status: approved
     file: implementations/stories/STORY-005-namespaces-router-i18n.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-006
     kind: story
     status: approved
@@ -105,4 +106,4 @@ work_items:
     next_action: "executar flox-dev-story"
     epic: EPIC-001
 blocked: []
-updated_at: "2026-09-03"
+updated_at: "2026-09-04"

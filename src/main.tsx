@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client'
+import { I18nextProvider } from 'react-i18next'
+import { RouterProvider } from 'react-router/dom'
 
+import { i18n } from './app/configs/i18n'
+import { router } from './app/router'
 import './global.css'
-
-function App() {
-  return <div data-testid="app-root">Postify</div>
-}
 
 const rootElement = document.getElementById('root')
 
@@ -12,4 +12,8 @@ if (!rootElement) {
   throw new Error('Elemento raiz #root não encontrado')
 }
 
-createRoot(rootElement).render(<App />)
+createRoot(rootElement).render(
+  <I18nextProvider i18n={i18n}>
+    <RouterProvider router={router} />
+  </I18nextProvider>,
+)
