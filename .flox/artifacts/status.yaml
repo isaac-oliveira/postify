@@ -88,8 +88,9 @@ work_items:
     kind: story
     status: approved
     file: implementations/stories/STORY-009-representacao-canonica-tokens.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-010
     kind: story
     status: approved

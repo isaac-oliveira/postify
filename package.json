@@ -12,6 +12,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run",
     "prepare": "lefthook install"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "@vitejs/plugin-react": "6.1.1",
     "lefthook": "2.1.12",
     "typescript": "7.0.2",
-    "vite": "8.2.2"
+    "vite": "8.2.2",
+    "vitest": "4.1.6"
   }
 }
