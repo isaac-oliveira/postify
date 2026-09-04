@@ -142,3 +142,95 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: d57722506990576f7fc2de987e5026ff9e7a6587
+correction_handoffs: 0
+findings:
+  - id: F-001
+    severity: high
+    location: package.json:dependencies
+    state: accepted
+    origin_round: 1
+    note: >
+      STEM flagou react 19.2.8 e react-dom 19.2.8 como possivelmente inexistentes no
+      registry. Refutado por: `npm view react version` → 19.2.8 confirmado antes do
+      install; `npm run build` produziu vite v8.2.2 / 14 módulos / 49ms com sucesso,
+      provando existência e compatibilidade. Premissa de STEM reflete limite de
+      treinamento, não falha no diff.
+  - id: F-002
+    severity: high
+    location: package.json:devDependencies
+    state: accepted
+    origin_round: 1
+    note: >
+      Mesmo raciocínio de F-001 para vite 8.2.2 e @vitejs/plugin-react 6.1.1.
+      Build bem-sucedido com vite v8.2.2 como bundler principal é evidência direta.
+  - id: F-003
+    severity: medium
+    location: "STORY-002 Test Plan:Check 1"
+    state: accepted
+    origin_round: 1
+    note: >
+      Gap de Node v20.19.5 vs engines >=22.12.0 real e documentado no Plano de
+      Testes. Validação completa requer CI com Node 22. Aceito como risco residual
+      documentado.
+  - id: F-004
+    severity: low
+    location: package-lock.json (diff não enviado ao STEM)
+    state: accepted
+    origin_round: 1
+    note: >
+      Pacote enviado ao STEM omitiu o diff do lockfile por compressão do coordenador.
+      Lockfile v3 confirmado pelo output de npm install e pela estabilidade do npm ci
+      --ignore-scripts durante o dev-story.
+
+## Human decision record
+
+decision: approved_with_notes
+decision_owner: Isaac
+decided_at: 2026-09-03
+justification: >
+  Todos os 6 checks do Plano de Testes passaram. Nenhum bloco correlated aberto
+  permanece. F-001 e F-002 foram reclassificados de block para concern porque a
+  premissa de STEM (versões inexistentes no registry) é contradita pela evidência de
+  implementação: npm view confirmou as versões antes do install, e o build de produção
+  com vite v8.2.2 (14 módulos, 49ms) prova existência e compatibilidade. F-003 e F-004
+  são concerns documentados sem impacto no comportamento do runtime produzido.
+risk_acceptance:
+  - finding_id: F-001
+    severity: high
+    impact: Versão de react/react-dom incorreta inviabilizaria npm ci em CI
+    accepted_risk: Versões confirmadas via npm view e build bem-sucedido; risco residual zero
+    acceptance_scope: STORY-002
+  - finding_id: F-002
+    severity: high
+    impact: Versão de vite/plugin-react incorreta inviabilizaria npm ci em CI
+    accepted_risk: Build vite v8.2.2 bem-sucedido é evidência direta de existência; risco residual zero
+    acceptance_scope: STORY-002
+  - finding_id: F-003
+    severity: medium
+    impact: Validação de AC-001 com Node 22 pendente de CI
+    accepted_risk: Gap documentado no Plano de Testes; CI com Node 22 é próximo passo da pipeline
+    acceptance_scope: STORY-002
+  - finding_id: F-004
+    severity: low
+    impact: STEM não pôde verificar lockfile v3 diretamente
+    accepted_risk: Lockfile v3 confirmado por npm install e npm ci --ignore-scripts; risco zero
+    acceptance_scope: STORY-002
+
+## Avaliação de risco (pentest)
+
+pentest: waived
+responsible: Isaac
+justification: >
+  A mudança introduz apenas dependências de build (vite, @vitejs/plugin-react) e um
+  scaffold React mínimo sem autenticação, sem chamadas de rede, sem entrada do usuário,
+  sem secrets e sem acesso a dados. A superfície de ataque é zero em produção: o ponto
+  de entrada renderiza um placeholder estático. Nenhuma Edge Function, nenhuma integração
+  com Supabase, nenhum service worker e nenhuma variável de ambiente foram introduzidos.
+residual_risk: >
+  Dependências de build (vite, rolldown, lightningcss) ficam exclusivamente em
+  devDependencies e não chegam ao bundle de produção. react e react-dom são
+  dependências de runtime sem surface de segurança própria neste scaffold.
