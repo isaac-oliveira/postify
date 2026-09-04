@@ -1,12 +1,12 @@
 ---
 id: STORY-013
 title: "Enforçar e fixar Node 22.12.0 no repo via .npmrc e .nvmrc"
-status: review
+status: approved
 ---
 
 # STORY-013 — Enforçar e fixar Node 22.12.0 no repo via .npmrc e .nvmrc
 
-**Status:** review (revisada — escopo expandido para incluir `.nvmrc`)
+**Status:** approved (revisada — escopo expandido para incluir `.nvmrc`)
 **Origem:** [SPEC-001](../specs/SPEC-001-engine-strict-npmrc.md) via flox-quick-dev — achado F-003 do code review da STORY-002; `.nvmrc` adicionado por decisão de Isaac em 2026-09-03
 
 ## História de usuário
@@ -106,3 +106,38 @@ Decision: approved
 Decided at: 2026-09-03
 Justification: Story revisada (escopo expandido com `.nvmrc` para fixar Node
 22.12.0 default) aprovada explicitamente por Isaac.
+
+## Code Review ledger
+
+review_anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
+correction_handoffs: 0
+findings: []
+
+Rodada 1 (base `develop`...HEAD): STEM revisou o diff completo estritamente
+contra o Test Plan e os critérios de aceitação. Decisão STEM: `pass`. Os 4
+checks passam; nenhum achado (block, concern ou nit) nas linhas alteradas.
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-03
+justification: STEM retornou `pass` com os 4 checks do Test Plan aprovados e
+nenhum achado. A mudança adiciona apenas `.npmrc` (engine-strict) e `.nvmrc`
+(22.12.0), fixando e enforçando a versão de Node do repositório, dentro do
+escopo aprovado (AC-001 a AC-004).
+risk_acceptance: nenhum — não há achados a aceitar.
+
+## Risk assessment
+
+result: pentest waived
+responsible: Isaac
+justification: A mudança consiste em dois arquivos de configuração declarativa
+(`.npmrc` com `engine-strict=true` e `.nvmrc` com `22.12.0`). Não introduz
+código executável em runtime, endpoint, tratamento de entrada, dependência nova,
+credencial ou segredo; não há superfície de ataque. O único efeito é bloquear
+`npm install` em Node incompatível no ambiente de desenvolvimento.
+residual_risk: Baixo. Colaboradores com Node `<22.12.0` terão `npm install`
+bloqueado (efeito intencional). O comportamento sem erro em Node `>=22.12.0` não
+foi validado localmente (ambiente Node v20.19.5) — depende de CI ou troca de
+versão; não é superfície de segurança.
