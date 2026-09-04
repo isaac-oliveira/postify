@@ -1,6 +1,10 @@
 import type { ThemeConfig } from 'antd'
 
-const css = (name: string) => `var(${name})`
+type AntToken = NonNullable<ThemeConfig['token']>
+type CssVariableName = `--${'c' | 's' | 'fs' | 'fw' | 'r' | 'font'}-${string}`
+type CssVariable = `var(${CssVariableName})`
+
+const css = (name: CssVariableName): CssVariable => `var(${name})`
 
 const antdToken = {
   colorPrimaryHover: css('--c-primary-400'),
@@ -42,8 +46,10 @@ const antdToken = {
   borderRadiusSM: css('--r-sm'),
   borderRadius: css('--r-md'),
   borderRadiusLG: css('--r-lg'),
-  fontWeight: css('--fw-regular'),
   fontWeightStrong: css('--fw-semibold'),
-}
+  fontFamily: css('--font-sans'),
+} satisfies Partial<Record<keyof AntToken, CssVariable>>
 
-export const antdThemeConfig: ThemeConfig = { token: antdToken as unknown as ThemeConfig['token'] }
+export const antdThemeConfig: ThemeConfig = {
+  token: antdToken as unknown as Partial<AntToken>,
+}
