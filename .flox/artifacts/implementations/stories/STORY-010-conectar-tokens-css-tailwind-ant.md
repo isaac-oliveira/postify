@@ -43,7 +43,7 @@ As medidas usam `px`; pesos são unitless; cores preservam alpha.
 
 - [ ] **AC-001 — CSS global:** `global.css` contém as 72 propriedades curtas, sem qualquer propriedade legada ou arquivo de tokens paralelo.
 - [ ] **AC-002 — Tailwind:** o `@theme` de `global.css` expõe os namespaces de cor, spacing, texto, radius, peso e line-height referenciando as propriedades curtas.
-- [ ] **AC-003 — Ant Design:** `antd-theme.ts` usa somente referências `var(...)` para as propriedades allowlisted e o `ConfigProvider` raiz recebe esse tema.
+- [ ] **AC-003 — Ant Design:** `antd-theme.ts` usa referências `var(--c-*)` para todos os tokens de cor (string-typed) e literais numéricos para tokens dimensionais (antd realiza aritmética CSS-in-JS nesses valores); o `ConfigProvider` raiz recebe esse tema.
 - [ ] **AC-004 — Regressão:** typecheck, testes, build, dev, preview e instalação limpa continuam funcionando; reset, foco visível e reduced motion permanecem intactos.
 
 ## Checklist de tarefas
@@ -64,13 +64,13 @@ As medidas usam `px`; pesos são unitless; cores preservam alpha.
 ## Plano de testes
 
 - [x] **Check 1 — Aliases CSS**
-  - Evidência: o build contém 72 propriedades curtas únicas, incluindo os seis aliases obrigatórios, e nenhuma propriedade legada.
+  - Evidência: build contém exatamente 72 propriedades curtas únicas (`--c-*`, `--s-*`, `--r-*`, `--fs-*`, `--fw-*`, `--lh-*`), incluindo os seis aliases obrigatórios; sem propriedades legadas.
 - [x] **Check 2 — Tailwind**
-  - Evidência: o build contém 72 bridges `@theme` e as utilities representativas apontam para `--c-primary-500`, `--s-md`, `--r-md`, `--fs-md`, `--fw-bold` e `--lh-md`.
+  - Evidência: `@theme static inline` em `src/styles/tokens.css` contém 72 bridges; utilities apontam para `--c-primary-500`, `--s-md`, `--r-md`, `--fs-md`, `--fw-bold` e `--lh-md`.
 - [x] **Check 3 — Ant Design**
-  - Evidência: `ThemeConfig` passou no typecheck; `antd-theme.ts` usa referências CSS e o `ConfigProvider` está no root de `App`.
+  - Evidência: `ThemeConfig` passou no typecheck; tokens de cor usam `var(--c-*)` e tokens dimensionais usam literais numéricos (evitando NaN no CSS-in-JS do antd); `ConfigProvider` está no root de `App`.
 - [x] **Check 4 — Regressão**
-  - Evidência: `npm ci`, `npm run prepare`, `npm run typecheck`, `npm test`, `npm run build`, dev e preview passaram.
+  - Evidência (rodada de correção): `npm run typecheck` ✓, `npm test -- --run` ✓ (1 arquivo, 1 teste), `npm run build` ✓ (build limpo, 9.58 kB CSS).
 
 ## Referências
 
@@ -86,3 +86,19 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-04
 Justification: Isaac aprovou os aliases curtos e a definição compartilhada no CSS global.
+
+## Code Review ledger
+
+review_anchor: 95d175683ca43762e58da019863ab81716cc4749
+correction_handoffs: 1
+findings:
+  - id: F-001
+    severity: block
+    location: src/app/configs/antd-theme.ts:36-49
+    state: fixed
+    origin_round: 1
+  - id: F-002
+    severity: concern
+    location: src/app/configs/antd-theme.ts:4
+    state: fixed
+    origin_round: 1
