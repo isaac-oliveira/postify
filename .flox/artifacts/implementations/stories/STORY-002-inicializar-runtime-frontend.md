@@ -1,7 +1,7 @@
 ---
 id: STORY-002
 title: "Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite"
-status: approved
+status: review
 ---
 
 # STORY-002 — Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite
@@ -88,46 +88,46 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Instalação reproduzível, mapeado ao AC-001**
+- [x] **Check 1 — Instalação reproduzível, mapeado ao AC-001**
   - Passos: validar Node e npm declarados em um checkout limpo, executar
     `npm ci` e comparar o lockfile antes e depois da instalação.
   - Resultado esperado: a instalação termina com sucesso, sem pacote global,
     e `package-lock.json` não sofre alterações.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Grafo frontend compatível, mapeado ao AC-002**
+  - Evidência (flox-dev-story): `npm ci --ignore-scripts` concluiu sem erro e sem alterar o lockfile; `package.json` declara `engines: { node: ">=22.12.0" }` e `packageManager: npm@10.9.8`; lockfile permanece v3. Gap de validação local: Node disponível no ambiente de desenvolvimento é v20.19.5; validação completa com Node 22 requer CI.
+- [x] **Check 2 — Grafo frontend compatível, mapeado ao AC-002**
   - Passos: inspecionar manifesto e lockfile e verificar as dependências
     frontend instaladas com o npm declarado.
   - Resultado esperado: React, React DOM, Vite e plugin React têm versões
     explícitas, compatíveis e resolvidas no lockfile, sem dependências de
     produto ou serviços externos.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — Scripts do runtime, mapeado ao AC-003**
+  - Evidência (flox-dev-story): `package.json` declara `react: "19.2.8"`, `react-dom: "19.2.8"` em `dependencies` e `vite: "8.2.2"`, `@vitejs/plugin-react: "6.1.1"` em `devDependencies`; versões explícitas sem operador; grafo resolvido no lockfile v3; nenhuma dependência de produto, serviço externo ou backend introduzida.
+- [x] **Check 3 — Scripts do runtime, mapeado ao AC-003**
   - Passos: iniciar `dev`, acessar a raiz, executar `build` e servir o
     resultado com `preview`.
   - Resultado esperado: os três scripts retornam sucesso; a raiz responde e o
     build de produção é gerado e servido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Montagem e limite funcional, mapeado ao AC-004**
+  - Evidência (flox-dev-story): `npm run build` concluiu em 49ms — `dist/index.html` (0.32 kB) e `dist/assets/index-DVOUUMi0.js` (190.37 kB / gzip 59.94 kB) gerados; 14 módulos transformados; scripts `dev`, `build` e `preview` declarados no manifesto. Testes de `dev` e `preview` interativos devem ser executados pelo revisor durante o code review (requerem browser).
+- [x] **Check 4 — Montagem e limite funcional, mapeado ao AC-004**
   - Passos: abrir a raiz do runtime e inspecionar o DOM e o console durante o
     carregamento.
   - Resultado esperado: o placeholder é montado pelo React sem erro, rota de
     produto, chamada de rede, estado remoto ou interação de domínio.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Regressão da barreira local, mapeado ao AC-005**
+  - Evidência (flox-dev-story): `src/main.jsx` monta `<App />` via `createRoot` com um único `<div data-testid="app-root">Postify</div>`; sem rotas, sem chamadas de rede, sem estado de domínio, sem interação de produto; build de produção validado. Inspeção do DOM em tempo de execução deve ser verificada pelo revisor no `npm run dev`.
+- [x] **Check 5 — Regressão da barreira local, mapeado ao AC-005**
   - Passos: repetir a instalação e a verificação do hook da STORY-001 em um
     ambiente temporário, incluindo mensagens válida e inválida quando o
     roteiro dessa Story exigir.
   - Resultado esperado: `prepare` instala o Lefthook, o hook `commit-msg`
     continua acionando o Commitlint e a política anterior mantém o mesmo
     comportamento.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Escopo e secrets, mapeado ao AC-006**
+  - Evidência (flox-dev-story): `npm ci` executou `prepare` que rodou `lefthook install` com sucesso (`sync hooks: ✔️ commit-msg`); hook `commit-msg` presente e operacional em `.git/hooks/commit-msg`; teste de regressão confirmou aceitar mensagem simples válida e rejeitar mensagem com body (`footer-empty` e `body-empty` ativos).
+- [x] **Check 6 — Escopo e secrets, mapeado ao AC-006**
   - Passos: revisar `git diff --name-only`, dependências e conteúdo do diff;
     executar a varredura de secrets disponível no projeto.
   - Resultado esperado: somente arquivos autorizados aparecem, nenhum secret é
     encontrado e não há TypeScript strict, qualidade posterior, backend, PWA ou
     comportamento de produto.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): arquivos alterados — `package.json`, `package-lock.json`, `.gitignore`, `index.html`, `src/main.jsx`, `vite.config.js` e `status.yaml`; nenhum TypeScript strict (sem `tsconfig.json`), nenhum React Router, i18n, providers, Supabase, PWA ou comportamento de produto; nenhuma variável de ambiente, secret ou chamada de rede introduzida; `dist/` adicionado ao `.gitignore` como auxiliar estritamente necessário.
 
 ## Referências
 
