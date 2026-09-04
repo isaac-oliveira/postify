@@ -65,9 +65,9 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-006
     kind: story
-    status: approved
+    status: review
     file: implementations/stories/STORY-006-form-query-state.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-code-review"
     epic: EPIC-001
   - id: STORY-007
     kind: story
