@@ -1,12 +1,12 @@
 ---
 id: STORY-007
 title: "Estruturar scaffold, cliente Supabase e fronteiras backend sem domínio ou funções executáveis"
-status: approved
+status: review
 ---
 
 # STORY-007 — Estruturar scaffold, cliente Supabase e fronteiras backend sem domínio ou funções executáveis
 
-**Status:** approved
+**Status:** review
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -56,28 +56,28 @@ secrets nem introduzir domínio ou execução prematuramente.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Criar a configuração local e as fronteiras backend inertes**
+- [x] **T1 — Criar a configuração local e as fronteiras backend inertes**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-006
   - Done when: `supabase/config.toml` é um scaffold local sem vínculo remoto
     ou secrets, `_shared` possui somente a estrutura necessária e não há
     função, migration, tabela, RLS ou policy de produto.
-- [ ] **T2 — Configurar o cliente browser com variáveis públicas**
+- [x] **T2 — Configurar o cliente browser com variáveis públicas**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
   - Done when: `@supabase/supabase-js` está pinado, existe um único cliente em
     `src/app/configs/supabase.ts`, apenas as duas variáveis públicas são lidas
     e o import não dispara requests ou logs.
-- [ ] **T3 — Verificar ameaças de fronteira e exposição**
+- [x] **T3 — Verificar ameaças de fronteira e exposição**
   - Owner: Elliot Alderson
   - Execution: sequential
   - Depends on: T2
   - Done when: o bundle, código frontend, configuração local e `_shared` não
     contêm secrets, imports server-only, funções executáveis ou chamadas
     externas, e os arquivos `.env` locais estão protegidos.
-- [ ] **T4 — Validar regressões, escopo e segurança operacional**
+- [x] **T4 — Validar regressões, escopo e segurança operacional**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T3
@@ -93,45 +93,45 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Scaffold local, mapeado ao AC-001**
+- [x] **Check 1 — Scaffold local, mapeado ao AC-001**
   - Passos: validar o parse de `supabase/config.toml` e inspecionar a árvore
     `supabase/` e `_shared`.
   - Resultado esperado: a configuração local é válida, não contém vínculo,
     credencial ou domínio, e não há entrypoint executável ou artefato de
     produto.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Cliente público único, mapeado ao AC-002 e AC-005**
+  - Evidência (flox-dev-story): `python3` parseou `supabase/config.toml` com `project_id=postify`; a árvore contém apenas `config.toml` e `_shared/.gitkeep`, sem migrations, seed ou entrypoint.
+- [x] **Check 2 — Cliente público único, mapeado ao AC-002 e AC-005**
   - Passos: inspecionar `src/app/configs/supabase.ts`, contar instanciações e
     verificar o comportamento de importação com variáveis públicas de teste.
   - Resultado esperado: existe uma única instância, somente as variáveis
     públicas são usadas e importar o módulo não faz request, log ou operação
     de domínio.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — Secrets e bundle, mapeado ao AC-004**
+  - Evidência (flox-dev-story): `@supabase/supabase-js@2.115.0` confirmado por `npm ls`; `src/app/configs/supabase.ts` tem uma instanciação e o probe SSR retornou `client=object`, `fetch=0`, `logs=0`; Graphify e a varredura de referências não encontraram consumidores.
+- [x] **Check 3 — Secrets e bundle, mapeado ao AC-004**
   - Passos: executar secret scan no código, configuração e build; inspecionar
     imports de `_shared`, nomes de variáveis Vite e artefatos gerados.
   - Resultado esperado: não há chave privada, service role, API key de IA,
     senha, import server-only ou valor sensível no frontend/bundle.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Backend inerte, mapeado ao AC-003**
+  - Evidência (flox-dev-story): secret scan do código e bundle passou sem secrets privados; `git check-ignore` confirmou `.env`/`.env.*` ignorados e exemplos liberados; a triagem do bundle classificou os marcadores como código de React/React Router, sem secret.
+- [x] **Check 4 — Backend inerte, mapeado ao AC-003**
   - Passos: procurar `index.ts`, `Deno.serve`, `fetch`, migrations, tabelas,
     RLS, policies e chamadas externas na árvore criada.
   - Resultado esperado: `_shared` permanece apenas como fronteira reservada;
     nenhuma função, request ou persistência de domínio existe.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Regressão do scaffold, mapeado ao AC-006**
+  - Evidência (flox-dev-story): `find` e scans direcionados encontraram zero `index.ts`, `Deno.serve`, `fetch(`, migration, tabela, RLS, policy ou chamada externa em `src`/`supabase`.
+- [x] **Check 5 — Regressão do scaffold, mapeado ao AC-006**
   - Passos: executar `typecheck`, `dev`, `build`, `preview`, `prepare` e a
     verificação do hook `commit-msg`; acessar `/` após refresh.
   - Resultado esperado: runtime, router, i18n, reset, placeholder, TypeScript,
     Commitlint e Lefthook continuam funcionando.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Escopo e arquivos locais, mapeado ao AC-004 e AC-006**
+  - Evidência (flox-dev-story): `npm run typecheck`, `npm run build`, `npm run prepare` e `git diff --check` passaram; `dev` respondeu 200 em `/` e `preview` respondeu 200 em `/` e nas rotas de fallback verificadas; o hook rejeitou mensagem inválida e aceitou `feat: configure supabase boundary`.
+- [x] **Check 6 — Escopo e arquivos locais, mapeado ao AC-004 e AC-006**
   - Passos: revisar `git diff --name-only`, `.gitignore`, dependências e
     conteúdo alterado; verificar que nenhum `.env` real foi incluído.
   - Resultado esperado: somente arquivos autorizados aparecem, ambientes
     locais ficam ignorados, nenhum secret é encontrado e não há produto ou
     backend executável.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): o diff contém somente Story/status, `.gitignore`, `package.json`, `package-lock.json`, `src/app/configs/supabase.ts`, `supabase/config.toml` e `_shared/.gitkeep`; nenhum `.env` real foi incluído.
 
 ## Referências
 
