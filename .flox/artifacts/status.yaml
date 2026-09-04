@@ -79,10 +79,11 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-008
     kind: story
-    status: review
+    status: approved
     file: implementations/stories/STORY-008-env-errors-safe.md
-    next_action: "executar flox-code-review"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-009
     kind: story
     status: approved

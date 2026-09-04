@@ -1,12 +1,12 @@
 ---
 id: STORY-008
 title: "Expor configuração pública e tratar erros globais sem expor secrets"
-status: review
+status: approved
 ---
 
 # STORY-008 — Expor configuração pública e tratar erros globais sem expor secrets
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -191,3 +191,24 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-04
 Justification: Isaac aprovou explicitamente esta revisão da Story para execução.
+
+## Code Review ledger
+
+review_anchor: 6714b2190a566392dbb8152afcee2c1762328ca9
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: STEM revisou o diff completo (develop...HEAD) da STORY-008 e todos os 6 checks do Test Plan passaram sem findings. Nenhum bloco correlated identificado. A Story é aprovada para seguir para o próximo gate.
+risk_acceptances: []
+
+## Avaliação de risco
+
+risk_assessment: pentest waived
+responsible: Isaac
+justification: A mudança é puramente estrutural — centralização de variáveis VITE_* já públicas no bundle pelo Vite, arquivo .env.example com placeholders fictícios, Error Boundary sem chamadas de rede, telemetria ou serialização de dados. Nenhuma nova superfície de ataque é introduzida: sem auth, sem backend, sem credenciais, sem requisições externas.
+residual_risk: Valores VITE_* permanecem potencialmente públicos no bundle por design do Vite; Object.freeze impede mutações no objeto mas não altera essa exposição. Risco residual aceito e documentado na Story.
