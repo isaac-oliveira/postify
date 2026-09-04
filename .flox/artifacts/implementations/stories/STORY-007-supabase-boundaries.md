@@ -1,12 +1,12 @@
 ---
 id: STORY-007
 title: "Estruturar scaffold, cliente Supabase e fronteiras backend sem domínio ou funções executáveis"
-status: review
+status: approved
 ---
 
 # STORY-007 — Estruturar scaffold, cliente Supabase e fronteiras backend sem domínio ou funções executáveis
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -146,3 +146,32 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Isaac aprovou explicitamente esta versão da Story para execução.
+
+## Code Review ledger
+review_anchor: fa182e775229457b37d2fd13a51d3da990559b75
+correction_handoffs: 0
+findings:
+  - id: F-001
+    severity: concern
+    location: .gitignore:6-7
+    state: open
+    origin_round: 1
+
+## Avaliação de risco
+Natureza: scaffold de fronteira estrutural — configuração local Supabase, cliente browser com variáveis públicas e barreira inerte em `_shared`. Nenhuma chamada de rede, execução backend, autenticação ou secret no código. Superfície de segurança mínima.
+Responsável: Isaac
+Decisão: pentest dispensado
+Justificativa: O diff não introduz fluxo de autenticação, mutação de dados, Edge Function, policy de RLS, secret no código ou nova superfície de ataque. O único achado (F-001) é uma lacuna de documentação de ambiente, sem impacto de segurança. Risco residual aceito pelo decision owner.
+Risco residual: ausência de `.env.example` (DX); sem impacto de segurança.
+
+## Registro de decisão de code review
+decision: aprovado com notas
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: O diff estabelece apenas fronteiras estruturais — scaffold local, cliente com variáveis públicas e barreira inerte em _shared — sem superfície de auth, execução backend ou secret. O achado F-001 (ausência de .env.example) é uma lacuna de DX, não um bloqueador; o slot já está reservado no .gitignore.
+risk_acceptance:
+  - finding_id: F-001
+    severity: concern
+    impact: Desenvolvedor clonando o repositório não encontra declaração dos nomes de variáveis necessários; ambos os argumentos de createClient recebem undefined num checkout limpo.
+    accepted_risk: Risco de DX aceito para esta Story; .env.example será criado em Story posterior ou tarefa de melhoria.
+    acceptance_scope: STORY-007
