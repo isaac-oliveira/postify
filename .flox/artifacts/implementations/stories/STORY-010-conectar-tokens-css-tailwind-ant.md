@@ -87,9 +87,33 @@ Decision: approved
 Decided at: 2026-09-04
 Justification: Isaac aprovou os aliases curtos e a definição compartilhada no CSS global.
 
+## Human decision record
+
+decision: aprovado com notas
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: A correção resolveu F-001 (block) e F-002 (concern) da rodada 1. Dois novos concerns foram identificados na rodada 2 — F-003 (Button de teste em App.tsx, fora do escopo da Story) e F-004 (css() avaliado no momento de importação do módulo, correto no runtime atual, frágil em contextos sem DOM) — nenhum deles bloqueia os critérios de aceitação vigentes.
+
+risk_acceptance:
+  - finding: F-003
+    severity: concern
+    impact: Elemento UI morto (Button de teste) no bundle de produção; não exercido por testes.
+    accepted_risk: Código de teste temporário aceito explicitamente pelo Isaac durante o desenvolvimento; a ser removido antes de qualquer Story que exponha o App a testes de componente.
+    acceptance_scope: STORY-010 apenas
+  - finding: F-004
+    severity: concern
+    impact: css() resolve tokens no momento de importação; retorna strings vazias ou NaN em contextos sem DOM.
+    accepted_risk: Runtime atual é browser-only (Vite CSR); CSS é carregado antes da execução do módulo JS. Risco aceito para o escopo atual; padrão a ser documentado antes de replicação.
+    acceptance_scope: STORY-010 apenas
+
+risk_assessment: pentest waived
+risk_assessment_responsible: Isaac
+risk_assessment_justification: Mudança restrita a configuração visual (CSS custom properties, utility de leitura de tokens, ThemeConfig do antd). Sem superfície de autenticação, dados do usuário, chamadas externas ou vetores de injeção.
+residual_risk: F-004 pode causar tokens vazios em ambientes sem DOM. Mitigação antes de replicar o padrão.
+
 ## Code Review ledger
 
-review_anchor: 95d175683ca43762e58da019863ab81716cc4749
+review_anchor: c084ed7c5387b5909973b10a0491a7d579b7963c
 correction_handoffs: 1
 findings:
   - id: F-001
@@ -102,3 +126,13 @@ findings:
     location: src/app/configs/antd-theme.ts:4
     state: fixed
     origin_round: 1
+  - id: F-003
+    severity: concern
+    location: src/app/App.tsx:1,12-14
+    state: accepted
+    origin_round: 2
+  - id: F-004
+    severity: concern
+    location: src/utils/css.ts:4
+    state: accepted
+    origin_round: 2
