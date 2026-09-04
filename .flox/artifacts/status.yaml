@@ -105,5 +105,10 @@ work_items:
     file: implementations/stories/STORY-012-shell-estatico-versao.md
     next_action: "executar flox-dev-story"
     epic: EPIC-001
+  - id: SPEC-002
+    kind: story
+    status: review
+    file: implementations/stories/STORY-014-configurar-mcp-desenvolvimento.md
+    next_action: "executar flox-code-review"
 blocked: []
 updated_at: "2026-09-04"
