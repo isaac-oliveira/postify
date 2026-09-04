@@ -162,3 +162,39 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-04
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 6e54ec97cb89c68c4696daec2cb9cf321f4e9242
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-04
+justification: >
+  Todos os 7 checks do Test Plan passaram sem achados. A mudança é exclusivamente de tooling de
+  desenvolvimento — sem alteração em src/, dependências npm, testes de produto ou secrets. A
+  superfície de segurança é mínima e controlada: CONTEXT7_API_KEY referenciada somente por
+  allowlist/expansão de ambiente em ambos os clientes; nenhum secret literal presente no diff.
+risk_acceptance: []
+
+## Avaliação de risco
+
+Natureza da mudança: configuração de servidores MCP project-scoped para Codex e Claude Code,
+instrucões de desenvolvimento em AGENTS.md e CLAUDE.md, e entrada de gitignore. Nenhuma alteração
+em código de produto, lógica de negócio, autenticação, APIs expostas ou infraestrutura.
+
+Superfície de segurança: os arquivos de configuração referenciam executáveis locais (serena,
+graphify-mcp, npx) e uma variável de ambiente opcional (CONTEXT7_API_KEY). Nenhum secret é
+persistido no repositório. O padrão `${CONTEXT7_API_KEY:-}` no .mcp.json expande para string vazia
+quando a variável não está presente, sem fallback inseguro.
+
+**Pentest waived.**
+Responsável: Isaac.
+Justificativa: mudança restrita a tooling de desenvolvimento sem superfície de ataque relevante —
+sem código de produto, sem auth, sem endpoints expostos, sem secrets no repositório.
+Risco residual: dependência de executáveis externos (serena, graphify-mcp) instalados no PATH local;
+aceitável para ferramentas de desenvolvimento com controle do desenvolvedor.
