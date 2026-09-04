@@ -1,5 +1,7 @@
 import { createRoot } from 'react-dom/client'
 
+import './global.css'
+
 function App() {
   return <div data-testid="app-root">Postify</div>
 }
