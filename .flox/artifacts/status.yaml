@@ -86,10 +86,13 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-009
     kind: story
-    status: approved
+    status: review
     file: implementations/stories/STORY-009-representacao-canonica-tokens.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-code-review"
     epic: EPIC-001
+    evidence:
+      - "T1–T3 concluídas: mapa readonly manual com 72 valores nos seis grupos em src/app/configs/tokens.ts."
+      - "npm run typecheck, npm run build e git diff --check passaram; fonte documental intacta e sem testes específicos de tokens."
   - id: STORY-010
     kind: story
     status: approved
