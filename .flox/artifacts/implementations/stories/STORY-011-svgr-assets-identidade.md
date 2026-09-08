@@ -169,7 +169,7 @@ code review (STEM) verifica; cada check mapeia a um critério de aceitação.
     `foreignObject`, `javascript:` e referências externas.
   - Resultado esperado: fixtures são rejeitadas ou saem sem conteúdo ativo;
     nenhum SVG remoto ou upload é aceito e `?url` não é considerado sanitização.
-  - Evidência (flox-dev-story): cinco fixtures independentes com script, event handler, `foreignObject`, `javascript:` e referência externa foram rejeitadas pelo `transformRequest` Vite; `?url` permaneceu URL; fixtures removidas.
+  - Evidência (flox-dev-story): seis fixtures independentes com script, event handler, `foreignObject`, `javascript:`, referência externa e `@import` externo foram rejeitadas pelo `transformRequest` Vite; o import explícito `?react` foi normalizado pelo Vite para `?import&react` e continuou protegido; `?url` permaneceu URL; fixtures removidas.
 - [x] **Check 4 — Bundle e supply chain, mapeado ao AC-005**
   - Passos: executar `npm ci`, revisar lockfile/scripts, `build`, inspecionar
     `dist` e verificar requests, `data:` inesperado, CSP e imports dinâmicos.
@@ -182,7 +182,7 @@ code review (STEM) verifica; cada check mapeia a um critério de aceitação.
     i18n, reset e placeholder.
   - Resultado esperado: contrato de assets compila, shell anterior permanece
     operacional e o baseline acessível não é removido.
-  - Evidência (flox-dev-story): `npm run typecheck`, `npm test`, `npm run build`, `npm run prepare`, dev em `127.0.0.1:5174` e preview em `127.0.0.1:4173` passaram; fixture de tipos acessíveis, foco visível, reduced motion, router, i18n, reset e placeholder permanecem operacionais.
+  - Evidência (flox-dev-story): a remoção autorizada do import `Button` elimina o `TS6133`; `npm run typecheck`, `npm test`, `npm run build`, `npm run prepare`, dev, preview e `git diff --check` passaram. Fixtures de tipos acessíveis, foco visível, reduced motion, router, i18n, reset e placeholder permanecem operacionais.
 - [x] **Check 6 — Limite da Story, mapeado ao AC-006**
   - Passos: revisar `git diff --name-only`, imports e dependências.
   - Resultado esperado: somente configuração SVGR, declarations, registry e
@@ -204,3 +204,24 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Isaac aprovou explicitamente esta versão da Story para execução.
+
+## Code Review ledger
+
+review_anchor: 95c42029c5c5905194de36301271b0b91fb42500
+correction_handoffs: 1
+findings:
+  - id: F-001
+    severity: high
+    location: vite.config.ts:16–17, 42–48
+    state: open
+    origin_round: 1
+  - id: F-002
+    severity: medium
+    location: src/app/App.tsx:1
+    state: open
+    origin_round: 1
+  - id: F-003
+    severity: medium
+    location: vite.config.ts:58
+    state: open
+    origin_round: 1

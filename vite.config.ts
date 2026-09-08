@@ -6,13 +6,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 
-const svgReactImport = /\.svg\?react$/
+const svgReactAssetImport = /[/\\]src[/\\]app[/\\]assets[/\\].*\.svg\?(?:react|import&react)$/
 const svgFileSuffix = /[?#].*$/
 const unsafeSvgContent = [
   /<script\b/i,
   /<foreignObject\b/i,
   /\bon[a-z][\w:-]*\s*=/i,
   /javascript\s*:/i,
+  /@import\b/i,
   /(?:href|xlink:href|src)\s*=\s*(['"])(?!\s*(?:#|\1\s*$))[^'"]+\1/i,
   /url\(\s*(['"]?)(?!#)[^)]*\1\s*\)/i,
 ]
@@ -27,7 +28,7 @@ const svgSafety = () => {
       approvedAssetRoot = realpathSync(path.resolve(config.root, 'src/app/assets'))
     },
     load(id: string) {
-      if (!svgReactImport.test(id)) {
+      if (!svgReactAssetImport.test(id)) {
         return null
       }
 
@@ -55,6 +56,6 @@ export default defineConfig({
     tailwindcss(),
     react(),
     svgSafety(),
-    svgr({ include: /[/\\]src[/\\]app[/\\]assets[/\\].*\.svg\?react$/ }),
+    svgr({ include: svgReactAssetImport }),
   ],
 })
