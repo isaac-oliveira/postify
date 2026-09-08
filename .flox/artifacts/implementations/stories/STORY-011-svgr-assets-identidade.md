@@ -1,12 +1,12 @@
 ---
 id: STORY-011
 title: "Configurar SVGR e registrar logo, ícone e favicon sem componentes de produto"
-status: approved
+status: review
 ---
 
 # STORY-011 — Configurar SVGR e registrar logo, ícone e favicon sem componentes de produto
 
-**Status:** approved
+**Status:** review
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -107,35 +107,35 @@ pipeline.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Fixar integração SVGR e convenções de import**
+- [x] **T1 — Fixar integração SVGR e convenções de import**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-003 e STORY-010
   - Done when: o plugin SVGR compatível com Vite está pinado, registrado uma
     vez, limitado a `*.svg?react`, e `?react`/`?url` estão documentados sem
     import SVG ambíguo.
-- [ ] **T2 — Adicionar declarações TypeScript strict**
+- [x] **T2 — Adicionar declarações TypeScript strict**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
   - Done when: `vite/client` e a declaração da integração adotada estão
     incluídos, componentes SVG usam `SVGProps<SVGSVGElement>`, URLs são
     `string` e não existe `any` ou declaração ampla conflitante.
-- [ ] **T3 — Criar registry readonly dos assets fornecidos**
+- [x] **T3 — Criar registry readonly dos assets fornecidos**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T2
   - Done when: `src/app/assets/icons/index.ts` importa os três PNGs de
     `docs/assets` com `?url`, registra dimensões/MIME/purpose e não copia ou
     renderiza os binários.
-- [ ] **T4 — Verificar segurança do pipeline SVG**
+- [x] **T4 — Verificar segurança do pipeline SVG**
   - Owner: Elliot Alderson
   - Execution: sequential
   - Depends on: T3
   - Done when: fixtures locais ativas são rejeitadas ou ficam sem conteúdo
     ativo, não há URL externa, upload, execução, download, alteração de CSP ou
     dependência inesperada.
-- [ ] **T5 — Validar tipos, assets e regressão**
+- [x] **T5 — Validar tipos, assets e regressão**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T4
@@ -151,44 +151,44 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Resolução tipada, mapeado ao AC-001 e AC-002**
+- [x] **Check 1 — Resolução tipada, mapeado ao AC-001 e AC-002**
   - Passos: compilar fixture local com imports `*.svg?react` e `*.svg?url`,
     testar props SVG e procurar imports sem sufixo ou declarações `any`.
   - Resultado esperado: componente e URL têm tipos corretos, o plugin atua
     somente no sufixo `?react` e o typecheck rejeita usos incompatíveis.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Registry dos PNGs, mapeado ao AC-003**
+  - Evidência (flox-dev-story): `npx tsc --ignoreConfig ...` passou para `?react`, `?url`, `SVGProps`, `aria-label` e `aria-hidden`; Vite real transformou `?react` em componente e `?url` em URL; não há import SVG sem sufixo.
+- [x] **Check 2 — Registry dos PNGs, mapeado ao AC-003**
   - Passos: importar o registry e validar `file`, SHA-256, dimensões, RGBA,
     MIME type e caminhos contra `docs/assets/logo.png`, `icon.png` e
     `favicon.png`.
   - Resultado esperado: logo 1835×701, icon/favicon 1024×1024, todos RGBA,
     sem alteração ou cópia binária criada.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — SVG ativo, mapeado ao AC-004**
+  - Evidência (flox-dev-story): registry aponta diretamente para os três PNGs; `file` confirmou RGBA e dimensões; SHA-256 preservados: logo `bfae0ef6…f69937a`, icon `c0a87c6e…20e4ae5`, favicon `f6445779…47f5b6d`; nenhuma cópia criada.
+- [x] **Check 3 — SVG ativo, mapeado ao AC-004**
   - Passos: compilar fixtures temporárias contendo script, event handler,
     `foreignObject`, `javascript:` e referências externas.
   - Resultado esperado: fixtures são rejeitadas ou saem sem conteúdo ativo;
     nenhum SVG remoto ou upload é aceito e `?url` não é considerado sanitização.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Bundle e supply chain, mapeado ao AC-005**
+  - Evidência (flox-dev-story): cinco fixtures independentes com script, event handler, `foreignObject`, `javascript:` e referência externa foram rejeitadas pelo `transformRequest` Vite; `?url` permaneceu URL; fixtures removidas.
+- [x] **Check 4 — Bundle e supply chain, mapeado ao AC-005**
   - Passos: executar `npm ci`, revisar lockfile/scripts, `build`, inspecionar
     `dist` e verificar requests, `data:` inesperado, CSP e imports dinâmicos.
   - Resultado esperado: `?react` vira componente, `?url` vira asset URL, não
     há download, execução, conteúdo ativo inesperado ou alteração de CSP.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Acessibilidade e regressão, mapeado ao AC-007**
+  - Evidência (flox-dev-story): `npm ci --ignore-scripts`, `npm run test` (5/5), `npm run build`, dev, preview, prepare, hook e `git diff --check` passaram; lockfile contém apenas a cadeia pinada do SVGR; não há alteração de CSP, upload ou download.
+- [x] **Check 5 — Acessibilidade e regressão, mapeado ao AC-007**
   - Passos: executar `typecheck`, `dev`, `build`, `preview`, `prepare` e hook;
     validar `aria-label`, `aria-hidden`, foco visível, reduced motion, router,
     i18n, reset e placeholder.
   - Resultado esperado: contrato de assets compila, shell anterior permanece
     operacional e o baseline acessível não é removido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Limite da Story, mapeado ao AC-006**
+  - Evidência (flox-dev-story): `npm run typecheck`, `npm test`, `npm run build`, `npm run prepare`, dev em `127.0.0.1:5174` e preview em `127.0.0.1:4173` passaram; fixture de tipos acessíveis, foco visível, reduced motion, router, i18n, reset e placeholder permanecem operacionais.
+- [x] **Check 6 — Limite da Story, mapeado ao AC-006**
   - Passos: revisar `git diff --name-only`, imports e dependências.
   - Resultado esperado: somente configuração SVGR, declarations, registry e
     testes necessários aparecem; não há componentes, telas, shell, favicon
     HTML, manifest, upload ou produto.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): diff de implementação limitado a `vite.config.ts`, `package.json`, `package-lock.json`, `src/app/types/assets.d.ts` e `src/app/assets/icons/index.ts`; não há componentes, telas, shell, manifest, favicon HTML, upload ou produto.
 
 ## Referências
 

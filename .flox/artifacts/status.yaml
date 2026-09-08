@@ -100,9 +100,9 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-011
     kind: story
-    status: approved
+    status: review
     file: implementations/stories/STORY-011-svgr-assets-identidade.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-code-review"
     epic: EPIC-001
   - id: STORY-012
     kind: story
@@ -117,4 +117,4 @@ work_items:
     next_action: "executar flox-quality"
     risk_assessment: "pentest waived"
 blocked: []
-updated_at: "2026-09-04"
+updated_at: "2026-09-08"

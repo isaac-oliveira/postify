@@ -1,4 +1,4 @@
-import { Button, ConfigProvider } from 'antd'
+import { ConfigProvider } from 'antd'
 import { QueryClientProvider } from '@tanstack/react-query'
 
 import { queryClient } from './configs/query-client'
