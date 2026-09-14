@@ -1,12 +1,12 @@
 ---
 id: STORY-011
 title: "Configurar SVGR e registrar logo, ícone e favicon sem componentes de produto"
-status: review
+status: approved
 ---
 
 # STORY-011 — Configurar SVGR e registrar logo, ícone e favicon sem componentes de produto
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -207,21 +207,41 @@ Justification: Isaac aprovou explicitamente esta versão da Story para execuçã
 
 ## Code Review ledger
 
-review_anchor: 95c42029c5c5905194de36301271b0b91fb42500
-correction_handoffs: 1
+review_anchor: f710c7231458f2380687b43ce535349068f6b796
+correction_handoffs: 2
 findings:
   - id: F-001
     severity: high
     location: vite.config.ts:16–17, 42–48
-    state: open
+    state: fixed
     origin_round: 1
   - id: F-002
     severity: medium
     location: src/app/App.tsx:1
-    state: open
+    state: accepted
     origin_round: 1
   - id: F-003
     severity: medium
     location: vite.config.ts:58
-    state: open
+    state: fixed
     origin_round: 1
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-14
+justification: Isaac aceitou explicitamente o risco residual de F-002 e aprovou a Story. O finding já está resolvido no estado atual de `src/app/App.tsx`, mas não há alteração incremental segura a produzir sem ampliar o escopo da Story ou reescrever o histórico.
+risk_acceptance:
+  - finding_id: F-002
+    severity: medium
+    impact: A ausência de uma alteração incremental em `src/app/App.tsx` limita a verificabilidade histórica da correção no diff desta rodada.
+    accepted_risk: O estado atual de `src/app/App.tsx` permanece sem o import não utilizado, conforme typecheck aprovado; não será criada uma alteração artificial apenas para satisfazer o diff.
+    acceptance_scope: Somente o F-002 da STORY-011 e somente o estado revisado em 2026-09-14; qualquer alteração posterior em `App.tsx` exige nova validação e review.
+
+## Risk assessment
+
+result: pentest waived
+responsible: Isaac
+justification: A mudança da Story está restrita à configuração local do SVGR, declarações TypeScript e registry dos PNGs fornecidos. As fixtures de SVG ativo foram rejeitadas, não há upload, URL remota, endpoint, alteração de CSP ou conteúdo de usuário, e a decisão de F-002 não adiciona código nem superfície de execução.
+residual_risk: Baixo. A aceitação cobre apenas a rastreabilidade incremental de F-002; uma regressão futura em `src/app/App.tsx` ou no pipeline local exigirá nova alteração, validação e review. A segurança do pipeline aprovado permanece limitada aos assets locais autorizados e às verificações registradas no Test Plan.
