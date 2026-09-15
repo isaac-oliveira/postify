@@ -1,4 +1,4 @@
-import { identityAssets } from '../assets/icons'
+import { Logo } from '../assets/icons'
 import { version } from '../configs/version'
 
 export default function AppShell() {
@@ -7,7 +7,7 @@ export default function AppShell() {
       <div className="app-shell__content">
         <img
           className="app-shell__logo"
-          src={identityAssets.Logo}
+          src={Logo}
           alt="Logotipo Postify"
         />
         <p className="app-shell__version">Versão {version}</p>

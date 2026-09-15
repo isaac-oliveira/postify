@@ -5,7 +5,7 @@ import { I18nextProvider } from 'react-i18next'
 import { RouterProvider } from 'react-router/dom'
 
 import GlobalErrorBoundary from './app/components/GlobalErrorBoundary'
-import { identityAssets } from './app/assets/icons'
+import { Favicon } from './app/assets/icons'
 import { i18n } from './app/configs/i18n'
 import { router } from './app/router'
 
@@ -21,7 +21,7 @@ const configureFavicon = (): void => {
 
   favicon.rel = faviconRelation
   favicon.type = faviconMimeType
-  favicon.href = identityAssets.Favicon
+  favicon.href = Favicon
 
   if (existingFavicons.length === 0) {
     document.head.appendChild(favicon)
