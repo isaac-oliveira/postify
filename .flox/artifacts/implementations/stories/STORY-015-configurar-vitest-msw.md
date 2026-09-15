@@ -183,6 +183,44 @@ code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 - DS applicable: no — não cria componentes, props, variantes, tokens ou contratos visuais.
 - Other links: [PRD-001](../../planning/prds/PRD-001-postify-mvp.md), [EPIC-002](../epics/EPIC-002-postify-quality-foundation.md), [STORY-003](STORY-003-habilitar-typescript-strict.md), [STORY-013](STORY-013-engine-strict-npmrc.md), `package.json`, `package-lock.json`, `vite.config.ts`, [Vitest configuration](https://github.com/vitest-dev/vitest/blob/v4.1.6/docs/config/index.md) e [MSW setupServer](https://github.com/mswjs/msw/blob/main/_autodocs/api-reference/setup-server.md).
 
+## Code Review ledger
+
+review_anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: "2026-09-15"
+justification: >
+  STEM revisou o diff completo (primeira rodada) contra o Test Plan e os
+  critérios de aceitação da STORY-015. Todos os 6 checks passaram sem
+  nenhum achado. Sem bloqueadores correlated; aprovação direta.
+risk_acceptance: []
+
+## Avaliação de risco
+
+Natureza da mudança: tooling de desenvolvimento exclusivo (Vitest + MSW Node).
+Superfície de segurança: nenhuma — sem código de produção, sem endpoints, sem
+dados de usuário, sem lógica de autenticação ou autorização alterada. MSW e
+dependências transitivas ficam em `devDependencies` e não chegam ao bundle de
+produção.
+
+pentest_status: waived
+pentest_waiver:
+  responsible: Isaac
+  justification: >
+    A mudança adiciona exclusivamente tooling de teste (MSW 2.11.3 em
+    devDependencies) e integra o Vitest ao vite.config.ts. Nenhum código de
+    produção é alterado, nenhum endpoint exposto, nenhuma credencial ou dado
+    sensível manipulado. O risco residual é desprezível.
+  residual_risk: >
+    Dependências de desenvolvimento transitivas com dois avisos moderados de
+    auditoria (registrados na Implementation Evidence); sem impacto no bundle
+    de produção.
+
 ## Aprovação
 
 Decision owner: Isaac
