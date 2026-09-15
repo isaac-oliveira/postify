@@ -1,5 +1,7 @@
-import logo from '../../../../docs/assets/logo.png?url'
-import icon from '../../../../docs/assets/icon.png?url'
-import favicon from '../../../../docs/assets/favicon.png?url'
+import Logo from '../../../../docs/assets/logo.png?url'
+import Icon from '../../../../docs/assets/icon.png?url'
+import Favicon from '../../../../docs/assets/favicon.png?url'
 
-export const identityAssets = { logo, icon, favicon }
+export { Logo, Icon, Favicon }
+
+export const identityAssets = { Logo, Icon, Favicon }
