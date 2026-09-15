@@ -1,12 +1,12 @@
 ---
 id: STORY-012
 title: "Exibir shell estático com logo centralizada e versão derivada do manifesto"
-status: review
+status: approved
 ---
 
 # STORY-012 — Exibir shell estático com logo centralizada e versão derivada do manifesto
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário

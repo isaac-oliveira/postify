@@ -1,12 +1,12 @@
 ---
 id: STORY-014
 title: "Configurar ferramentas MCP de desenvolvimento no Codex e Claude Code"
-status: review
+status: approved
 ---
 
 # STORY-014 — Configurar ferramentas MCP de desenvolvimento no Codex e Claude Code
 
-**Status:** review
+**Status:** approved
 **Source:** [SPEC-002 — Configurar Context7, Serena e Graphify no projeto](../specs/SPEC-002-mcp-development-tools.md) via `flox-quick-dev`
 
 ## História de usuário

@@ -154,7 +154,7 @@ findings:
   - id: F-001
     severity: concern
     location: .gitignore:6-7
-    state: open
+    state: accepted
     origin_round: 1
 
 ## Avaliação de risco

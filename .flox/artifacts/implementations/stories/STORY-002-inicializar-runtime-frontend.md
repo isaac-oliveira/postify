@@ -1,7 +1,7 @@
 ---
 id: STORY-002
 title: "Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite"
-status: review
+status: approved
 ---
 
 # STORY-002 — Inicializar runtime frontend reproduzível com Node, npm, lockfile, React e Vite

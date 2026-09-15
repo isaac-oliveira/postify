@@ -1,12 +1,12 @@
 ---
 id: STORY-006
 title: "Configurar React Hook Form, Zod, TanStack Query e Zustand sem estado de domínio"
-status: review
+status: approved
 ---
 
 # STORY-006 — Configurar React Hook Form, Zod, TanStack Query e Zustand sem estado de domínio
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário

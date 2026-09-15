@@ -1,12 +1,12 @@
 ---
 id: STORY-015
 title: "Configurar Vitest e MSW sem testes ou handlers de produto"
-status: review
+status: approved
 ---
 
 # STORY-015 — Configurar Vitest e MSW sem testes ou handlers de produto
 
-**Status:** review
+**Status:** approved
 **Origem:** [EPIC-002 — Experiência de desenvolvimento e qualidade do Postify](../epics/EPIC-002-postify-quality-foundation.md)
 
 ## História de usuário
