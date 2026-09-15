@@ -120,10 +120,9 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-015
     kind: story
-    status: proposed
+    status: review
     file: implementations/stories/STORY-015-configurar-vitest-msw.md
-    next_action: "aprovar Story"
+    next_action: "executar flox-code-review"
     epic: EPIC-002
 blocked: []
 updated_at: "2026-09-15"
-
