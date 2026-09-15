@@ -1,5 +1,5 @@
 import { identityAssets } from '../assets/icons'
-import { versionManifest } from '../configs/version'
+import { version } from '../configs/version'
 
 export default function AppShell() {
   return (
@@ -10,7 +10,7 @@ export default function AppShell() {
           src={identityAssets.logo.file}
           alt="Logotipo Postify"
         />
-        <p className="app-shell__version">Versão {versionManifest.version}</p>
+        <p className="app-shell__version">Versão {version}</p>
       </div>
     </main>
   )
