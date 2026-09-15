@@ -227,3 +227,91 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-15
 Justification: Isaac aprovou explicitamente esta versão da Story.
+
+## Quality convergence ledger
+
+work_item_id: STORY-015
+gate: quality
+candidate_anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+anchor_history:
+  - round: 1
+    anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+  - round: 2
+    anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+round: 2
+correction_handoffs: 0
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: passed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-015
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-015
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-015
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 2 arquivos e 5 testes passaram"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-015
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build Vite concluído"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-015
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+- work_item_id: STORY-015
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: verificação manual somente para candidato com UI"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Chrome conectado; dev e preview locais disponíveis"
+  date: 2026-09-15
+  result: "snapshot exato exibiu shell, logo com alt significativo e Versão 1.0.0; responsivo em 1440x900 e 320x568; sem erros observáveis"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+
+quality_result: pending_approval
+decision_owner: Isaac
+next_action: "aprovar Quality"

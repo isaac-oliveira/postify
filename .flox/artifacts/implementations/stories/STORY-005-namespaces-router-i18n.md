@@ -202,3 +202,80 @@ pentest_waived:
     O Browser in-app estava indisponível durante a validação do flox-dev-story;
     a inspeção visual/DOM do app em execução não foi observada. Esse risco é de
     cobertura de teste, não de segurança, e não implica vulnerabilidade.
+
+## Quality convergence ledger
+
+work_item_id: STORY-005
+gate: quality
+candidate_anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
+anchor_history:
+  - round: 1
+    anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-005
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-005
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-005
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-005
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build com 43 módulos transformados"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-005
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "adicionar o script test ao candidato e executar flox-code-review"

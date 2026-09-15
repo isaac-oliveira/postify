@@ -141,3 +141,80 @@ residual_risk: Baixo. Colaboradores com Node `<22.12.0` terão `npm install`
 bloqueado (efeito intencional). O comportamento sem erro em Node `>=22.12.0` não
 foi validado localmente (ambiente Node v20.19.5) — depende de CI ou troca de
 versão; não é superfície de segurança.
+
+## Quality convergence ledger
+
+work_item_id: SPEC-001
+gate: quality
+candidate_anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
+anchor_history:
+  - round: 1
+    anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: failed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: SPEC-001
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: SPEC-001
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: typecheck"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: SPEC-001
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: SPEC-001
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build Vite concluído"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: SPEC-001
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []; o artefato aponta STORY-013"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "corrigir os checks obrigatórios, reconciliar a identidade do item e executar flox-code-review"

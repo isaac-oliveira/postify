@@ -212,3 +212,80 @@ risk_assessment: pentest waived
 responsible: Isaac
 justification: A mudança é puramente estrutural — centralização de variáveis VITE_* já públicas no bundle pelo Vite, arquivo .env.example com placeholders fictícios, Error Boundary sem chamadas de rede, telemetria ou serialização de dados. Nenhuma nova superfície de ataque é introduzida: sem auth, sem backend, sem credenciais, sem requisições externas.
 residual_risk: Valores VITE_* permanecem potencialmente públicos no bundle por design do Vite; Object.freeze impede mutações no objeto mas não altera essa exposição. Risco residual aceito e documentado na Story.
+
+## Quality convergence ledger
+
+work_item_id: STORY-008
+gate: quality
+candidate_anchor: 6714b2190a566392dbb8152afcee2c1762328ca9
+anchor_history:
+  - round: 1
+    anchor: 6714b2190a566392dbb8152afcee2c1762328ca9
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-008
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 6714b2190a566392dbb8152afcee2c1762328ca9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-008
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 6714b2190a566392dbb8152afcee2c1762328ca9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-008
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 6714b2190a566392dbb8152afcee2c1762328ca9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-008
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 6714b2190a566392dbb8152afcee2c1762328ca9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build com 92 módulos transformados"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-008
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot 6714b2190a566392dbb8152afcee2c1762328ca9"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "adicionar o script test ao candidato e executar flox-code-review"

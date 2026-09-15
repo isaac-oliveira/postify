@@ -23,107 +23,137 @@ work_items:
     next_action: "criar Story detalhada com flox-create-story"
   - id: STORY-001
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-001-configurar-commitlint-lefthook.md
-    next_action: "executar flox-quality"
+    next_action: "corrigir os checks obrigatórios no candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-001, anchor 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; install e prepare passaram, typecheck/test/build falharam por scripts ausentes; UI não aplicável. Resultado blocked."
   - id: SPEC-001
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-013-engine-strict-npmrc.md
-    next_action: "executar flox-quality"
+    next_action: "corrigir os checks obrigatórios, reconciliar a identidade do item e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id SPEC-001, anchor 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; install, prepare e build passaram, typecheck/test falharam por scripts ausentes; o arquivo aponta STORY-013. Resultado blocked."
   - id: STORY-002
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-002-inicializar-runtime-frontend.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar typecheck e test ao candidato, executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-002, anchor d57722506990576f7fc2de987e5026ff9e7a6587; install, prepare e build passaram, typecheck/test falharam por scripts ausentes; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-003
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-003-habilitar-typescript-strict.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-003, anchor 27ef8ccd91e3dbde9d15f6900c09204ebefdf308; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-004
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-004-reset-baseline-global.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-004, anchor 4b9ab6cd3bee3380adb1af79f8164cec7b103a65; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-005
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-005-namespaces-router-i18n.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-005, anchor 865b21cca084b4204265c26a0b46e87b960c9afc; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-006
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-006-form-query-state.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-006, anchor a8b46a8ecd779d7f201c5a399f41eb00aabcf2de; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-007
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-007-supabase-boundaries.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-007, anchor fa182e775229457b37d2fd13a51d3da990559b75; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-008
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-008-env-errors-safe.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test ao candidato e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-008, anchor 6714b2190a566392dbb8152afcee2c1762328ca9; install, prepare, typecheck e build passaram, test falhou por script ausente; UI pendente por navegador indisponível. Resultado blocked."
   - id: STORY-009
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-009-representacao-canonica-tokens.md
-    next_action: "executar flox-quality"
+    next_action: "sincronizar package.json e package-lock.json e executar flox-code-review"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-009, anchor ed8f7b728f75759f5d030bfa9bb26f96298316b7; npm ci falhou por lockfile fora de sincronia, com @types/node@26.5.1 e undici-types@8.9.0 ausentes; demais comandos falharam por dependências ausentes; UI pendente. Resultado blocked."
   - id: STORY-010
     kind: story
-    status: approved
+    status: in-progress
     file: implementations/stories/STORY-010-conectar-tokens-css-tailwind-ant.md
-    next_action: "executar flox-quality"
+    next_action: "aprovar Quality"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-010, anchor c084ed7c5387b5909973b10a0491a7d579b7963c; cinco checks locais passaram e a verificação de UI foi considerada não aplicável pelo escopo sem componentes, telas ou fluxo; resultado pending_approval."
   - id: STORY-011
     kind: story
-    status: approved
+    status: in-progress
     file: implementations/stories/STORY-011-svgr-assets-identidade.md
-    next_action: "executar flox-quality"
+    next_action: "aprovar Quality"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-011, anchor f710c7231458f2380687b43ce535349068f6b796; cinco checks locais passaram e a verificação de UI foi considerada não aplicável pelo escopo sem componentes, telas, shell, rotas ou fluxo; resultado pending_approval."
   - id: STORY-012
     kind: story
-    status: approved
+    status: in-progress
     file: implementations/stories/STORY-012-shell-estatico-versao.md
-    next_action: "executar flox-quality"
+    next_action: "aprovar Quality"
     epic: EPIC-001
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-012, anchor cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; dev e preview exibiram main, logo com alt e Versão 1.0.0, reload não gerou warnings/errors, e a QA validou o snapshot exato em 1440x900 e 320x568 sem overflow ou distorção; resultado pending_approval."
   - id: SPEC-002
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-014-configurar-mcp-desenvolvimento.md
-    next_action: "executar flox-quality"
+    next_action: "adicionar o script test, reconciliar a identidade do item e executar flox-code-review"
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id SPEC-002, anchor 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; install, prepare, typecheck e build passaram, test falhou por script ausente; o arquivo aponta STORY-014 e UI ficou pendente. Resultado blocked."
   - id: STORY-015
     kind: story
-    status: approved
+    status: in-progress
     file: implementations/stories/STORY-015-configurar-vitest-msw.md
-    next_action: "executar flox-quality"
+    next_action: "aprovar Quality"
     epic: EPIC-002
     risk_assessment: "pentest waived"
+    evidence:
+      - "Quality 2026-09-15: work_item_id STORY-015, anchor 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; cinco checks locais passaram e a verificação de UI foi considerada não aplicável pelo escopo de tooling sem UI; resultado pending_approval."
 blocked: []
-updated_at: "2026-09-15T00:00:00Z"
+updated_at: "2026-09-15T13:16:52Z"

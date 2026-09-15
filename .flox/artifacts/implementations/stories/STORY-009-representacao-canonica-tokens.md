@@ -125,3 +125,80 @@ risk_acceptance: []
 A mudança introduz dois novos arquivos de utilitário e configuração (`deep-freeze.ts`, `tokens.ts`) e um teste unitário, sem superfície de segurança: não há importação de JSON em runtime, sem rede, sem eval, sem segredos, sem dependência de ambiente. O vitest é adicionado apenas como devDependency.
 
 Pentest waived — responsible: Isaac; justification: a fronteira é estritamente inerte (somente literais e função pura de congelamento), sem vetor de injeção, autenticação, I/O externo ou dados sensíveis; risco residual: possível divergência futura entre o mapa manual e a fonte documental JSON, mitigável por revisão visual na próxima extração.
+
+## Quality convergence ledger
+
+work_item_id: STORY-009
+gate: quality
+candidate_anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
+anchor_history:
+  - round: 1
+    anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: failed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: failed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: failed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-009
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; package.json e package-lock.json fora de sincronia; @types/node@26.5.1 e undici-types@8.9.0 ausentes do lockfile"
+  prepare_result: "exit 127; lefthook não encontrado após a instalação falhar"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 127; tsc não encontrado após a instalação falhar"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 127; vitest não encontrado após a instalação falhar"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 127; vite não encontrado após a instalação falhar"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou [] e a instalação falhou"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "sincronizar package.json e package-lock.json e executar flox-code-review"

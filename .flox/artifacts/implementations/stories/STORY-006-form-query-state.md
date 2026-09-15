@@ -192,3 +192,80 @@ risk_assessment: pentest waived
 risk_assessment_responsible: Isaac
 risk_assessment_justification: O diff adiciona dependências npm de validação e gerenciamento de estado (RHF, Zod, TanStack Query, Zustand) e cria um QueryClient singleton com provider. Não há processamento de dados de usuário, autenticação, acesso a rede, comunicação com backend, leitura de segredos ou superfície de ataque relevante nesta Story.
 residual_risk: Baixo — bibliotecas de mercado amplamente auditadas, sem superfície de segurança nesta Story.
+
+## Quality convergence ledger
+
+work_item_id: STORY-006
+gate: quality
+candidate_anchor: a8b46a8ecd779d7f201c5a399f41eb00aabcf2de
+anchor_history:
+  - round: 1
+    anchor: a8b46a8ecd779d7f201c5a399f41eb00aabcf2de
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-006
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot a8b46a8ecd779d7f201c5a399f41eb00aabcf2de; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-006
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot a8b46a8ecd779d7f201c5a399f41eb00aabcf2de; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-006
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot a8b46a8ecd779d7f201c5a399f41eb00aabcf2de; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-006
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot a8b46a8ecd779d7f201c5a399f41eb00aabcf2de; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build com 91 módulos transformados"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-006
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot a8b46a8ecd779d7f201c5a399f41eb00aabcf2de"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "adicionar o script test ao candidato e executar flox-code-review"

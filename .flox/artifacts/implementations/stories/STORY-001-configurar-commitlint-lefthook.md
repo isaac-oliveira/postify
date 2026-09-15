@@ -165,3 +165,80 @@ responsible: Isaac
 criteria_applied: A mudança está restrita ao tooling local de commits e não altera frontend, autenticação, autorização, dados, Storage, Edge Functions, webhooks, integrações de IA, PWA ou cache.
 justification: O diff não alcança superfícies cobertas pelo roteiro de Pentest e não contém secrets, credenciais ou chamadas externas de produto.
 residual_risk: O bypass local com `--no-verify` permanece possível, conforme explicitamente documentado no Story; checks posteriores de CI e revisão de código continuam necessários.
+
+## Quality convergence ledger
+
+work_item_id: STORY-001
+gate: quality
+candidate_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+anchor_history:
+  - round: 1
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: failed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: failed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-001
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 77 packages added"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-001
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: typecheck"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: build"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "navegador local"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9"
+  date: 2026-09-15
+  result: "não aplicável; o candidato não possui superfície de UI"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "corrigir os checks obrigatórios no candidato e executar flox-code-review"

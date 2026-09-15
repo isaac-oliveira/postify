@@ -244,3 +244,91 @@ justification: >
 residual_risk: >
   Nenhum risco residual identificado. O shell permanece estático e fora do
   escopo de testes de penetração para esta entrega.
+
+## Quality convergence ledger
+
+work_item_id: STORY-012
+gate: quality
+candidate_anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+anchor_history:
+  - round: 1
+    anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+  - round: 2
+    anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+round: 2
+correction_handoffs: 0
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: passed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-012
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-012
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-012
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 2 arquivos e 5 testes passaram"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-012
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; shell e assets gerados; 1485 módulos transformados"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-012
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+- work_item_id: STORY-012
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local; viewport estreito e largo"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Chrome conectado; dev http://localhost:5174/; preview http://localhost:4173/"
+  date: 2026-09-15
+  result: "dev e preview exibiram main, logo com alt significativo e Versão 1.0.0; reload preservou o shell sem warnings/errors; snapshot exato validado em 1440x900 e 320x568, sem overflow ou distorção"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+
+quality_result: pending_approval
+decision_owner: Isaac
+next_action: "aprovar Quality"

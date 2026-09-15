@@ -198,3 +198,80 @@ Justificativa: mudança restrita a tooling de desenvolvimento sem superfície de
 sem código de produto, sem auth, sem endpoints expostos, sem secrets no repositório.
 Risco residual: dependência de executáveis externos (serena, graphify-mcp) instalados no PATH local;
 aceitável para ferramentas de desenvolvimento com controle do desenvolvedor.
+
+## Quality convergence ledger
+
+work_item_id: SPEC-002
+gate: quality
+candidate_anchor: 6e54ec97cb89c68c4696daec2cb9cf321f4e9242
+anchor_history:
+  - round: 1
+    anchor: 6e54ec97cb89c68c4696daec2cb9cf321f4e9242
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: SPEC-002
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: SPEC-002
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: SPEC-002
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: SPEC-002
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build Vite concluído"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: SPEC-002
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot 6e54ec97cb89c68c4696daec2cb9cf321f4e9242"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []; o artefato aponta STORY-014"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "adicionar o script test, reconciliar a identidade do item e executar flox-code-review"

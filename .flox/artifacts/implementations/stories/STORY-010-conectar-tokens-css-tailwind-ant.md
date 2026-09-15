@@ -136,3 +136,91 @@ findings:
     location: src/utils/css.ts:4
     state: accepted
     origin_round: 2
+
+## Quality convergence ledger
+
+work_item_id: STORY-010
+gate: quality
+candidate_anchor: c084ed7c5387b5909973b10a0491a7d579b7963c
+anchor_history:
+  - round: 1
+    anchor: c084ed7c5387b5909973b10a0491a7d579b7963c
+  - round: 2
+    anchor: c084ed7c5387b5909973b10a0491a7d579b7963c
+round: 2
+correction_handoffs: 0
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: passed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-010
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; instalação limpa concluída"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-010
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; sem diagnósticos"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-010
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 2 arquivos e 5 testes passaram"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-010
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; build Vite concluído"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-010
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+- work_item_id: STORY-010
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: verificação manual somente para candidato com UI"
+  environment: "snapshot c084ed7c5387b5909973b10a0491a7d579b7963c; Chrome conectado; dev e preview locais disponíveis"
+  date: 2026-09-15
+  result: "snapshot exato exibiu o botão de teste acessível; clique não alterou estado; sem overflow; apenas aviso não bloqueante de Ant Design/React"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+
+quality_result: pending_approval
+decision_owner: Isaac
+next_action: "aprovar Quality"

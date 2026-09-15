@@ -234,3 +234,80 @@ residual_risk: >
   Dependências de build (vite, rolldown, lightningcss) ficam exclusivamente em
   devDependencies e não chegam ao bundle de produção. react e react-dom são
   dependências de runtime sem surface de segurança própria neste scaffold.
+
+## Quality convergence ledger
+
+work_item_id: STORY-002
+gate: quality
+candidate_anchor: d57722506990576f7fc2de987e5026ff9e7a6587
+anchor_history:
+  - round: 1
+    anchor: d57722506990576f7fc2de987e5026ff9e7a6587
+round: 1
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.1"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: failed
+    origin_round: 1
+  - id: quality.tests.v1
+    state: failed
+    origin_round: 1
+  - id: quality.build.v1
+    state: passed
+    origin_round: 1
+
+## Quality evidence
+
+- work_item_id: STORY-002
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot d57722506990576f7fc2de987e5026ff9e7a6587; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 96 packages added"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-002
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot d57722506990576f7fc2de987e5026ff9e7a6587; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: typecheck"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-002
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot d57722506990576f7fc2de987e5026ff9e7a6587; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-002
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot d57722506990576f7fc2de987e5026ff9e7a6587; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; Vite built 14 modules"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-002
+  criterion: "UI condicional"
+  method: "npm run dev; npm run preview; navegador local"
+  environment: "snapshot d57722506990576f7fc2de987e5026ff9e7a6587"
+  date: 2026-09-15
+  result: "não observado; browsers.list() retornou []"
+  evaluator: "Felicity Smoak 🧪"
+  decision: incomplete
+
+quality_result: blocked
+decision_owner: Isaac
+next_action: "adicionar typecheck e test ao candidato, executar flox-code-review"
