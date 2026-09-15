@@ -25,6 +25,7 @@ body {
   place-items: center;
   padding: var(--s-xl);
   overflow-x: hidden;
+  background-color: var(--c-background-900);
 }
 
 .app-shell__content {
