@@ -10,7 +10,7 @@
 
 body {
   margin: 0;
-  background-color: var(--c-background-50);
+  background-color: var(--c-background-900);
   color: var(--c-content-950);
   font-family: var(--font-sans);
 }
@@ -25,7 +25,6 @@ body {
   place-items: center;
   padding: var(--s-xl);
   overflow-x: hidden;
-  background-color: var(--c-background-900);
 }
 
 .app-shell__content {
