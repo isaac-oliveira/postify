@@ -1,12 +1,12 @@
 ---
 id: STORY-015
 title: "Configurar Vitest e MSW sem testes ou handlers de produto"
-status: proposed
+status: review
 ---
 
 # STORY-015 — Configurar Vitest e MSW sem testes ou handlers de produto
 
-**Status:** proposed
+**Status:** review
 **Origem:** [EPIC-002 — Experiência de desenvolvimento e qualidade do Postify](../epics/EPIC-002-postify-quality-foundation.md)
 
 ## História de usuário
@@ -49,59 +49,59 @@ e impede bypass silencioso de chamadas externas não autorizadas.
 
 ## Critérios de aceitação
 
-- [ ] **AC-001 — Dependências reproduzíveis:** Vitest permanece na versão
+- [x] **AC-001 — Dependências reproduzíveis:** Vitest permanece na versão
   explícita já adotada pelo projeto, MSW é adicionado em versão explícita e
   `package.json` e `package-lock.json` permanecem coerentes. Não há dependência
   de runtime adicionada para o tooling.
-- [ ] **AC-002 — Configuração única do Vitest:** existe uma única configuração
+- [x] **AC-002 — Configuração única do Vitest:** existe uma única configuração
   de teste integrada ao Vite, compatível com TypeScript strict, sem aliases,
   plugins ou opções duplicadas conflitantes. O script `npm test` executa essa
   configuração.
-- [ ] **AC-003 — Execução sem testes de produto:** `npm test` executa o
+- [x] **AC-003 — Execução sem testes de produto:** `npm test` executa o
   conjunto atual sem criar testes de produto e retorna um resultado previsível
   quando não há arquivos de teste correspondentes, sem exigir teste artificial
   ou alterar os testes utilitários existentes.
-- [ ] **AC-004 — MSW Node isolado:** o setup de testes cria o servidor por
+- [x] **AC-004 — MSW Node isolado:** o setup de testes cria o servidor por
   `msw/node`, registra ciclo de vida de início, reset e encerramento e não
   contém handlers de produto, Service Worker, mocking de navegador ou import
   pelo runtime da aplicação.
-- [ ] **AC-005 — Requests não tratados controlados:** a política de requests
+- [x] **AC-005 — Requests não tratados controlados:** a política de requests
   não tratados é explícita e uma chamada externa sem handler autorizado não é
   silenciosamente ignorada pelo setup de testes. O servidor não faz download,
   upload ou chamada a serviço externo durante a inicialização.
-- [ ] **AC-006 — Regressão e limite estrutural:** `typecheck`, `test` e `build`
+- [x] **AC-006 — Regressão e limite estrutural:** `typecheck`, `test` e `build`
   continuam operacionais; o diff fica limitado a manifesto, lockfile,
   configuração e setup de testes. Não há alteração em componentes, features,
   shell, rotas, providers de produção ou comportamento de produto.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Confirmar baseline e fonte única de configuração**
+- [x] **T1 — Confirmar baseline e fonte única de configuração**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-013 e STORY-003
   - Done when: scripts, versões de Vite/Vitest, TypeScript strict e arquivos de
     configuração atuais estão registrados; a estratégia escolhida não duplica
     a configuração do Vite.
-- [ ] **T2 — Adicionar e fixar MSW**
+- [x] **T2 — Adicionar e fixar MSW**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
   - Done when: MSW está em `devDependencies` com versão explícita e lockfile
     coerente, sem dependência de runtime ou alteração não justificada.
-- [ ] **T3 — Criar o setup Node neutro do MSW**
+- [x] **T3 — Criar o setup Node neutro do MSW**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T2
   - Done when: `msw/node` fornece um servidor sem handlers de produto, com
     ciclo de vida isolado e política explícita para requests não tratados.
-- [ ] **T4 — Integrar Vitest e setup de testes**
+- [x] **T4 — Integrar Vitest e setup de testes**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T3
   - Done when: `npm test` carrega a configuração única, usa o setup somente no
     ambiente de teste e trata a ausência de testes de forma previsível.
-- [ ] **T5 — Validar tooling, regressão e escopo**
+- [x] **T5 — Validar tooling, regressão e escopo**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T4
@@ -118,42 +118,48 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Dependências e lockfile, mapeado ao AC-001**
+- [x] **Check 1 — Dependências e lockfile, mapeado ao AC-001**
   - Passos: validar o manifesto, o lockfile e a instalação limpa das
     dependências de teste.
   - Resultado esperado: Vitest mantém a versão do projeto, MSW tem versão
     explícita e nenhum pacote de runtime novo é introduzido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Fonte única do Vitest, mapeado ao AC-002**
+  - Evidência (flox-dev-story): `npm ci --ignore-scripts` passou em Node v22.12.0; `package.json` e `package-lock.json` fixam `msw@2.11.3`; Vitest permanece em `4.1.6`; nenhuma dependência de runtime foi adicionada.
+- [x] **Check 2 — Fonte única do Vitest, mapeado ao AC-002**
   - Passos: carregar a configuração de teste e inspecionar scripts, plugins,
     aliases e integração com Vite e TypeScript.
   - Resultado esperado: uma configuração é carregada sem conflito e `npm test`
     a utiliza.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — Suíte sem produto, mapeado ao AC-003**
+  - Evidência (flox-dev-story): `vite.config.ts` é a única configuração e mantém os plugins Vite existentes; `test.setupFiles` aponta para `src/test/setup.ts`, `passWithNoTests: true` está configurado e `npm test` passou usando Vitest `4.1.6`; `npm run typecheck` passou sob strict.
+- [x] **Check 3 — Suíte sem produto, mapeado ao AC-003**
   - Passos: executar o comando de teste com o conjunto atual e uma cópia
     temporária sem arquivos correspondentes.
   - Resultado esperado: o resultado é previsível, sem testes ou handlers de
     produto adicionados e sem alteração dos testes utilitários existentes.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Ciclo de vida Node do MSW, mapeado ao AC-004**
+  - Evidência (flox-dev-story): `npm test` passou com 2 arquivos e 5 testes; o Vitest executado contra diretório temporário vazio exibiu `No test files found` e saiu com código 0; nenhum teste ou handler de produto foi adicionado.
+- [x] **Check 4 — Ciclo de vida Node do MSW, mapeado ao AC-004**
   - Passos: inspecionar imports, handlers, setup do runner e ciclo de vida do
     servidor em uma execução controlada.
   - Resultado esperado: somente `msw/node` é usado, o servidor inicia, reseta e
     encerra corretamente e não há handler de produto ou Service Worker.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Requests não tratados, mapeado ao AC-005**
+  - Evidência (flox-dev-story): `src/test/setup.ts` importa somente `setupServer` de `msw/node`, cria o servidor sem handlers, executa `listen`, `resetHandlers` e `close` nos hooks do Vitest; não há Service Worker nem import no runtime; os 2 arquivos de teste passaram.
+- [x] **Check 5 — Requests não tratados, mapeado ao AC-005**
   - Passos: realizar uma verificação controlada de request sem handler e
     inspecionar a política configurada e os efeitos de inicialização.
   - Resultado esperado: a chamada não é silenciosamente bypassada, não há
     request externo durante o setup e a falha é observável no teste.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Regressão e limite, mapeado ao AC-006**
+  - Evidência (flox-dev-story): request controlada para `http://127.0.0.1:9/postify-unhandled-check` com `onUnhandledRequest: 'error'` falhou observavelmente no MSW antes de bypassar a chamada; a inicialização não realiza requests externas.
+- [x] **Check 6 — Regressão e limite, mapeado ao AC-006**
   - Passos: executar `typecheck`, `test` e `build`, revisar `git diff --check`
     e listar os arquivos alterados.
   - Resultado esperado: os comandos passam e o diff contém somente manifesto,
     lockfile, configuração e setup de testes previstos.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): `npm run typecheck`, `npm test`, `npm run build` e `git diff --check` passaram; arquivos alterados fora de `.flox/`: `package.json`, `package-lock.json`, `vite.config.ts` e `src/test/setup.ts`; componentes, features, shell, rotas e providers não foram alterados.
+
+## Implementation Evidence
+
+- T1–T4 concluídas por Dinesh Chugtai: baseline confirmado, MSW fixado, configuração única do Vitest integrada ao Vite e setup Node neutro criado.
+- T5 validada em fallback sequencial pelo coordenador após a contribuição de QA não estar disponível: instalação limpa, execução com e sem testes, ciclo de vida MSW, requests não tratados, regressão e limite do diff confirmados em 2026-09-15.
+- `npm ci --ignore-scripts` reportou dois avisos moderados de auditoria transitiva; nenhuma correção foi aplicada por estar fora do escopo aprovado.
 
 ## Dependências e riscos
 
@@ -177,9 +183,47 @@ code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 - DS applicable: no — não cria componentes, props, variantes, tokens ou contratos visuais.
 - Other links: [PRD-001](../../planning/prds/PRD-001-postify-mvp.md), [EPIC-002](../epics/EPIC-002-postify-quality-foundation.md), [STORY-003](STORY-003-habilitar-typescript-strict.md), [STORY-013](STORY-013-engine-strict-npmrc.md), `package.json`, `package-lock.json`, `vite.config.ts`, [Vitest configuration](https://github.com/vitest-dev/vitest/blob/v4.1.6/docs/config/index.md) e [MSW setupServer](https://github.com/mswjs/msw/blob/main/_autodocs/api-reference/setup-server.md).
 
+## Code Review ledger
+
+review_anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: "2026-09-15"
+justification: >
+  STEM revisou o diff completo (primeira rodada) contra o Test Plan e os
+  critérios de aceitação da STORY-015. Todos os 6 checks passaram sem
+  nenhum achado. Sem bloqueadores correlated; aprovação direta.
+risk_acceptance: []
+
+## Avaliação de risco
+
+Natureza da mudança: tooling de desenvolvimento exclusivo (Vitest + MSW Node).
+Superfície de segurança: nenhuma — sem código de produção, sem endpoints, sem
+dados de usuário, sem lógica de autenticação ou autorização alterada. MSW e
+dependências transitivas ficam em `devDependencies` e não chegam ao bundle de
+produção.
+
+pentest_status: waived
+pentest_waiver:
+  responsible: Isaac
+  justification: >
+    A mudança adiciona exclusivamente tooling de teste (MSW 2.11.3 em
+    devDependencies) e integra o Vitest ao vite.config.ts. Nenhum código de
+    produção é alterado, nenhum endpoint exposto, nenhuma credencial ou dado
+    sensível manipulado. O risco residual é desprezível.
+  residual_risk: >
+    Dependências de desenvolvimento transitivas com dois avisos moderados de
+    auditoria (registrados na Implementation Evidence); sem impacto no bundle
+    de produção.
+
 ## Aprovação
 
 Decision owner: Isaac
-Decision: proposed
-Decided at: pendente
-Justification: aguardando aprovação explícita desta versão da Story.
+Decision: approved
+Decided at: 2026-09-15
+Justification: Isaac aprovou explicitamente esta versão da Story.
