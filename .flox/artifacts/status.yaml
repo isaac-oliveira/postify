@@ -107,9 +107,9 @@ work_items:
     risk_assessment: "pentest waived"
   - id: STORY-012
     kind: story
-    status: approved
+    status: blocked
     file: implementations/stories/STORY-012-shell-estatico-versao.md
-    next_action: "executar flox-dev-story"
+    next_action: "disponibilizar navegador in-app e repetir QA de STORY-012"
     epic: EPIC-001
   - id: SPEC-002
     kind: story
@@ -123,5 +123,8 @@ work_items:
     file: implementations/stories/STORY-015-configurar-vitest-msw.md
     next_action: "aprovar Story"
     epic: EPIC-002
-blocked: []
-updated_at: "2026-09-14"
+blocked:
+  - work_item_id: STORY-012
+    reason: "QA browser obrigatório não pôde ser concluído porque não há navegador in-app disponível nesta sessão."
+    evidence: "Checks automatizados e HTTP passaram; permanecem sem evidência visual/runtime a responsividade, árvore acessível, console, refresh efetivo e favicon único no DOM."
+updated_at: "2026-09-15"
