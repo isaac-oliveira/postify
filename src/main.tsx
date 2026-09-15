@@ -21,7 +21,7 @@ const configureFavicon = (): void => {
 
   favicon.rel = faviconRelation
   favicon.type = faviconMimeType
-  favicon.href = identityAssets.favicon.file
+  favicon.href = identityAssets.favicon
 
   if (existingFavicons.length === 0) {
     document.head.appendChild(favicon)
