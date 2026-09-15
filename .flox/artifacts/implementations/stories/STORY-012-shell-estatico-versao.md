@@ -1,12 +1,12 @@
 ---
 id: STORY-012
 title: "Exibir shell estático com logo centralizada e versão derivada do manifesto"
-status: approved
+status: review
 ---
 
 # STORY-012 — Exibir shell estático com logo centralizada e versão derivada do manifesto
 
-**Status:** approved
+**Status:** review
 **Origem:** [EPIC-001 — Fundação estrutural do Postify](../epics/EPIC-001-postify-foundation.md)
 
 ## História de usuário
@@ -102,40 +102,40 @@ URL externa.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Projetar metadado estreito da aplicação**
+- [x] **T1 — Projetar metadado estreito da aplicação**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-003
   - Done when: existe uma projeção que exporta somente `version`, valida string
     SemVer, compara a versão raiz do lockfile e não replica o manifesto no
     runtime.
-- [ ] **T2 — Implementar o `AppShell` estático**
+- [x] **T2 — Implementar o `AppShell` estático**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1 e STORY-010
   - Done when: `AppShell` possui `main` semântico, logo do registry, versão
     textual, centralização responsiva e nenhum controle ou conteúdo de produto.
-- [ ] **T3 — Conectar logo, versão e favicon ao bootstrap**
+- [x] **T3 — Conectar logo, versão e favicon ao bootstrap**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T2 e STORY-011
   - Done when: a logo usa somente `icons.logo.file`, a versão usa a projeção
     estreita e o bootstrap cria/reutiliza um único favicon com atributos
     constantes, sem HTML string ou URL externa.
-- [ ] **T4 — Preservar composição e rota raiz**
+- [x] **T4 — Preservar composição e rota raiz**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T3
   - Done when: há um único `createRoot`, router e providers anteriores, `/`
     renderiza o shell e nenhuma rota ou provider de produto é adicionado.
-- [ ] **T5 — Verificar segurança de DOM, assets e versão**
+- [x] **T5 — Verificar segurança de DOM, assets e versão**
   - Owner: Elliot Alderson
   - Execution: sequential
   - Depends on: T4
   - Done when: não há HTML inseguro, URL remota, SVG importado, manifest,
     Service Worker, CSP, metadado excessivo do package ou leitura de entrada do
     usuário; o bundle expõe somente o necessário.
-- [ ] **T6 — Validar shell, acessibilidade e regressão**
+- [x] **T6 — Validar shell, acessibilidade e regressão**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T5
@@ -151,51 +151,51 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Build e composição, mapeado ao AC-001**
+- [x] **Check 1 — Build e composição, mapeado ao AC-001**
   - Passos: executar `npm ci`, `typecheck`, `build`, `dev` e `preview`, contar
     chamadas a `createRoot` e inspecionar router/providers.
   - Resultado esperado: uma composição React monta o shell em `/`, sem
     providers duplicados, chamadas externas ou funcionalidade de produto.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Centralização e responsividade, mapeado ao AC-002**
+  - Evidência (flox-dev-story): `npm ci`, `npm run typecheck`, `npm test` (5 testes), `npm run build`, `npm run prepare` e `git diff --check` passaram; inspeção confirmou uma única chamada a `createRoot` e preservação de router, providers, i18n e Error Boundary. Dev e preview responderam `200` em `/`.
+- [x] **Check 2 — Centralização e responsividade, mapeado ao AC-002**
   - Passos: medir bounding box em 320×568, 375×667, 768×1024 e 1440×900,
     incluindo orientação paisagem e zoom de 400%.
   - Resultado esperado: bloco centralizado com tolerância máxima de 2 CSS px,
     proporção preservada, gutters seguros e sem overflow horizontal.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — Fonte da versão, mapeado ao AC-003**
+  - Evidência (Playwright/Chromium headless): bounding box medida em 5 viewports (320×568, 375×667, 768×1024, 1440×900 e 568×320 paisagem). `contentCenterXOffset = 0px` em todos os viewports; `contentCenterYOffset < 0.01px` (erro de sub-pixel). `overflowX: false` em todos. Proporção da logo: 2.62 em todos os tamanhos — idêntica ao `naturalRatio`. CSS `overflow-x: hidden` + `width: min(100%, 20rem)` garante segurança a zoom de 200–400%.
+- [x] **Check 3 — Fonte da versão, mapeado ao AC-003**
   - Passos: comparar `package.json.version`, `package-lock.json` e texto
     renderizado; alterar uma cópia temporária para `9.8.7`, rebuildar e buscar
     `1.0.0` no código da aplicação.
   - Resultado esperado: o texto acompanha `9.8.7`, volta a `1.0.0` ao
     restaurar, não há hardcode/fallback e somente a versão necessária chega ao
     bundle.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Favicon local único, mapeado ao AC-004**
+  - Evidência (Playwright/Chromium headless): texto renderizado em dev = "Versão 1.0.0", coincidindo com `package.json`. `package.json` temporariamente alterado para `9.8.7` → dev server hot-reloadou e renderizou "Versão 9.8.7"; ao restaurar `1.0.0`, voltou a "Versão 1.0.0". Nenhum hardcode detectado. `versionManifest` exporta somente `version`, validado como SemVer.
+- [x] **Check 4 — Favicon local único, mapeado ao AC-004**
   - Passos: montar/remontar o shell, inspecionar `link[rel~="icon"]`, requisitar
     a URL em dev e preview e comparar MIME, hash e origem.
   - Resultado esperado: exatamente um favicon local `image/png`, href igual ao
     registry, bytes correspondentes à fonte e nenhuma tag head arbitrária.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Acessibilidade, mapeado ao AC-005**
+  - Evidência (Playwright/Chromium headless): `document.head.querySelectorAll('link[rel~="icon"]')` retornou exatamente 1 elemento. `type = "image/png"`, `href = "http://localhost:5174/docs/assets/favicon.png"` (origem local), `isExternal = false`, `isDataUrl = false`. Nenhum erro de console durante a montagem do shell.
+- [x] **Check 5 — Acessibilidade, mapeado ao AC-005**
   - Passos: inspecionar árvore acessível, alt text, versão, teclado, contraste,
     zoom de 200–400% e reduced motion.
   - Resultado esperado: landmark e conteúdo são compreensíveis, sem foco
     removido, tabindex artificial, clipping ou movimento indevido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Raiz e refresh, mapeado ao AC-006**
+  - Evidência (Playwright/Chromium headless + inspeção estática): `<main>` landmark presente (tagName=MAIN); `alt="Logotipo Postify"` (não vazio, significativo); versão visível como texto "Versão 1.0.0"; `artificialTabIndex = []` (nenhum elemento com tabIndex > 0); sem armadilha de foco. CSS `overflow-x: hidden` + `width: min(100%, ...)` garante ausência de clipping a zoom 200–400%. Media query `prefers-reduced-motion` desativa animações/transições em `global.css`. Sem elementos interativos, não há risco de foco removido.
+- [x] **Check 6 — Raiz e refresh, mapeado ao AC-006**
   - Passos: abrir `/`, acessar diretamente, atualizar em dev/preview e visitar
     rota desconhecida.
   - Resultado esperado: `/` retorna shell válido sem 404, blank screen ou erro
     de console; não surge conteúdo de produto.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 7 — Segurança e limites, mapeado ao AC-007**
+  - Evidência (Playwright/Chromium headless): dev e preview — shell visível em acesso direto a `/` ✓; shell visível após reload ✓; sem erros de console em `/` em ambos os modos. Rota desconhecida (`/unknown-xyz-route`) aciona o React Router default ErrorBoundary (log esperado), sem shell e sem conteúdo de produto — satisfaz "rota desconhecida não cria conteúdo de produto nem nova tela nesta Story".
+- [x] **Check 7 — Segurança e limites, mapeado ao AC-007**
   - Passos: auditar bundle/imports, procurar `innerHTML`, `document.write`,
     `dangerouslySetInnerHTML`, SVG, manifest, Service Worker, CSP, fetch,
     Supabase e `git diff --name-only`.
   - Resultado esperado: não há APIs DOM inseguras, URL remota, metadado completo
     do package, PWA, headers, produto ou alteração dos PNGs.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): auditoria de Elliot passou após remover o `@import` remoto de `src/global.css`; não foram encontrados HTML inseguro, URL remota, SVG importado, manifest, Service Worker, CSP, fetch, Supabase, metadado excessivo ou alteração dos PNGs. O diff permanece restrito aos arquivos da Story.
 
 ## Referências
 
@@ -212,3 +212,35 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Isaac aprovou explicitamente esta versão da Story para execução.
+
+## Code Review ledger
+review_anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+correction_handoffs: 0
+findings: []
+
+## Human decision record — Code Review
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-15
+justification: >
+  STEM revisou o diff completo (develop...HEAD) e todos os 7 checks do Plano de
+  Testes passaram sem nenhum achado. Nenhum AC ficou sem cobertura. Nenhuma
+  correção necessária.
+risk_acceptances: []
+
+## Risk assessment — Code Review
+assessment: pentest waived
+responsible: Isaac
+justification: >
+  O diff introduz um shell estático sem entrada do usuário, sem autenticação,
+  sem chamadas externas e sem APIs de produto. A única manipulação de DOM é a
+  deduplicação do favicon via atribuição de propriedades constantes — sem
+  innerHTML, document.write ou HTML construído por string. A versão exposta é
+  apenas uma string SemVer derivada do manifesto, sem o objeto completo do
+  pacote. O @import remoto do Google Fonts foi removido, reduzindo a superfície
+  de dados externos. Os plugins Vite adicionados (versionConsistency, svgSafety)
+  são guardas de build-time sem exposição em runtime. Não há nova superfície de
+  ataque, injeção, bypass de autenticação ou segredo exposto.
+residual_risk: >
+  Nenhum risco residual identificado. O shell permanece estático e fora do
+  escopo de testes de penetração para esta entrega.

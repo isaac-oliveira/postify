@@ -107,35 +107,35 @@ pipeline.
 
 ## Checklist de tarefas
 
-- [ ] **T1 — Fixar integração SVGR e convenções de import**
+- [x] **T1 — Fixar integração SVGR e convenções de import**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: STORY-003 e STORY-010
   - Done when: o plugin SVGR compatível com Vite está pinado, registrado uma
     vez, limitado a `*.svg?react`, e `?react`/`?url` estão documentados sem
     import SVG ambíguo.
-- [ ] **T2 — Adicionar declarações TypeScript strict**
+- [x] **T2 — Adicionar declarações TypeScript strict**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T1
   - Done when: `vite/client` e a declaração da integração adotada estão
     incluídos, componentes SVG usam `SVGProps<SVGSVGElement>`, URLs são
     `string` e não existe `any` ou declaração ampla conflitante.
-- [ ] **T3 — Criar registry readonly dos assets fornecidos**
+- [x] **T3 — Criar registry readonly dos assets fornecidos**
   - Owner: Dinesh Chugtai
   - Execution: sequential
   - Depends on: T2
   - Done when: `src/app/assets/icons/index.ts` importa os três PNGs de
     `docs/assets` com `?url`, registra dimensões/MIME/purpose e não copia ou
     renderiza os binários.
-- [ ] **T4 — Verificar segurança do pipeline SVG**
+- [x] **T4 — Verificar segurança do pipeline SVG**
   - Owner: Elliot Alderson
   - Execution: sequential
   - Depends on: T3
   - Done when: fixtures locais ativas são rejeitadas ou ficam sem conteúdo
     ativo, não há URL externa, upload, execução, download, alteração de CSP ou
     dependência inesperada.
-- [ ] **T5 — Validar tipos, assets e regressão**
+- [x] **T5 — Validar tipos, assets e regressão**
   - Owner: Felicity Smoak
   - Execution: sequential
   - Depends on: T4
@@ -151,44 +151,44 @@ Roteiro fixo de review — finalizado pelo `flox-dev-story` ao concluir a
 implementação, antes de mover a Story para `review`. É o único escopo que o
 code review (STEM) verifica; cada check mapeia a um critério de aceitação.
 
-- [ ] **Check 1 — Resolução tipada, mapeado ao AC-001 e AC-002**
+- [x] **Check 1 — Resolução tipada, mapeado ao AC-001 e AC-002**
   - Passos: compilar fixture local com imports `*.svg?react` e `*.svg?url`,
     testar props SVG e procurar imports sem sufixo ou declarações `any`.
   - Resultado esperado: componente e URL têm tipos corretos, o plugin atua
     somente no sufixo `?react` e o typecheck rejeita usos incompatíveis.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 2 — Registry dos PNGs, mapeado ao AC-003**
+  - Evidência (flox-dev-story): `npx tsc --ignoreConfig ...` passou para `?react`, `?url`, `SVGProps`, `aria-label` e `aria-hidden`; Vite real transformou `?react` em componente e `?url` em URL; não há import SVG sem sufixo.
+- [x] **Check 2 — Registry dos PNGs, mapeado ao AC-003**
   - Passos: importar o registry e validar `file`, SHA-256, dimensões, RGBA,
     MIME type e caminhos contra `docs/assets/logo.png`, `icon.png` e
     `favicon.png`.
   - Resultado esperado: logo 1835×701, icon/favicon 1024×1024, todos RGBA,
     sem alteração ou cópia binária criada.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 3 — SVG ativo, mapeado ao AC-004**
+  - Evidência (flox-dev-story): registry aponta diretamente para os três PNGs; `file` confirmou RGBA e dimensões; SHA-256 preservados: logo `bfae0ef6…f69937a`, icon `c0a87c6e…20e4ae5`, favicon `f6445779…47f5b6d`; nenhuma cópia criada.
+- [x] **Check 3 — SVG ativo, mapeado ao AC-004**
   - Passos: compilar fixtures temporárias contendo script, event handler,
     `foreignObject`, `javascript:` e referências externas.
   - Resultado esperado: fixtures são rejeitadas ou saem sem conteúdo ativo;
     nenhum SVG remoto ou upload é aceito e `?url` não é considerado sanitização.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 4 — Bundle e supply chain, mapeado ao AC-005**
+  - Evidência (flox-dev-story): seis fixtures independentes com script, event handler, `foreignObject`, `javascript:`, referência externa e `@import` externo foram rejeitadas pelo `transformRequest` Vite; o import explícito `?react` foi normalizado pelo Vite para `?import&react` e continuou protegido; `?url` permaneceu URL; fixtures removidas.
+- [x] **Check 4 — Bundle e supply chain, mapeado ao AC-005**
   - Passos: executar `npm ci`, revisar lockfile/scripts, `build`, inspecionar
     `dist` e verificar requests, `data:` inesperado, CSP e imports dinâmicos.
   - Resultado esperado: `?react` vira componente, `?url` vira asset URL, não
     há download, execução, conteúdo ativo inesperado ou alteração de CSP.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 5 — Acessibilidade e regressão, mapeado ao AC-007**
+  - Evidência (flox-dev-story): `npm ci --ignore-scripts`, `npm run test` (5/5), `npm run build`, dev, preview, prepare, hook e `git diff --check` passaram; lockfile contém apenas a cadeia pinada do SVGR; não há alteração de CSP, upload ou download.
+- [x] **Check 5 — Acessibilidade e regressão, mapeado ao AC-007**
   - Passos: executar `typecheck`, `dev`, `build`, `preview`, `prepare` e hook;
     validar `aria-label`, `aria-hidden`, foco visível, reduced motion, router,
     i18n, reset e placeholder.
   - Resultado esperado: contrato de assets compila, shell anterior permanece
     operacional e o baseline acessível não é removido.
-  - Evidência (flox-dev-story): —
-- [ ] **Check 6 — Limite da Story, mapeado ao AC-006**
+  - Evidência (flox-dev-story): a remoção autorizada do import `Button` elimina o `TS6133`; `npm run typecheck`, `npm test`, `npm run build`, `npm run prepare`, dev, preview e `git diff --check` passaram. Fixtures de tipos acessíveis, foco visível, reduced motion, router, i18n, reset e placeholder permanecem operacionais.
+- [x] **Check 6 — Limite da Story, mapeado ao AC-006**
   - Passos: revisar `git diff --name-only`, imports e dependências.
   - Resultado esperado: somente configuração SVGR, declarations, registry e
     testes necessários aparecem; não há componentes, telas, shell, favicon
     HTML, manifest, upload ou produto.
-  - Evidência (flox-dev-story): —
+  - Evidência (flox-dev-story): diff de implementação limitado a `vite.config.ts`, `package.json`, `package-lock.json`, `src/app/types/assets.d.ts` e `src/app/assets/icons/index.ts`; não há componentes, telas, shell, manifest, favicon HTML, upload ou produto.
 
 ## Referências
 
@@ -204,3 +204,44 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Isaac aprovou explicitamente esta versão da Story para execução.
+
+## Code Review ledger
+
+review_anchor: f710c7231458f2380687b43ce535349068f6b796
+correction_handoffs: 2
+findings:
+  - id: F-001
+    severity: high
+    location: vite.config.ts:16–17, 42–48
+    state: fixed
+    origin_round: 1
+  - id: F-002
+    severity: medium
+    location: src/app/App.tsx:1
+    state: accepted
+    origin_round: 1
+  - id: F-003
+    severity: medium
+    location: vite.config.ts:58
+    state: fixed
+    origin_round: 1
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-14
+justification: Isaac aceitou explicitamente o risco residual de F-002 e aprovou a Story. O finding já está resolvido no estado atual de `src/app/App.tsx`, mas não há alteração incremental segura a produzir sem ampliar o escopo da Story ou reescrever o histórico.
+risk_acceptance:
+  - finding_id: F-002
+    severity: medium
+    impact: A ausência de uma alteração incremental em `src/app/App.tsx` limita a verificabilidade histórica da correção no diff desta rodada.
+    accepted_risk: O estado atual de `src/app/App.tsx` permanece sem o import não utilizado, conforme typecheck aprovado; não será criada uma alteração artificial apenas para satisfazer o diff.
+    acceptance_scope: Somente o F-002 da STORY-011 e somente o estado revisado em 2026-09-14; qualquer alteração posterior em `App.tsx` exige nova validação e review.
+
+## Risk assessment
+
+result: pentest waived
+responsible: Isaac
+justification: A mudança da Story está restrita à configuração local do SVGR, declarações TypeScript e registry dos PNGs fornecidos. As fixtures de SVG ativo foram rejeitadas, não há upload, URL remota, endpoint, alteração de CSP ou conteúdo de usuário, e a decisão de F-002 não adiciona código nem superfície de execução.
+residual_risk: Baixo. A aceitação cobre apenas a rastreabilidade incremental de F-002; uma regressão futura em `src/app/App.tsx` ou no pipeline local exigirá nova alteração, validação e review. A segurança do pipeline aprovado permanece limitada aos assets locais autorizados e às verificações registradas no Test Plan.

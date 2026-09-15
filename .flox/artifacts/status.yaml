@@ -102,19 +102,28 @@ work_items:
     kind: story
     status: approved
     file: implementations/stories/STORY-011-svgr-assets-identidade.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: STORY-012
     kind: story
     status: approved
     file: implementations/stories/STORY-012-shell-estatico-versao.md
-    next_action: "executar flox-dev-story"
+    next_action: "executar flox-quality"
     epic: EPIC-001
+    risk_assessment: "pentest waived"
   - id: SPEC-002
     kind: story
     status: approved
     file: implementations/stories/STORY-014-configurar-mcp-desenvolvimento.md
     next_action: "executar flox-quality"
     risk_assessment: "pentest waived"
+  - id: STORY-015
+    kind: story
+    status: proposed
+    file: implementations/stories/STORY-015-configurar-vitest-msw.md
+    next_action: "aprovar Story"
+    epic: EPIC-002
 blocked: []
-updated_at: "2026-09-04"
+updated_at: "2026-09-15"
+
