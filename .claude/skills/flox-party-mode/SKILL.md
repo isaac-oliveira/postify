@@ -5,63 +5,40 @@ description: Facilitate an optional, explicitly authorized party-mode session wh
 
 # Flox Party Mode
 
-Facilitate an optional discussion that convenes relevant personas around one
-bounded decision. Party Mode is supportive facilitation, not a gate: it never
-runs automatically, never becomes a mandatory step, and never changes the main
-workflow sequence. Its entire output stays in the conversation — it does not
-implement code, approve artifacts, write to `status.yaml`, or create any
-persistent parallel source of state.
+Facilitate one bounded, optional discussion. It stays in conversation and is
+not a gate, workflow step, or parallel source of state.
 
 ## Contracts
 
-- Persona selection and dispatch follow
-  [../flox-personas/references/contracts/persona-consumer-contract.md](../flox-personas/references/contracts/persona-consumer-contract.md).
-- Response shape follows
-  [../flox-personas/references/contracts/output-contract.md](../flox-personas/references/contracts/output-contract.md),
-  omitting artifact and status sections because Party Mode is conversation-only.
+Apply the persona-safety and output portions of the shared
+[workflow contract](../flox-personas/references/contracts/workflow-contract.md);
+this conversation-only skill is exempt from Setup/status routing and writes.
 
 ## Preconditions
 
-- **Explicit authorization.** Convene only after the person explicitly
-  requests or authorizes Party Mode for the current decision. Authorization is
-  opt-in per use, renewed each time, and never inherited from a previous
-  session or an unrelated approval. If it is absent or ambiguous, ask before
-  starting.
-- **One bounded decision.** Require a single delimited decision before
-  convening anyone. Capture, in the configured `file_language`, the decision
-  statement, its scope, the options under consideration, and the risk/impact
-  and outcome that matter. If the decision is missing, unbounded, or actually
-  several decisions, stop and ask the person to narrow it to one bounded
-  question. Do not expand scope, invent options, or turn the discussion into a
-  source of requirements.
+Require explicit per-use authorization and one bounded decision. If either is
+missing, ambiguous, or actually several decisions, stop and ask for it. Keep
+the decision statement, scope, options, risk/impact, and desired outcome in
+configured `file_language`; do not expand scope or invent requirements.
 
 ## Workflow
 
-1. Confirm authorization and the bounded decision.
-2. Request persona selection from `$flox-personas` with the sanitized
-   objective, scope, risk/impact, decision needed, and minimum context.
-3. Present each persona's contribution separately, labeled before any
-   consolidation, using the shared contribution shape and the card's voice.
-   When personas disagree, preserve both positions with their evidence; do not
-   resolve the disagreement with an automatic decision.
-4. Add one concise recommendation addressed to the decision owner. Record who
-   coordinates and who decides, and make clear the human decision remains the
-   configured decision owner's responsibility and that the convocation only
-   supports it. Never present the recommendation as an approval or resolved
-   outcome.
+1. Confirm authorization and the decision.
+2. Request `$flox-personas` with sanitized objective, scope, risk/impact,
+   decision, and minimum context.
+3. Present each contribution separately before consolidation and preserve
+   disagreements with their evidence.
+4. Give one concise recommendation to the configured decision owner, naming
+   coordinator and decision owner; never present it as approval.
 
 ## Boundaries
 
-- Do not create, modify, split, merge, or approve any PRD, Epic, Story,
-  Architecture, UX, or Design System artifact.
-- Do not implement product code, run tests as a gate, or perform Dev Story,
-  Review, Pentest, Quality, or Release work.
-- Do not change `status.yaml` or create any other persistent index; the
-  session leaves no artifact and no parallel source of state.
+Do not create or approve artifacts, implement code, run gates, change
+`status.yaml`, or create persistent state. Party Mode is optional facilitation,
+not a gate or a workflow step.
 
 ## Output
 
-Return the bounded decision, the labeled persona contributions, and the
-coordinator's single recommendation to the decision owner, stating who
-coordinates and who decides. Do not return raw YAML, tool traces, or an
-anonymous list, and do not imply the session changed any artifact or status.
+Return the bounded decision, labeled contributions, and one recommendation with
+coordinator and decision owner. Do not return raw YAML or imply an artifact or
+status change. Omit `## Changed files`.

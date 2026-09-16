@@ -84,37 +84,51 @@ code review (STEM) verifica; cada check mapeia a um acceptance criterion.
     manager declarado pelo projeto.
   - Resultado esperado: dependências locais e hook são instalados sem pacote
     global ou secret.
-  - Evidência (dev-story):
+  - Evidência (dev-story): `npm ci --ignore-scripts` passou no workspace; `npm run prepare` passou no workspace e em repositório temporário, instalando o hook sem dependência global.
 - [ ] **Check 2 — Mensagens válida e inválida, mapeado ao AC-002**
   - Passos: executar a validação contra uma mensagem Conventional Commit e uma
     mensagem sem a estrutura mínima.
   - Resultado esperado: a primeira retorna sucesso e a segunda retorna falha
     com diagnóstico compreensível.
-  - Evidência (dev-story):
+  - Evidência (dev-story): `chore: validate local hooks` retornou `0`; `invalid commit message` retornou `1` com `subject-empty` e `type-empty`.
 - [ ] **Check 3 — Hook no commit normal, mapeado ao AC-003**
   - Passos: criar um commit válido e um inválido pelo fluxo normal do Git, sem
     chamar o Commitlint manualmente.
   - Resultado esperado: o Lefthook aciona o Commitlint local; o válido passa e
     o inválido é bloqueado.
-  - Evidência (dev-story):
+  - Evidência (dev-story): em repositório temporário, commit válido passou pelo hook e commit inválido foi bloqueado pelo Lefthook.
 - [ ] **Check 4 — Histórico preservado, mapeado ao AC-004**
   - Passos: comparar `HEAD` e o histórico antes e depois de uma tentativa de
     commit inválido.
   - Resultado esperado: a tentativa inválida não cria commit e o erro orienta
     a correção da mensagem.
-  - Evidência (dev-story):
+  - Evidência (dev-story): `HEAD` permaneceu inalterado após a tentativa inválida no repositório temporário.
 - [ ] **Check 5 — Escopo do diff, mapeado ao AC-005**
   - Passos: inspecionar os arquivos alterados pela Story.
   - Resultado esperado: somente manifesto/lockfile, configuração e ativação do
     tooling aparecem; não há runtime frontend, qualidade posterior, CI/CD ou
     produto.
-  - Evidência (dev-story):
+  - Evidência (dev-story): diff de implementação limitado a `.gitignore`, `package.json`, `package-lock.json`, `commitlint.config.cjs`, `lefthook.yml` e `status.yaml`; a Story foi apenas atualizada com estas evidências, e nenhum arquivo de produto ou CI foi alterado.
 - [ ] **Check 6 — Segurança e bypass, mapeado ao AC-006**
   - Passos: repetir a instalação e os commits sem credenciais; observar também
     o comportamento de `--no-verify` como limitação explícita.
   - Resultado esperado: nenhum valor sensível é impresso; o bypass não é
     apresentado como validação e um commit normal continua sujeito ao hook.
-  - Evidência (dev-story):
+  - Evidência (dev-story): varredura de secrets limpa; commit com `--no-verify` passou apenas no repositório temporário e nova mensagem inválida normal voltou a ser bloqueada.
+
+## Implementation Evidence
+
+- T1–T3 executadas pelo owner Dinesh Chugtai: bootstrap mínimo do npm,
+  dependências locais de Commitlint/Lefthook, configuração Conventional Commits
+  e hook `commit-msg`.
+- T4 validada: `npm install --package-lock-only --ignore-scripts`, `npm ci
+  --ignore-scripts`, `npm ls --depth=0`, `lefthook validate`,
+  `lefthook check-install` e `npm run prepare` passaram; a reinstalação manteve
+  o hash `19368623deefd800b6c223292201fe4c3e10e6b5a89e2d543324aad738c7c22f`.
+- O teste de commit foi executado em repositório temporário e removido ao final.
+  O histórico do Postify não recebeu commits de teste.
+- A implementação está na branch `chore/story-001-commitlint-lefthook`, criada
+  a partir de `develop` conforme o GIT-ROADMAP.
 
 ## References
 
@@ -129,3 +143,151 @@ Decision owner: Isaac
 Decision: approved
 Decided at: 2026-09-03
 Justification: Story aprovada explicitamente pelo usuário.
+
+## Code Review ledger
+
+review_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+correction_handoffs: 0
+findings: []
+
+## Human decision record
+
+decision: approved
+decision_owner: Isaac
+decided_at: 2026-09-03
+justification: A revisão técnica confirmou os seis checks do Test Plan, sem findings correlacionados e dentro do escopo aprovado.
+risk_acceptance: []
+
+## Risk assessment
+
+decision: pentest waived
+responsible: Isaac
+criteria_applied: A mudança está restrita ao tooling local de commits e não altera frontend, autenticação, autorização, dados, Storage, Edge Functions, webhooks, integrações de IA, PWA ou cache.
+justification: O diff não alcança superfícies cobertas pelo roteiro de Pentest e não contém secrets, credenciais ou chamadas externas de produto.
+residual_risk: O bypass local com `--no-verify` permanece possível, conforme explicitamente documentado no Story; checks posteriores de CI e revisão de código continuam necessários.
+
+## Quality convergence ledger
+
+work_item_id: STORY-001
+gate: quality
+candidate_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+anchor_history:
+  - round: 1
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+  - round: 2
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+  - round: 3
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+round: 3
+correction_handoffs: 1
+frozen_scope:
+  roadmap_id: quality
+  roadmap_version: "1.2"
+  methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+  surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
+criteria:
+  - id: quality.install.v1
+    state: passed
+    origin_round: 1
+  - id: quality.typecheck.v1
+    state: passed
+    applicability: not_applicable
+    origin_round: 2
+  - id: quality.tests.v1
+    state: passed
+    applicability: not_applicable
+    origin_round: 2
+  - id: quality.build.v1
+    state: passed
+    origin_round: 2
+
+conditional_results:
+  - criterion: "UI condicional"
+    state: not_applicable
+    origin_round: 2
+    reason: "AC-005 exclui UI e comportamento de produto"
+
+## Quality evidence
+
+- work_item_id: STORY-001
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts; npm run prepare"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 0; 77 packages added"
+  prepare_result: "exit 0; hook do Lefthook instalado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-001
+  criterion: quality.typecheck.v1
+  method: "npm run typecheck"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: typecheck"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: quality.tests.v1
+  method: "npm test"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: test"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: quality.build.v1
+  method: "npm run build"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-15
+  result: "exit 1; Missing script: build"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "navegador local"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9"
+  date: 2026-09-15
+  result: "não aplicável; o candidato não possui superfície de UI"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+
+- work_item_id: STORY-001
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-15
+  result: "install/prepare passaram; typecheck/test/build not_applicable pelo snapshot e AC-005"
+  evaluator: "Felicity Smoak 🧪"
+  decision: pending_approval
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual somente quando aplicável"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Chrome conectado"
+  date: 2026-09-15
+  result: "AC-005 exclui UI e comportamento de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+- work_item_id: STORY-001
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-16
+  result: "install/prepare passaram; typecheck/test/build not_applicable pelo snapshot e AC-005"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: verificação manual somente para candidato com UI"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9"
+  date: 2026-09-16
+  result: "not_applicable; a Story não possui superfície de UI ou fluxo de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+quality_result: approved
+decision_owner: Isaac
+quality_approval:
+  candidate_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o Quality para STORY-001 após a contribuição pass de Felicity Smoak e a confirmação dos critérios aplicáveis."
+next_action: "executar flox-release"

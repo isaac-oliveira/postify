@@ -7,14 +7,20 @@ against a hostile concurrent process that can write to the workspace. If
 concurrent mutation is detected or reasonably expected, stop without reading,
 displaying, or writing the artifact.
 
+## Validation dependency
+
+Apply [validation-contract.md](validation-contract.md) before reading or
+writing an artifact. It owns shared sanitization, limits, safe names and
+paths, containment, no-symlink checks, secret scanning, and fail-closed
+rejection. This contract retains the artifact-specific bootstrap, frontmatter,
+and read/write policies.
+
 ## ID and slug normalization
 
 - Normalize the artifact ID token to uppercase ASCII alphanumerics separated
   only by single hyphens, and the slug to lowercase ASCII alphanumerics
-  separated only by single hyphens.
-- Reject empty values, leading or trailing hyphens, repeated hyphens, dot
-  segments, control characters, percent-encoded separators, and any `/` or
-  `\`. Do not silently repair an unsafe value.
+  separated only by single hyphens, applying the shared ID and path rejection
+  rules from `validation-contract.md`.
 - The artifact filename is exactly `<PREFIX>-<id>-<slug>.md` beneath its
   canonical root (for example `PRD-…` under `planning/prds/`, `EPIC-…` under
   `implementations/epics/`, `STORY-…` under `implementations/stories/`,
@@ -36,10 +42,10 @@ displaying, or writing the artifact.
 
 ## Root bootstrap and containment
 
-- Bootstrap from the expected existing canonical ancestor `.flox/artifacts/`;
-  `status.yaml` establishes that configured context. Validate `.flox` and
-  `artifacts` individually as real directories with no-follow checks. Stop if
-  `.flox/artifacts/` is absent.
+- Bootstrap from the expected existing canonical ancestor `.flox/artifacts/`,
+  applying the shared containment and no-symlink checks. `status.yaml`
+  establishes that configured context. Validate `.flox` and `artifacts`
+  individually as real directories. Stop if `.flox/artifacts/` is absent.
 - For each missing intermediate component (for example `planning` then
   `prds`): confirm that exact component is still absent, create only it with a
   non-recursive, no-overwrite operation, then resolve and revalidate it as a
@@ -48,10 +54,9 @@ displaying, or writing the artifact.
   directory and perform the same resolution, strict-child, type, and
   no-symlink validation. Never use unrestricted recursive directory creation.
 - Only after the root validates, construct the candidate destination, resolve
-  it, and prove it remains a strict child of the canonical root. Inspect
-  every existing path component from `.flox` through the destination with a
-  no-follow check and refuse the write if any component or the destination is
-  a symbolic link.
+  it, and prove it remains a strict child of the canonical root using the
+  shared filesystem checks. Refuse the write if any component or the
+  destination is a symbolic link.
 - Producer order is fixed: bootstrap and revalidate the root → resolve root
   and candidate → prove strict-child containment → run the destination checks
   below.
@@ -59,9 +64,9 @@ displaying, or writing the artifact.
 ## Reads and writes
 
 - Treat any artifact path routed through `status.yaml` as untrusted input:
-  apply the same filename, containment, and no-follow rules before reading
-  it, and require the frontmatter `id` to equal the ID encoded in the safe
-  filename.
+  apply `validation-contract.md` and the artifact filename rules before
+  reading it, and require the frontmatter `id` to equal the ID encoded in the
+  safe filename.
 - Use one validated read for frontmatter parsing, secret scanning and
   sanitization, persona context, and display when the host permits it; do not
   reopen the path unnecessarily. Repeat the path, containment, type, and
@@ -79,8 +84,9 @@ displaying, or writing the artifact.
 ## Frontmatter
 
 - Serialize `title` as a double-quoted YAML scalar using JSON-compatible
-  escaping; never interpolate a raw title. Reject line breaks or control
-  characters that cannot be represented safely.
+  escaping; never interpolate a raw title. Apply the shared text
+  sanitization rules and reject line breaks or control characters that cannot
+  be represented safely.
 - Require exactly one frontmatter block at the start of the file and exactly
   one occurrence of each required key. Reject duplicate keys, aliases,
   anchors, merge keys, tags, directives, alternate spellings, unknown keys,
@@ -89,16 +95,8 @@ displaying, or writing the artifact.
 
 ## Context and secret safety
 
-- Before dispatching any persona, build an explicit allowlist containing only
-  the request, relevant project context, relevant planning documents, and the
-  draft decisions. Scan allowlisted filenames and contents for sensitive
-  paths and secret patterns without printing matches. Never send `.env` or
-  other environment files, credentials, private keys, tokens, secrets, or
-  unrelated repository content. If the context cannot be scoped and
-  sanitized, fail closed and do not dispatch.
-- Apply the same protection to the artifact itself. Before persisting or
-  showing a draft, scan its filename, frontmatter, body, related links, and
-  persona contributions. Redact a sensitive value only when the surrounding
-  meaning remains accurate; otherwise fail closed and ask for a sanitized
-  replacement, then rescan. Never copy a matching value into an artifact,
-  `status.yaml`, a response, a log, or an error message.
+Before dispatching any persona or persisting/showing an artifact, apply the
+shared secret-scanning rules from `validation-contract.md` to the explicit
+allowlisted context or to the artifact filename, frontmatter, body, related
+links, and persona contributions. The consumer must retain its domain scope
+and must not expose a scan match.

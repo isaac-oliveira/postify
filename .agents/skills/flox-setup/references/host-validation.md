@@ -12,6 +12,18 @@ visible bytes, plus the device/inode of each ancestor directory from the
 `.flox` root through each reference. The fingerprint covers prose outside the
 structured roadmap block so contradictory content cannot survive a re-emission.
 
+Only the Setup producer performs this complete fingerprint validation. A
+downstream consumer may carry the validated result in its in-memory session
+snapshot, but it must not recalculate or replace the persisted fingerprint.
+
+`readProjectConfig` starts a validated session and exposes its in-memory
+snapshot as `config.session`. A downstream host operation may pass that
+snapshot back with `{ session }` to reuse the parsed configuration without
+reopening the referenced files. A new session is required after a transition,
+item change, or detected mutation; `{ validateSetup: false }` is reserved for
+consumer reads that only need configuration values before an operation that
+invalidates Setup.
+
 Configuration writes use the per-configuration lock, no-follow checks, and
 target-identity checks. On Darwin, the implementation commits to the already-
 open target descriptor under the lock and syncs before release; this closes

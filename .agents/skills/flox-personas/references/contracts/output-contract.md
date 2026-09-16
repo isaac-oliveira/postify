@@ -32,3 +32,10 @@ State exactly one actionable next step. At proposal, request explicit
 approval of the exact artifact; after approval, point to the single
 downstream consumer. For a terminal completion, state that no further action
 is pending instead of inventing a persisted `next_action`.
+
+## Changed files
+
+When the skill creates or modifies artifacts, end the response with this
+section and list every created or modified path relative to the project root.
+Use one entry per path and identify whether it was created or modified. A
+read-only or conversation-only skill omits this section.

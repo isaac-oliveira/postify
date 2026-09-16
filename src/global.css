@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import "./styles/tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--c-background-900);
+  color: var(--c-content-950);
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+.app-shell {
+  display: grid;
+  min-height: 100dvh;
+  place-items: center;
+  padding: var(--s-xl);
+  overflow-x: hidden;
+}
+
+.app-shell__content {
+  display: grid;
+  width: min(100%, 32rem);
+  min-width: 0;
+  justify-items: center;
+  gap: var(--s-md);
+  text-align: center;
+}
+
+.app-shell__logo {
+  display: block;
+  width: min(100%, 20rem);
+  height: auto;
+}
+
+.app-shell__version {
+  max-width: 100%;
+  margin: 0;
+  color: var(--c-content-600);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  overflow-wrap: anywhere;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
