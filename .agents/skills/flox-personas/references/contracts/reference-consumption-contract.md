@@ -7,9 +7,11 @@ are respected without turning recommendations into obligations.
 
 ## Applicability
 
-- When creating or executing a Story, check `status.yaml` and the planning
-  directories for an **approved** Architecture, UX, or Design System
-  reference whose applicability scope covers the target work item.
+- When creating or executing a Story, use the session snapshot from the shared
+  workflow contract and resolve an **approved** Architecture, UX, or Design
+  System reference whose applicability scope covers the target work item.
+  At a new session start, read the linked planning directory; during a handoff,
+  reuse the already validated reference instead of reopening it.
 - Record the result in the Story's **References** section — one line per
   reference type stating applicable `yes/no`, and when applicable, the
   approved version plus exactly what is consumed:
@@ -40,6 +42,10 @@ System, or flows from an Architecture reference.
   part of the Story validation plan. A detected divergence blocks the
   affected segment and returns to the person; the implementer never
   "corrects" a reference on their own.
+
+Reference content is immutable for the session. A transition, item change, or
+detected mutation requires a new validated read; do not recalculate the Setup
+fingerprint in a downstream skill.
 
 ## Authorization
 

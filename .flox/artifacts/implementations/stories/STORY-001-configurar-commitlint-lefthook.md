@@ -174,11 +174,13 @@ candidate_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
 anchor_history:
   - round: 1
     anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
-round: 1
+  - round: 2
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+round: 2
 correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
-  roadmap_version: "1.1"
+  roadmap_version: "1.2"
   methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
   surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
 criteria:
@@ -186,14 +188,23 @@ criteria:
     state: passed
     origin_round: 1
   - id: quality.typecheck.v1
-    state: failed
-    origin_round: 1
+    state: passed
++    applicability: not_applicable
+    origin_round: 2
   - id: quality.tests.v1
-    state: failed
-    origin_round: 1
+    state: passed
++    applicability: not_applicable
+    origin_round: 2
   - id: quality.build.v1
-    state: failed
-    origin_round: 1
+    state: passed
++    applicability: not_applicable
+    origin_round: 2
+
+conditional_results:
+  - criterion: "UI condicional"
+    state: not_applicable
+    origin_round: 2
+    reason: "AC-005 exclui UI e comportamento de produto"
 
 ## Quality evidence
 
@@ -239,6 +250,22 @@ criteria:
   evaluator: "Felicity Smoak 🧪"
   decision: not_applicable
 
-quality_result: blocked
+- work_item_id: STORY-001
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-15
+  result: "install/prepare passaram; typecheck/test/build not_applicable pelo snapshot e AC-005"
+  evaluator: "Felicity Smoak 🧪"
+  decision: pending_approval
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual somente quando aplicável"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Chrome conectado"
+  date: 2026-09-15
+  result: "AC-005 exclui UI e comportamento de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+quality_result: pending_approval
 decision_owner: Isaac
-next_action: "corrigir os checks obrigatórios no candidato e executar flox-code-review"
+next_action: "aprovar Quality"

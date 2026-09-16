@@ -5,68 +5,41 @@ description: Produce one versioned, approvable Architecture reference for a plan
 
 # Flox Architecture
 
-Produce a single versioned, approvable Architecture reference capturing the
-technical boundaries, responsibilities, and decisions for a planned change.
-This optional upstream workflow creates and approves the reference only; it
-never creates Epics, Stories, specs, or product code, and never runs
-automatically. The user is the final decision owner.
+Produce one approved, versioned technical-limits reference. It never runs
+automatically and does not create planning children or product code.
 
 ## Contracts
 
-- Optional-reference workflow (permission, personas, versioning, preview,
-  approval, shared boundaries):
-  [../flox-personas/references/contracts/optional-reference-workflow.md](../flox-personas/references/contracts/optional-reference-workflow.md).
-- Persona selection and dispatch:
-  [../flox-personas/references/contracts/persona-consumer-contract.md](../flox-personas/references/contracts/persona-consumer-contract.md).
-- Reference file safety and frontmatter (`id`, `title`, `version`, `status`):
-  [../flox-personas/references/contracts/artifact-safety-contract.md](../flox-personas/references/contracts/artifact-safety-contract.md).
-- Setup marker, `status.yaml` schema 2, and localization:
-  [../flox-personas/references/contracts/status-contract.md](../flox-personas/references/contracts/status-contract.md).
-- Layer precedence and downstream consumption:
-  [../flox-personas/references/contracts/reference-consumption-contract.md](../flox-personas/references/contracts/reference-consumption-contract.md).
-- Response shape:
-  [../flox-personas/references/contracts/output-contract.md](../flox-personas/references/contracts/output-contract.md).
+Apply the shared [workflow contract](../flox-personas/references/contracts/workflow-contract.md)
+and [optional-reference workflow](../flox-personas/references/contracts/optional-reference-workflow.md).
 
-## Layer and scope
+This skill owns structure, code style, technical boundaries, contracts, and
+responsibilities. Story creation and Dev Story consume the approved version.
 
-This skill owns the technical-limits layer only: folder and module structure,
-code style, contracts and technical boundaries, responsibilities and
-ownership. It never redefines UX experience or Design System component
-contracts, and it must not become a competing source of truth for PRDs,
-Epics, UX, or Design System. The approved reference is consumed downstream by
-`$flox-create-story` and `$flox-dev-story` by version.
+## Preconditions
+
+Require explicit permission and a planned technical decision. Do not redefine
+PRD, Epic, UX, or Design System content.
 
 ## Workflow
 
-Follow the optional-reference workflow. Beyond its shared steps:
-
-1. Confirm explicit permission and that the request is an architecture
-   decision or boundary task for a planned change.
-2. Build the reference from
-   [assets/architecture-template.md](assets/architecture-template.md) under
-   `.flox/artifacts/planning/architecture/ARCH-<id>-<slug-curto>-v<version>.md`,
-   using one to three short keywords such as `ARCH-001-cli-modules-v1.md`.
-   Fill applicability scope, structure, code style, requested rules, contracts
-   and boundaries, responsibilities, concrete examples, and separate sections
-   for facts, decisions, assumptions, and open gaps.
-3. Give pragmatic Clean Code and Design Patterns guidance suited to a solo
-   developer. Present examples and patterns as guidance, not rigid rules; do
-   not promote an example or pattern into a mandatory rule without an explicit
-   user decision recorded under decisions.
-4. Update `status.yaml` with `next_action: "approve Architecture"`, then request
-   explicit approval of the exact version.
+Follow the optional-reference workflow. Use
+[assets/architecture-template.md](assets/architecture-template.md) to create
+`.flox/artifacts/planning/architecture/ARCH-<id>-<slug-curto>-v<version>.md`
+with one to three short keywords. Record applicability, structure, style,
+rules, contracts, boundaries, responsibilities, examples, facts, decisions,
+assumptions, and gaps. Treat Clean Code and Design Patterns as guidance until
+the person explicitly records a rule. Set `next_action: "approve Architecture"`
+and request approval of the exact version.
 
 ## Boundaries
 
-Beyond the shared optional-reference boundaries: do not create, approve,
-split, merge, or materially rewrite a PRD, Epic, or Story; do not change UX,
-Design System, roadmaps, or setup preferences; and keep the reference scoped
-to technical architecture decisions.
+Do not implement code, create or approve Stories, or modify PRDs, Epics, UX,
+Design System, roadmaps, or Setup preferences. Never make a recommendation or
+preview authoritative without explicit approval.
 
 ## Output
 
-Follow the output contract. While the proposal is pending, revise the same
-version in place — never open a new version before approval. At proposal,
-request explicit approval; on approval, mark that version approved, remove the
-reference item from `work_items`, and point to `$flox-create-story` as the
-consumer of the approved version.
+Follow the output contract. At proposal request approval; after approval mark
+the exact version approved, remove its reference item, and point to
+`$flox-create-story`. End with `## Changed files` and all relative paths.

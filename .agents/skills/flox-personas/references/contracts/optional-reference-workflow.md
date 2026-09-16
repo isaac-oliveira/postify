@@ -14,8 +14,9 @@ and ask; do not infer scope from a broad request.
 
 ## Shared flow
 
-1. Follow `status-contract.md`: read `status.yaml` first, resolve the target
-   work item, and require a valid Setup marker before any write.
+1. Follow `status-contract.md`: at a new session start, read `status.yaml`
+   first and resolve the target work item; on a same-session handoff, consume
+   its validated snapshot. Require a valid Setup marker before any write.
 2. Delegate persona selection to `$flox-personas` per
    `persona-consumer-contract.md`.
 3. Scope the reference: identify the decisions needed, constraints, risks,

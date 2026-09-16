@@ -255,11 +255,13 @@ anchor_history:
     anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
   - round: 2
     anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
-round: 2
-correction_handoffs: 0
+  - round: 3
+    anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+round: 3
+correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
-  roadmap_version: "1.1"
+  roadmap_version: "1.2"
   methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
   surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
 criteria:
@@ -275,6 +277,12 @@ criteria:
   - id: quality.build.v1
     state: passed
     origin_round: 1
+
+conditional_results:
+  - criterion: "UI condicional"
+    state: failed
+    origin_round: 3
+    reason: "Felicity observou erro de console na rota desconhecida e ausência de evidência para zoom 400%"
 
 ## Quality evidence
 
@@ -329,6 +337,22 @@ criteria:
   evaluator: "Felicity Smoak 🧪"
   decision: passed
 
-quality_result: pending_approval
+- work_item_id: STORY-012
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-15
+  result: "install/prepare/typecheck/test/build passaram; UI bloqueou por erro de console em rota desconhecida e falta de evidência do zoom 400%"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-012
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual somente quando aplicável"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Chrome conectado"
+  date: 2026-09-15
+  result: "Felicity observou erro de console na rota desconhecida e ausência de evidência para zoom 400%"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+quality_result: blocked
 decision_owner: Isaac
-next_action: "aprovar Quality"
+next_action: "corrigir o erro de console da rota desconhecida, comprovar zoom 400% e executar flox-code-review"

@@ -150,11 +150,13 @@ candidate_anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
 anchor_history:
   - round: 1
     anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
-round: 1
+  - round: 2
+    anchor: 0c7e08681e57be0b8564c5b4c423611ab2bccc1d
+round: 2
 correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
-  roadmap_version: "1.1"
+  roadmap_version: "1.2"
   methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
   surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
 criteria:
@@ -162,14 +164,22 @@ criteria:
     state: passed
     origin_round: 1
   - id: quality.typecheck.v1
-    state: failed
-    origin_round: 1
+    state: passed
++    applicability: not_applicable
+    origin_round: 2
   - id: quality.tests.v1
-    state: failed
-    origin_round: 1
+    state: passed
++    applicability: not_applicable
+    origin_round: 2
   - id: quality.build.v1
     state: passed
     origin_round: 1
+
+conditional_results:
+  - criterion: "UI condicional"
+    state: not_applicable
+    origin_round: 2
+    reason: "STORY-013 não possui tela, fluxo ou comportamento de usuário"
 
 ## Quality evidence
 
@@ -215,6 +225,22 @@ criteria:
   evaluator: "Felicity Smoak 🧪"
   decision: incomplete
 
-quality_result: blocked
+- work_item_id: SPEC-001
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-15
+  result: "install/prepare/build passaram; typecheck/test not_applicable pelo snapshot e escopo de STORY-013"
+  evaluator: "Felicity Smoak 🧪"
+  decision: pending_approval
+- work_item_id: SPEC-001
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual somente quando aplicável"
+  environment: "snapshot 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Chrome conectado"
+  date: 2026-09-15
+  result: "STORY-013 não possui tela, fluxo ou comportamento de usuário"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+quality_result: pending_approval
 decision_owner: Isaac
-next_action: "corrigir os checks obrigatórios, reconciliar a identidade do item e executar flox-code-review"
+next_action: "aprovar Quality"

@@ -5,56 +5,43 @@ description: Load focused, provider-agnostic persona cards for Flox planning, pa
 
 # Flox Personas
 
-A persona is a functional role with a focused point of view — not a character
-imitation and not a replacement for evidence or project rules. This skill is
-the portable persona catalog: it owns the role map, returns only the smallest
-set a task justifies, and defines the contract every consumer follows. It does
-not run a workflow, approve an artifact, or change status.
+Provide the smallest provider-agnostic set of functional roles justified by a
+sanitized request. This catalog does not run workflows, approve artifacts, or
+change status.
 
 ## Contracts
 
-- Consumers (every workflow skill) follow
-  [references/contracts/persona-consumer-contract.md](references/contracts/persona-consumer-contract.md):
-  the closed request/response schemas, safe card resolution, race-safe reads,
-  and dispatch rules. Read it before requesting or dispatching personas.
-
-## Catalog responsibility
-
-1. Accept only the closed selection request defined in the consumer contract;
-   revalidate every field and the sanitized context, and stop closed on any
-   failure without selecting a persona.
-2. Select the smallest set of roles the sanitized request justifies. Current
-   roles include Jared Dunn (planning and scope), Gilfoyle (architecture),
-   Dinesh Chugtai (implementation), STEM (correction and regression review),
-   Felicity Smoak (tests), Elliot Alderson (security), and Maeve Millay (UX).
-   The returned set changes with the request; callers must not assume a
-   permanent roster.
-3. Return only the closed response object: selected persona IDs, names,
-   emojis, roles, concise justifications, and the coordinator and decision
-   owner. The decision owner is always the person configured in `[user] name`
-   of `.flox/config.toml`, with `role: decision owner`.
-4. Read each selected card once from `references/personas/<id>.md` through the
-   race-safe contract, keeping the persona's voice for tone only.
-5. Consolidate contributions with the shared contribution shape in the
-   consumer contract, keeping evidence separate from preference.
-
-## Voice and tone
-
-Use the card's voice only to shape communication: Jared organized and warm,
-Maeve empathetic and incisive, Gilfoyle deliberate and systemic, Dinesh
-direct and pragmatic, STEM cold and exact, Felicity energetic and
-investigative, Elliot quiet and adversarial. Do not imitate dialogue, scenes,
-catchphrases, or mannerisms, and do not copy protected text from the
-referenced works.
+Apply [persona-consumer-contract.md](references/contracts/persona-consumer-contract.md)
+and its [validation contract](references/contracts/validation-contract.md) for
+closed request/response shapes, safe IDs and paths, secret scanning,
+descriptor-safe cards, and dispatch.
 
 ## Boundaries
 
-- Do not select a persona, card, or criterion locally to recover from a
-  rejected request; stop closed and let the caller reduce and sanitize it.
-- Do not send secrets or unrelated project context to a persona.
-- Keep the active set small enough that contributions can be compared and
-  consolidated. Review personas report findings and checks; product changes
-  stay under the coordinator's explicit task scope.
-- If this catalog, its dependency, or any returned card is unavailable, stop
-  the dependent workflow and instruct the person to run `flox update` or
-  install the complete `software-dev` module.
+The complete roster is the identity table below; the card basename is the
+stable ID and display fields are not aliases (`gilfoyle` is not an ID). Select only the smallest set
+justified by the request, never a substitute after rejection, and do not send
+secrets or unrelated context. The decision owner is always the configured
+person with `role: decision owner`.
+
+| ID | Display name | Emoji | Role | Card |
+| --- | --- | --- | --- | --- |
+| `jared-dunn` | Jared Dunn | 📋 | planning and scope | `references/personas/jared-dunn.md` |
+| `bertram-gilfoyle` | Gilfoyle | 🏗️ | architecture | `references/personas/bertram-gilfoyle.md` |
+| `dinesh-chugtai` | Dinesh Chugtai | 💻 | implementation | `references/personas/dinesh-chugtai.md` |
+| `stem` | STEM | 🧬 | correction and regression review | `references/personas/stem.md` |
+| `felicity-smoak` | Felicity Smoak | 🧪 | tests | `references/personas/felicity-smoak.md` |
+| `elliot-alderson` | Elliot Alderson | 🛡️ | security | `references/personas/elliot-alderson.md` |
+| `maeve-millay` | Maeve Millay | 🎭 | UX | `references/personas/maeve-millay.md` |
+
+Resolve every selected card through the contract's containment, no-symlink,
+and race-safe read rules. Read each once, keep voice limited to tone, and
+record contributions separately with decision, evidence, risks, and next
+action. If the catalog, dependency, card, or safe runtime is unavailable,
+stop closed and direct the person to `flox update` or a complete module.
+
+## Output
+
+Return only the closed selection response: selected IDs with canonical names,
+emojis, roles, and justifications; coordinator; and configured decision owner.
+This skill produces no file artifacts; omit `## Changed files`.

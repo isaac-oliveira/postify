@@ -156,4 +156,4 @@ work_items:
     evidence:
       - "Quality 2026-09-15: work_item_id STORY-015, anchor 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; cinco checks locais passaram e a verificação de UI foi considerada não aplicável pelo escopo de tooling sem UI; resultado pending_approval."
 blocked: []
-updated_at: "2026-09-15T13:16:52Z"
+updated_at: "2026-09-15"

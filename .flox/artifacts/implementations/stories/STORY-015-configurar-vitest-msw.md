@@ -238,11 +238,13 @@ anchor_history:
     anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
   - round: 2
     anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
-round: 2
+  - round: 3
+    anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+round: 3
 correction_handoffs: 0
 frozen_scope:
   roadmap_id: quality
-  roadmap_version: "1.1"
+  roadmap_version: "1.2"
   methods: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
   surfaces_or_criteria: [quality.install.v1, quality.typecheck.v1, quality.tests.v1, quality.build.v1]
 criteria:
@@ -258,6 +260,12 @@ criteria:
   - id: quality.build.v1
     state: passed
     origin_round: 1
+
+conditional_results:
+  - criterion: "UI condicional"
+    state: not_applicable
+    origin_round: 3
+    reason: "Felicity confirmou escopo de tooling sem UI, shell, rotas ou comportamento de produto"
 
 ## Quality evidence
 
@@ -312,6 +320,22 @@ criteria:
   evaluator: "Felicity Smoak 🧪"
   decision: passed
 
+- work_item_id: STORY-015
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-15
+  result: "install/prepare/typecheck/test/build passaram; UI not_applicable pelo escopo aprovado"
+  evaluator: "Felicity Smoak 🧪"
+  decision: pending_approval
+- work_item_id: STORY-015
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual somente quando aplicável"
+  environment: "snapshot 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Chrome conectado"
+  date: 2026-09-15
+  result: "Felicity confirmou escopo de tooling sem UI, shell, rotas ou comportamento de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
 quality_result: pending_approval
 decision_owner: Isaac
 next_action: "aprovar Quality"

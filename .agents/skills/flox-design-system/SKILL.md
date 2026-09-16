@@ -5,79 +5,43 @@ description: Produce one versioned, approvable Design System reference and a lin
 
 # Flox Design System
 
-Produce the single versioned Design System reference (plus an HTML
-demonstration preview) that optional Flox planning may consume before
-`$flox-create-story` and `$flox-dev-story`. Create a proposal and wait for
-explicit user approval. Never implement product components, approve or adopt
-the reference, run another workflow skill, or create a parallel producer.
+Produce one versioned Design System reference and bound HTML demonstration
+before Story/Dev Story when the optional workflow is authorized.
 
 ## Contracts
 
-- Optional-reference workflow (permission, personas, versioning, preview,
-  approval, shared boundaries):
-  [../flox-personas/references/contracts/optional-reference-workflow.md](../flox-personas/references/contracts/optional-reference-workflow.md).
-- Persona selection and dispatch:
-  [../flox-personas/references/contracts/persona-consumer-contract.md](../flox-personas/references/contracts/persona-consumer-contract.md).
-- Reference file safety and frontmatter:
-  [../flox-personas/references/contracts/artifact-safety-contract.md](../flox-personas/references/contracts/artifact-safety-contract.md).
-- Setup marker, `status.yaml` schema 2, and localization:
-  [../flox-personas/references/contracts/status-contract.md](../flox-personas/references/contracts/status-contract.md).
-- Layer precedence and downstream consumption:
-  [../flox-personas/references/contracts/reference-consumption-contract.md](../flox-personas/references/contracts/reference-consumption-contract.md).
-- Response shape:
-  [../flox-personas/references/contracts/output-contract.md](../flox-personas/references/contracts/output-contract.md).
+Apply the shared [workflow contract](../flox-personas/references/contracts/workflow-contract.md)
+and [optional-reference workflow](../flox-personas/references/contracts/optional-reference-workflow.md).
 
-## Layer and scope
+This skill owns only component contracts. Approved Architecture/UX decisions
+constrain it; an approved version, not its preview or provider copy, is the
+authority for tokens, components, props, variants, and states.
 
-This skill owns the component-contract layer only. When Architecture is
-applicable, respect its technical boundaries; when UX is applicable, align
-components to its flows, screens, and states instead of redefining the
-experience. The approved reference is the only authoritative source for its
-tokens, components, props, and variants — a preview, an imported rule, or a
-provider copy never becomes authority without a valid version and explicit
-approval. Do not assert design audits, usability testing, brand research, or
-component inventories that were not performed.
+## Preconditions
 
-## Existing-system reuse
-
-Before proposing any new rule, identify whether the project already has a
-usable Design System, component library, token set, or theme by inspecting the
-relevant context, dependencies, and code. If a usable system exists, reuse and
-consume its approved tokens, components, props, variants, and states instead
-of inventing parallel ones; do not create a competing Design System without an
-explicit user decision recorded under decisions. Record the origin,
-applicability, decisions, and remaining gaps of any reused system.
+Require explicit permission and a planned component-contract decision. Inspect
+context, dependencies, and code for a usable existing system before proposing
+new rules. Do not claim audits, research, or inventories not performed.
 
 ## Workflow
 
-Follow the optional-reference workflow. Beyond its shared steps:
-
-1. Confirm explicit permission and a resolvable target work item.
-2. Identify or reuse an existing usable system, then scope the applicable
-   tokens, components, props/contracts, variants, states, responsive behavior,
-   and accessibility boundaries.
-3. Build the reference from
-   [assets/design-system-template.md](assets/design-system-template.md) under
-   `.flox/artifacts/planning/design-system/DS-<id>-<slug-curto>-v<version>.md`,
-   using one to three short keywords such as `DS-001-module-ui-v1.md`, and
-   produce `DS-<id>-<slug-curto>-v<version>.html` as the linked HTML
-   demonstration preview bound to the exact version.
-4. Update `status.yaml` with `next_action: "approve Design System"`, then
-   request explicit approval of the exact version.
+Follow the optional-reference workflow for one resolvable work item. Reuse an
+existing approved system when present and record its origin, applicability,
+decisions, and gaps. Otherwise use
+[assets/design-system-template.md](assets/design-system-template.md) to create
+`.flox/artifacts/planning/design-system/DS-<id>-<slug-curto>-v<version>.md`
+and the bound demonstration `DS-<id>-<slug-curto>-v<version>.html`. Scope
+tokens, components, props, variants, states, responsiveness, and accessibility;
+set `next_action: "approve Design System"` and request exact-version approval.
 
 ## Boundaries
 
-Beyond the shared optional-reference boundaries: do not create or modify PRDs,
-Epics, Architecture, UX, roadmaps, or Setup preferences; do not approve or
-adopt the reference on the user's behalf; and do not declare the work
-complete.
+Do not implement product components, modify PRDs, Epics, Architecture, UX,
+roadmaps, or Setup, approve/adopt the reference, or treat the preview as final.
 
 ## Output
 
-Follow the output contract, including the linked HTML preview marked as a
-demonstration, the reused-system origin, and the separated
-observations/assumptions/gaps. While the proposal is pending, revise the same
-version in place — never open a new version before approval. Ask the user to
-approve the proposed version or state the prerequisite that blocks it; on
-approval, mark that version approved and remove the reference item from
-`work_items`.
+Follow the output contract, including the demonstration preview, reused-system
+origin, and separated observations/assumptions/gaps. At proposal request
+approval; after approval mark the version approved and remove its item. End
+with `## Changed files` and every relative path.
