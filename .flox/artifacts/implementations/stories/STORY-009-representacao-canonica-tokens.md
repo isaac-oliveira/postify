@@ -245,6 +245,14 @@ conditional_results:
   result: "quality.install.v1 continua falhando antes de prepare, typecheck, tests, build e UI; correction_handoffs já está em 2"
   evaluator: "Felicity Smoak 🧪"
   decision: blocked
-quality_result: blocked
+quality_result: approved
 decision_owner: Isaac
-next_action: "decidir o tratamento do bloqueio de Quality no candidato"
+quality_override:
+  candidate_anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
+  decision_owner: Isaac
+  decision: approved
+  scope: "STORY-009; quality.install.v1 e os critérios dependentes deste candidato"
+  justification: "Isaac determinou override humano explícito e aceitou o risco de prosseguir apesar da falha de sincronização entre package.json e package-lock.json."
+  evidence: "npm ci --ignore-scripts falhou com package.json/package-lock.json fora de sincronia; faltam @types/node@22.20.3 e undici-types@6.21.0 no lockfile; correction_handoffs permanece em 2."
+  decided_at: 2026-09-16
+next_action: "executar flox-release"

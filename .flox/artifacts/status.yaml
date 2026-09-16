@@ -122,14 +122,15 @@ work_items:
       - "Quality 2026-09-16: work_item_id STORY-008, anchor 6714b2190a566392dbb8152afcee2c1762328ca9; Isaac aprovou explicitamente o Quality. Próximo gate: Release."
   - id: STORY-009
     kind: story
-    status: blocked
+    status: in-progress
     file: implementations/stories/STORY-009-representacao-canonica-tokens.md
-    next_action: "decidir o tratamento do bloqueio de Quality no candidato"
+    next_action: "executar flox-release"
     epic: EPIC-001
     risk_assessment: "pentest waived"
     evidence:
       - "Quality 2026-09-15: work_item_id STORY-009, anchor ed8f7b728f75759f5d030bfa9bb26f96298316b7; npm ci falhou por lockfile fora de sincronia, com @types/node@26.5.1 e undici-types@8.9.0 ausentes; demais comandos falharam por dependências ausentes; UI pendente. Resultado blocked."
       - "Quality 2026-09-16: work_item_id STORY-009, anchor ed8f7b728f75759f5d030bfa9bb26f96298316b7; npm ci falhou novamente no candidato exato por package.json/package-lock.json fora de sincronia, com @types/node@22.20.3 e undici-types@6.21.0 ausentes; correction_handoffs permanece em 2. Resultado blocked no limite de convergência."
+      - "Quality 2026-09-16: work_item_id STORY-009, anchor ed8f7b728f75759f5d030bfa9bb26f96298316b7; Isaac registrou override humano explícito para o escopo do critério falho e aceitou o risco documentado. Quality aprovado com override; próximo gate: Release."
   - id: STORY-010
     kind: story
     status: in-progress
