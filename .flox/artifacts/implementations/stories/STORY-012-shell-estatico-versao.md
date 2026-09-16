@@ -257,7 +257,9 @@ anchor_history:
     anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
   - round: 3
     anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
-round: 3
+  - round: 4
+    anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+round: 4
 correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
@@ -283,6 +285,10 @@ conditional_results:
     state: failed
     origin_round: 3
     reason: "Felicity observou erro de console na rota desconhecida e ausência de evidência para zoom 400%"
+  - criterion: "UI condicional"
+    state: passed
+    origin_round: 4
+    reason: "Reanálise confirmou que o log do ErrorBoundary na rota desconhecida é esperado, a raiz não tem erro de console e o Test Plan contém evidência de zoom 400%"
 
 ## Quality evidence
 
@@ -353,6 +359,27 @@ conditional_results:
   result: "Felicity observou erro de console na rota desconhecida e ausência de evidência para zoom 400%"
   evaluator: "Felicity Smoak 🧪"
   decision: blocked
-quality_result: blocked
+- work_item_id: STORY-012
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: dev/preview e verificação manual; evidência do Test Plan em Playwright/Chromium"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Chrome conectado"
+  date: 2026-09-16
+  result: "Reanálise confirmou centralização e ausência de overflow em viewports requeridos e zoom 400%; a rota desconhecida produz apenas o log esperado do ErrorBoundary, sem shell ou conteúdo de produto; a raiz não apresenta erro de console"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-012
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; Node 22.12.0; npm 10.9.0; Chrome conectado"
+  date: 2026-09-16
+  result: "install/prepare/typecheck/test/build passaram; UI passou após reconciliação da evidência do ErrorBoundary e do zoom 400%"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+quality_result: approved
 decision_owner: Isaac
-next_action: "corrigir o erro de console da rota desconhecida, comprovar zoom 400% e executar flox-code-review"
+quality_approval:
+  candidate_anchor: cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o candidato após a reanálise pass de Felicity Smoak e a confirmação dos quatro critérios obrigatórios e da UI condicional."
+next_action: "executar flox-release"

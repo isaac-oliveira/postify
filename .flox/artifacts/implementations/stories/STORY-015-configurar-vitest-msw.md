@@ -240,7 +240,9 @@ anchor_history:
     anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
   - round: 3
     anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
-round: 3
+  - round: 4
+    anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+round: 4
 correction_handoffs: 0
 frozen_scope:
   roadmap_id: quality
@@ -336,6 +338,11 @@ conditional_results:
   result: "Felicity confirmou escopo de tooling sem UI, shell, rotas ou comportamento de produto"
   evaluator: "Felicity Smoak 🧪"
   decision: not_applicable
-quality_result: pending_approval
+quality_result: approved
 decision_owner: Isaac
-next_action: "aprovar Quality"
+quality_approval:
+  candidate_anchor: 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o candidato após a contribuição pass de Felicity Smoak e os quatro critérios obrigatórios passarem."
+next_action: "executar flox-release"

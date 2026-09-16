@@ -176,7 +176,9 @@ anchor_history:
     anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
   - round: 2
     anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
-round: 2
+  - round: 3
+    anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+round: 3
 correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
@@ -189,15 +191,14 @@ criteria:
     origin_round: 1
   - id: quality.typecheck.v1
     state: passed
-+    applicability: not_applicable
+    applicability: not_applicable
     origin_round: 2
   - id: quality.tests.v1
     state: passed
-+    applicability: not_applicable
+    applicability: not_applicable
     origin_round: 2
   - id: quality.build.v1
     state: passed
-+    applicability: not_applicable
     origin_round: 2
 
 conditional_results:
@@ -266,6 +267,27 @@ conditional_results:
   result: "AC-005 exclui UI e comportamento de produto"
   evaluator: "Felicity Smoak 🧪"
   decision: not_applicable
-quality_result: pending_approval
+- work_item_id: STORY-001
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-16
+  result: "install/prepare passaram; typecheck/test/build not_applicable pelo snapshot e AC-005"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-001
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: verificação manual somente para candidato com UI"
+  environment: "snapshot 49e902f6f91b5a76e9d404f6cd585852fd00f1a9"
+  date: 2026-09-16
+  result: "not_applicable; a Story não possui superfície de UI ou fluxo de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+quality_result: approved
 decision_owner: Isaac
-next_action: "aprovar Quality"
+quality_approval:
+  candidate_anchor: 49e902f6f91b5a76e9d404f6cd585852fd00f1a9
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o Quality para STORY-001 após a contribuição pass de Felicity Smoak e a confirmação dos critérios aplicáveis."
+next_action: "executar flox-release"

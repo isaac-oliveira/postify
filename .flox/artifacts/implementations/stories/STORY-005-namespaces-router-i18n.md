@@ -213,7 +213,9 @@ anchor_history:
     anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
   - round: 2
     anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
-round: 2
+  - round: 3
+    anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
+round: 3
 correction_handoffs: 1
 frozen_scope:
   roadmap_id: quality
@@ -229,7 +231,7 @@ criteria:
     origin_round: 1
   - id: quality.tests.v1
     state: passed
-+    applicability: not_applicable
+    applicability: not_applicable
     origin_round: 2
   - id: quality.build.v1
     state: passed
@@ -240,6 +242,10 @@ conditional_results:
     state: incomplete
     origin_round: 2
     reason: "A evidência anterior registrou browser indisponível; a contribuição visual para este item ainda não retornou"
+  - criterion: "UI condicional"
+    state: not_applicable
+    origin_round: 3
+    reason: "Felicity confirmou que a Story cobre fundação de router/i18n sem tela ou fluxo de produto"
 
 ## Quality evidence
 
@@ -301,6 +307,27 @@ conditional_results:
   result: "A evidência anterior registrou browser indisponível; a contribuição visual para este item ainda não retornou"
   evaluator: "Felicity Smoak 🧪"
   decision: incomplete
-quality_result: blocked
+- work_item_id: STORY-005
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc; Node 22.12.0; npm 10.9.0"
+  date: 2026-09-16
+  result: "install/prepare/typecheck/build passaram; test not_applicable pelo snapshot e AC-005/AC-006"
+  evaluator: "Felicity Smoak 🧪"
+  decision: passed
+- work_item_id: STORY-005
+  criterion: "UI condicional"
+  method: "QUALITY-ROADMAP.md: verificação manual somente para candidato com UI"
+  environment: "snapshot 865b21cca084b4204265c26a0b46e87b960c9afc"
+  date: 2026-09-16
+  result: "not_applicable; a Story cobre fundação de router/i18n sem tela ou fluxo de produto"
+  evaluator: "Felicity Smoak 🧪"
+  decision: not_applicable
+quality_result: approved
 decision_owner: Isaac
-next_action: "concluir a verificação de UI do candidato e executar flox-quality"
+quality_approval:
+  candidate_anchor: 865b21cca084b4204265c26a0b46e87b960c9afc
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o Quality para STORY-005 após a contribuição pass de Felicity Smoak e a confirmação dos critérios aplicáveis."
+next_action: "executar flox-release"

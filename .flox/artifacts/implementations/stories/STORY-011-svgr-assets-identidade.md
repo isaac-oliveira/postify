@@ -258,7 +258,9 @@ anchor_history:
     anchor: f710c7231458f2380687b43ce535349068f6b796
   - round: 3
     anchor: f710c7231458f2380687b43ce535349068f6b796
-round: 3
+  - round: 4
+    anchor: f710c7231458f2380687b43ce535349068f6b796
+round: 4
 correction_handoffs: 0
 frozen_scope:
   roadmap_id: quality
@@ -354,6 +356,11 @@ conditional_results:
   result: "Felicity confirmou escopo sem componentes, telas, shell, rotas ou fluxo"
   evaluator: "Felicity Smoak 🧪"
   decision: not_applicable
-quality_result: pending_approval
+quality_result: approved
 decision_owner: Isaac
-next_action: "aprovar Quality"
+quality_approval:
+  candidate_anchor: f710c7231458f2380687b43ce535349068f6b796
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac aprovou explicitamente o candidato após a contribuição pass de Felicity Smoak e os quatro critérios obrigatórios passarem."
+next_action: "executar flox-release"

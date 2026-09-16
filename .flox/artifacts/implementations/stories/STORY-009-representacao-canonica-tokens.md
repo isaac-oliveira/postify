@@ -136,7 +136,9 @@ anchor_history:
     anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
   - round: 2
     anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
-round: 2
+  - round: 3
+    anchor: ed8f7b728f75759f5d030bfa9bb26f96298316b7
+round: 3
 correction_handoffs: 2
 frozen_scope:
   roadmap_id: quality
@@ -162,6 +164,10 @@ conditional_results:
     state: blocked_by_install
     origin_round: 2
     reason: "A instalação falhou antes da validação de UI"
+  - criterion: "UI condicional"
+    state: blocked_by_install
+    origin_round: 3
+    reason: "A instalação do candidato exato continua falhando antes da validação de UI"
 
 ## Quality evidence
 
@@ -221,6 +227,22 @@ conditional_results:
   environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Chrome conectado"
   date: 2026-09-15
   result: "A instalação falhou antes da validação de UI"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: quality.install.v1
+  method: "npm ci --ignore-scripts"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-16
+  result: "exit 1; package.json e package-lock.json fora de sincronia; faltam @types/node@22.20.3 e undici-types@6.21.0 no lockfile"
+  evaluator: "Felicity Smoak 🧪"
+  decision: blocked
+- work_item_id: STORY-009
+  criterion: "quality.round.v1.2"
+  method: "scripts declarados no package.json; execução condicional pela QUALITY-ROADMAP"
+  environment: "snapshot ed8f7b728f75759f5d030bfa9bb26f96298316b7; Node 22.12.0; npm 10.9.0; checkout temporário Git"
+  date: 2026-09-16
+  result: "quality.install.v1 continua falhando antes de prepare, typecheck, tests, build e UI; correction_handoffs já está em 2"
   evaluator: "Felicity Smoak 🧪"
   decision: blocked
 quality_result: blocked
