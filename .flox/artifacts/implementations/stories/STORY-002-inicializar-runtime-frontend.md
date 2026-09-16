@@ -363,4 +363,35 @@ quality_approval:
   decision: approved
   decided_at: 2026-09-16
   evidence: "Isaac aprovou explicitamente o Quality para STORY-002 após a contribuição pass de Felicity Smoak e a confirmação dos critérios aplicáveis."
-next_action: "executar flox-release"
+## Release convergence ledger
+work_item_id: STORY-002
+gate: release
+candidate_anchor: v1.0.0
+anchor_history:
+  - round: 1
+    anchor: v1.0.0
+round: 1
+correction_handoffs: 0
+frozen_scope:
+  roadmap_id: release
+  roadmap_version: "1.0"
+  methods: [release.targets.v1, release.procedure.v1, release.owner.v1, release.findings.v1, release.confirmation.v1]
+  surfaces_or_criteria: [release.targets.v1, release.procedure.v1, release.findings.v1]
+findings: []
+
+## Release evidence
+- work_item_id: STORY-002
+  criterion: "release.procedure.v1"
+  method: "release/1.0.0 → PR #17 → main; tag v1.0.0; GitHub Release; Vercel production"
+  environment: "GitHub e Vercel produção"
+  date: 2026-09-16
+  result: "pass; merge 5db0e4894dd806dc605afb055c4f326e2fdcbbdc; Vercel success em https://vercel.com/isaac-oliveiras-projects/postify/9ZwDZ5HJhA3LHZdGuZQoE6fGkpvy; GitHub Release em https://github.com/isaac-oliveira/postify/releases/tag/v1.0.0; develop sincronizada e branch removida; sem migrations/Edge Functions Supabase no escopo autorizado."
+  evaluator: "Jared Dunn 📋"
+  decision: passed
+release_result: approved
+decision_owner: Isaac
+release_approval:
+  candidate_anchor: v1.0.0
+  decision: approved
+  decided_at: 2026-09-16
+  evidence: "Isaac autorizou o fluxo de release 1.0.0; PR #17, tag, GitHub Release e deploy de produção foram concluídos."
