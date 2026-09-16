@@ -32,17 +32,6 @@ work_items:
       - "Quality 2026-09-15: work_item_id STORY-001, anchor 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; install e prepare passaram, typecheck/test/build falharam por scripts ausentes; UI não aplicável. Resultado blocked."
       - "Quality 2026-09-16: work_item_id STORY-001, anchor 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Felicity reclassificou os scripts ausentes como not_applicable pelo escopo aprovado e confirmou UI não aplicável. Resultado pass, aguardando aprovação de Isaac."
       - "Quality 2026-09-16: work_item_id STORY-001, anchor 49e902f6f91b5a76e9d404f6cd585852fd00f1a9; Isaac aprovou explicitamente o Quality. Próximo gate: Release."
-  - id: SPEC-001
-    kind: story
-    status: in-progress
-    file: implementations/stories/STORY-013-engine-strict-npmrc.md
-    next_action: "executar flox-release"
-    epic: EPIC-001
-    risk_assessment: "pentest waived"
-    evidence:
-      - "Quality 2026-09-15: work_item_id SPEC-001, anchor 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; install, prepare e build passaram, typecheck/test falharam por scripts ausentes; o arquivo aponta STORY-013. Resultado blocked."
-      - "Quality 2026-09-16: work_item_id SPEC-001, anchor 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Felicity reclassificou typecheck/test como not_applicable pelo escopo aprovado, confirmou UI não aplicável e preservou SPEC-001 como work_item_id canônico. Resultado pass, aguardando aprovação de Isaac."
-      - "Quality 2026-09-16: work_item_id SPEC-001, anchor 0c7e08681e57be0b8564c5b4c423611ab2bccc1d; Isaac aprovou explicitamente o Quality. Próximo gate: Release."
   - id: STORY-002
     kind: story
     status: in-progress
@@ -161,25 +150,5 @@ work_items:
     evidence:
       - "Quality 2026-09-15: work_item_id STORY-012, anchor cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; dev e preview exibiram main, logo com alt e Versão 1.0.0, reload não gerou warnings/errors, e a QA validou o snapshot exato em 1440x900 e 320x568 sem overflow ou distorção; resultado pending_approval."
       - "Quality 2026-09-16: work_item_id STORY-012, anchor cd170c7a5bfce4b3e74bdcb5f8a093b9344fea93; a reanálise confirmou zoom 400% e interpretou corretamente o log esperado do ErrorBoundary; Felicity retornou pass e Isaac aprovou explicitamente o candidato."
-  - id: SPEC-002
-    kind: story
-    status: in-progress
-    file: implementations/stories/STORY-014-configurar-mcp-desenvolvimento.md
-    next_action: "executar flox-release"
-    risk_assessment: "pentest waived"
-    evidence:
-      - "Quality 2026-09-15: work_item_id SPEC-002, anchor 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; install, prepare, typecheck e build passaram, test falhou por script ausente; o arquivo aponta STORY-014 e UI ficou pendente. Resultado blocked."
-      - "Quality 2026-09-16: work_item_id SPEC-002, anchor 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Felicity reclassificou test como not_applicable pelo escopo aprovado, confirmou UI não aplicável e preservou SPEC-002 como work_item_id canônico. Resultado pass, aguardando aprovação de Isaac."
-      - "Quality 2026-09-16: work_item_id SPEC-002, anchor 6e54ec97cb89c68c4696daec2cb9cf321f4e9242; Isaac aprovou explicitamente o Quality. Próximo gate: Release."
-  - id: STORY-015
-    kind: story
-    status: in-progress
-    file: implementations/stories/STORY-015-configurar-vitest-msw.md
-    next_action: "executar flox-release"
-    epic: EPIC-002
-    risk_assessment: "pentest waived"
-    evidence:
-      - "Quality 2026-09-15: work_item_id STORY-015, anchor 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; cinco checks locais passaram e a verificação de UI foi considerada não aplicável pelo escopo de tooling sem UI; resultado pending_approval."
-      - "Quality 2026-09-16: work_item_id STORY-015, anchor 506ac5d9fc93e6173b3ecf1a2dff9933d1bccf0c; Felicity retornou pass e Isaac aprovou explicitamente o candidato."
 blocked: []
 updated_at: "2026-09-16"
