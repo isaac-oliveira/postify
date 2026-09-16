@@ -16,23 +16,5 @@ work_items:
     status: approved
     file: implementations/epics/EPIC-003-postify-delivery-platform.md
     next_action: "resolver os membros do mapa explícito do EPIC-003"
-  - id: SPEC-001
-    kind: story
-    status: done
-    file: implementations/stories/STORY-013-engine-strict-npmrc.md
-    epic: EPIC-001
-    risk_assessment: "pentest waived"
-  - id: SPEC-002
-    kind: story
-    status: done
-    file: implementations/stories/STORY-014-configurar-mcp-desenvolvimento.md
-    epic: EPIC-001
-    risk_assessment: "pentest waived"
-  - id: STORY-015
-    kind: story
-    status: done
-    file: implementations/stories/STORY-015-configurar-vitest-msw.md
-    epic: EPIC-002
-    risk_assessment: "pentest waived"
 blocked: []
 updated_at: "2026-09-16"
